@@ -175,6 +175,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -211,13 +212,26 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Manager.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DataContext.cs" />
+    <Compile Include="Models\ModelClasses\Category.cs" />
+    <Compile Include="Models\ModelClasses\Course.cs" />
+    <Compile Include="Models\ModelClasses\Favorite.cs" />
+    <Compile Include="Models\ModelClasses\Item.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ModelClasses\ItemStatus.cs" />
+    <Compile Include="Models\ModelClasses\Message.cs" />
+    <Compile Include="Models\ModelClasses\PostHistory.cs" />
+    <Compile Include="Models\ModelClasses\Program.cs" />
+    <Compile Include="Models\ModelClasses\Publisher.cs" />
+    <Compile Include="Models\ModelClasses\User.cs" />
+    <Compile Include="Models\ViewModels\Item_vm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

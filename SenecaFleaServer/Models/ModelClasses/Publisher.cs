@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace SenecaFleaServer.Models.ModelClasses
+namespace SenecaFleaServer.Models
 {
     public class Publisher
     {
