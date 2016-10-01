@@ -63,8 +63,7 @@ namespace SenecaFleaServer.Tests.Controllers
             SetUpItemData(context);
             SetupController(controller, HttpMethod.Put);
 
-            var itemData = new ItemEdit
-            {
+            var itemData = new ItemEdit {
                 ItemId = 5,
                 Title = "JavaScript: The Good Parts",
                 Price = (decimal)39.99,
@@ -99,8 +98,7 @@ namespace SenecaFleaServer.Tests.Controllers
         // Retrieve sample data
         public ItemAdd GetItemData()
         {
-            var itemData = new ItemAdd
-            {
+            var itemData = new ItemAdd {
                 Title = "The C++ Programming Language (4th Edition)",
                 Price = (decimal)39.99,
                 Description = "Programming in C++"
@@ -113,8 +111,7 @@ namespace SenecaFleaServer.Tests.Controllers
         public void SetUpItemData(TestAppContext context)
         {
             ItemAdd itemData = GetItemData();
-            context.Items.Add(new Item
-            {
+            context.Items.Add(new Item {
                 ItemId = 5,
                 Title = itemData.Title,
                 Price = itemData.Price,
