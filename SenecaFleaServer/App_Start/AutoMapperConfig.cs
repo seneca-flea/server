@@ -13,6 +13,7 @@ namespace SenecaFleaServer
         {
 #pragma warning disable CS0618
             Mapper.CreateMap<Item, ItemBase>();
+            Mapper.CreateMap<ItemAdd, Item>();
         }
     }
 }
