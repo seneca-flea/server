@@ -7,7 +7,6 @@ using System.Web.Http.Results;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using System.Web.Http.Controllers;
-using AutoMapper;
 
 namespace SenecaFleaServer.Tests.Controllers
 {
@@ -17,19 +16,17 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestMethod]
         public void ItemGetById()
         {
+            // Arrange
             ItemAdd itemData = GetItemData();
             var context = new TestAppContext();
-            context.Items.Add(new Item {
-                ItemId = 5,
-                Title = "C++ Programming",
-                Price = (decimal)12.99,
-                Description = "Programming in C++"
-            });
+            SetUpItemData(context);
             ItemController controller = new ItemController(context);
             SetupController(controller, HttpMethod.Get);
 
+            // Act
             IHttpActionResult result = controller.Get(5);
 
+            // Assert
             var negResult = result as OkNegotiatedContentResult<ItemBase>;
             Assert.AreEqual(5, negResult.Content.ItemId);
             Assert.AreEqual(itemData.Title, negResult.Content.Title);
@@ -38,12 +35,15 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestMethod]
         public void ItemAdd()
         {
+            // Arrange
             ItemController controller = new ItemController(new TestAppContext());
             SetupController(controller, HttpMethod.Post);
             ItemAdd itemData = GetItemData();
-
+            
+            // Act
             IHttpActionResult result = controller.Post(itemData);
 
+            // Assert
             var negResult = result as CreatedNegotiatedContentResult<ItemBase>;
             Assert.AreEqual(1, negResult.Content.ItemId);
             Assert.AreEqual(itemData.Title, negResult.Content.Title);
@@ -52,7 +52,6 @@ namespace SenecaFleaServer.Tests.Controllers
         public ItemAdd GetItemData()
         {
             var itemData = new ItemAdd();
-
             itemData = new ItemAdd {
                 Title = "C++ Programming",
                 Price = (decimal)12.99,
@@ -60,6 +59,17 @@ namespace SenecaFleaServer.Tests.Controllers
             };
 
             return itemData;
+        }
+
+        public void SetUpItemData(TestAppContext context)
+        {
+            ItemAdd itemData = GetItemData();
+            context.Items.Add(new Item {
+                ItemId = 5,
+                Title = itemData.Title,
+                Price = itemData.Price,
+                Description = itemData.Description
+            });
         }
 
         private static void SetupController(ApiController controller, HttpMethod httpMethod)
