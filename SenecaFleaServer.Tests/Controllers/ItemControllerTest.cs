@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SenecaFleaServer.Controllers;
 using SenecaFleaServer.Models;
 using System.Net.Http;
@@ -8,6 +7,7 @@ using System.Web.Http.Results;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using System.Web.Http.Controllers;
+using AutoMapper;
 
 namespace SenecaFleaServer.Tests.Controllers
 {
@@ -15,12 +15,32 @@ namespace SenecaFleaServer.Tests.Controllers
     public class ItemControllerTest
     {
         [TestMethod]
+        public void ItemGetById()
+        {
+            ItemAdd itemData = GetItemData();
+            var context = new TestAppContext();
+            context.Items.Add(new Item {
+                ItemId = 5,
+                Title = "C++ Programming",
+                Price = (decimal)12.99,
+                Description = "Programming in C++"
+            });
+            ItemController controller = new ItemController(context);
+            SetupController(controller, HttpMethod.Get);
+
+            IHttpActionResult result = controller.Get(5);
+
+            var negResult = result as OkNegotiatedContentResult<ItemBase>;
+            Assert.AreEqual(5, negResult.Content.ItemId);
+            Assert.AreEqual(itemData.Title, negResult.Content.Title);
+        }
+
+        [TestMethod]
         public void ItemAdd()
         {
-            AutoMapperConfig.RegisterMappings();
             ItemController controller = new ItemController(new TestAppContext());
-            ItemAdd itemData = GetItemData();
             SetupController(controller, HttpMethod.Post);
+            ItemAdd itemData = GetItemData();
 
             IHttpActionResult result = controller.Post(itemData);
 
@@ -44,6 +64,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
         private static void SetupController(ApiController controller, HttpMethod httpMethod)
         {
+            AutoMapperConfig.RegisterMappings();
             var config = new HttpConfiguration();
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/item");
             var route = config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}");
