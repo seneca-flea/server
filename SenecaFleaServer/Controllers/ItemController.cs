@@ -1,6 +1,4 @@
 ﻿using SenecaFleaServer.Models;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -33,10 +31,7 @@ namespace SenecaFleaServer.Controllers
         // POST: api/Item
         public IHttpActionResult Post([FromBody]ItemAdd newItem)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
             // Attempt to add item
             var addedItem = m.ItemAdd(newItem);
