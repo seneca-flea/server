@@ -12,6 +12,14 @@ namespace SenecaFleaServer.Models
         public string Description { get; set; }
     }
 
+    public class ItemEdit
+    {
+        public int ItemId { get; set; }
+        public string Title { get; set; }
+        public decimal Price { get; set; }
+        public string Description { get; set; }
+    }
+
     public class ItemBase : ItemAdd
     {
         public int ItemId { get; set; }
