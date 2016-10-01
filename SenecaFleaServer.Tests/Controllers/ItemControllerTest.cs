@@ -7,20 +7,29 @@ using System.Web.Http.Results;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using System.Web.Http.Controllers;
+using AutoMapper;
 
 namespace SenecaFleaServer.Tests.Controllers
 {
     [TestClass]
     public class ItemControllerTest
     {
+        TestAppContext context;
+        ItemController controller;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            context = new TestAppContext();
+            controller = new ItemController(context);
+        }
+
         [TestMethod]
         public void ItemGetById()
         {
             // Arrange
             ItemAdd itemData = GetItemData();
-            var context = new TestAppContext();
             SetUpItemData(context);
-            ItemController controller = new ItemController(context);
             SetupController(controller, HttpMethod.Get);
 
             // Act
@@ -36,9 +45,8 @@ namespace SenecaFleaServer.Tests.Controllers
         public void ItemAdd()
         {
             // Arrange
-            ItemController controller = new ItemController(new TestAppContext());
-            SetupController(controller, HttpMethod.Post);
             ItemAdd itemData = GetItemData();
+            SetupController(controller, HttpMethod.Post);
             
             // Act
             IHttpActionResult result = controller.Post(itemData);
@@ -49,18 +57,58 @@ namespace SenecaFleaServer.Tests.Controllers
             Assert.AreEqual(itemData.Title, negResult.Content.Title);
         }
 
+        //[TestMethod]
+        public void ItemEdit()
+        {
+            // Arrange
+            SetUpItemData(context);
+            SetupController(controller, HttpMethod.Put);
+
+            var itemData = new ItemEdit {
+                ItemId = 5,
+                Title = "JavaScript: The Good Parts",
+                Price = (decimal)39.99,
+                Description = "Programming in Javscript"
+            };
+
+            // Act
+            //IHttpActionResult result = controller.Put(itemData.ItemId, itemData);
+
+            // Assert
+            //var negResult = result as OkNegotiatedContentResult<ItemBase>;
+        }
+
+        [TestMethod]
+        public void ItemDelete()
+        {
+            // Arrange
+            SetUpItemData(context);
+            SetupController(controller, HttpMethod.Delete);
+
+            Item result = context.Items.Find(5);
+            Assert.IsNotNull(result);
+
+            // Act
+            controller.Delete(5);
+
+            // Assert
+            result = context.Items.Find(5);
+            Assert.IsNull(result);
+        }
+
+        // Retrieve sample data
         public ItemAdd GetItemData()
         {
-            var itemData = new ItemAdd();
-            itemData = new ItemAdd {
-                Title = "C++ Programming",
-                Price = (decimal)12.99,
+            var itemData = new ItemAdd {
+                Title = "The C++ Programming Language (4th Edition)",
+                Price = (decimal)39.99,
                 Description = "Programming in C++"
             };
 
             return itemData;
         }
 
+        // Add sample data to context
         public void SetUpItemData(TestAppContext context)
         {
             ItemAdd itemData = GetItemData();

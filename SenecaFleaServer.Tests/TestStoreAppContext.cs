@@ -4,7 +4,14 @@ using SenecaFleaServer.Models;
 
 namespace SenecaFleaServer.Tests
 {
-    public class TestAppContext : DataContext
+    public interface IDataContext : IDisposable
+    {
+        DbSet<Item> Items { get; }
+        int SaveChanges();
+        void MarkAsModified(object item);
+    }
+
+    public class TestAppContext : DataContext, IDataContext
     {
         public TestAppContext()
         {
@@ -22,12 +29,11 @@ namespace SenecaFleaServer.Tests
         public override DbSet<Message> Messages { get; set; }
         public override DbSet<User> Users { get; set; }
 
-        public override int SaveChanges()
+        public void MarkAsModified(object entity)
         {
-            return 0;
+            Entry(entity).State = EntityState.Modified;
         }
 
-        public void MarkAsModified(Item item) { }
         public new void Dispose() { }
     }
 }

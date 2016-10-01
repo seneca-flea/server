@@ -4,14 +4,15 @@ using System.Linq;
 using System.Web;
 using AutoMapper;
 using SenecaFleaServer.Models;
+using System.Data.Entity;
 
 namespace SenecaFleaServer.Controllers
 {
     public class Manager
     {
-        private DataContext ds = new DataContext();
+        private DataContext ds;
 
-        public Manager() { }
+        public Manager() { ds = new DataContext(); }
         public Manager(DataContext context) { ds = context; }
 
         // #############################################
@@ -39,6 +40,39 @@ namespace SenecaFleaServer.Controllers
             ds.SaveChanges();
 
             return Mapper.Map<ItemBase>(addedItem);
+        }
+
+        public ItemBase ItemEdit(ItemEdit editedItem)
+        {
+            if (editedItem == null) { return null; }
+
+            // Fetch the object
+            //var storedItem = ds.Items.Find(editedItem.ItemId);
+            var storedItem = ds.Items.First(i => i.ItemId == editedItem.ItemId);
+
+            if (storedItem == null) { return null; }
+
+            // Edit object
+            ds.Entry(storedItem).CurrentValues.SetValues(editedItem);
+
+            // For unit test (broken)
+            //storedItem = Mapper.Map<Item>(editedItem);
+            //ds.MarkAsModified(storedItem);
+
+            ds.SaveChanges();
+
+            return Mapper.Map<ItemBase>(storedItem);
+        }
+
+        public void ItemDelete(int id)
+        {
+            var storedItem = ds.Items.Find(id);
+
+            if (storedItem != null)
+            {
+                ds.Items.Remove(storedItem);
+                ds.SaveChanges();
+            }
         }
     }
 }

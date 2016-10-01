@@ -6,7 +6,14 @@ using System.Web;
 
 namespace SenecaFleaServer.Models
 {
-    public partial class DataContext : DbContext
+    public interface IDataContext : IDisposable
+    {
+        DbSet<Item> Items { get; }
+        int SaveChanges();
+        void MarkAsModified(object item);
+    }
+
+    public partial class DataContext : DbContext, IDataContext
     {
         public DataContext() : base("name=DataContext")
         {
@@ -23,9 +30,14 @@ namespace SenecaFleaServer.Models
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
+        public void MarkAsModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
