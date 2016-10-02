@@ -7,9 +7,9 @@ namespace SenecaFleaServer.Controllers
 {
     public class ItemController : ApiController
     {
-        Manager m;
-        public ItemController() { m = new Manager(); }
-        public ItemController(DataContext repo) { m = new Manager(repo); }
+        ItemManager m;
+        public ItemController() { m = new ItemManager(); }
+        public ItemController(DataContext repo) { m = new ItemManager(repo); }
 
         // GET: api/Item/5
         public IHttpActionResult Get(int? id)

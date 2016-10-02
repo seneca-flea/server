@@ -8,15 +8,13 @@ using System.Data.Entity;
 
 namespace SenecaFleaServer.Controllers
 {
-    public class Manager
+    public class ItemManager
     {
         private DataContext ds;
 
-        public Manager() { ds = new DataContext(); }
-        public Manager(DataContext context) { ds = context; }
+        public ItemManager() { ds = new DataContext(); }
+        public ItemManager(DataContext context) { ds = context; }
 
-        // #############################################
-        // Item
         public ItemBase ItemGetById(int id)
         {
             var result = ds.Items.SingleOrDefault(i => i.ItemId == id);
