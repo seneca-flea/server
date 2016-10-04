@@ -7,6 +7,9 @@ using System.Web.Http.Results;
 using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using System.Web.Http.Controllers;
+using System.Collections.Generic;
+using AutoMapper;
+using System.Linq;
 
 namespace SenecaFleaServer.Tests.Controllers
 {
@@ -19,6 +22,7 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestInitialize]
         public void SetUp()
         {
+            Mapper.CreateMap<Item, ItemAdd>();
             context = new TestAppContext();
             controller = new ItemController(context);
         }
@@ -27,16 +31,16 @@ namespace SenecaFleaServer.Tests.Controllers
         public void ItemGetById()
         {
             // Arrange
-            ItemAdd itemData = GetItemData();
+            Item itemData = GetItemData();
             SetUpItemData(context);
             SetupController(controller, HttpMethod.Get);
 
             // Act
-            IHttpActionResult result = controller.Get(5);
+            IHttpActionResult result = controller.Get(itemData.ItemId);
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<ItemBase>;
-            Assert.AreEqual(5, negResult.Content.ItemId);
+            Assert.AreEqual(itemData.ItemId, negResult.Content.ItemId);
             Assert.AreEqual(itemData.Title, negResult.Content.Title);
         }
 
@@ -44,7 +48,7 @@ namespace SenecaFleaServer.Tests.Controllers
         public void ItemAdd()
         {
             // Arrange
-            ItemAdd itemData = GetItemData();
+            var itemData = Mapper.Map<ItemAdd>(GetItemData());
             SetupController(controller, HttpMethod.Post);
 
             // Act
@@ -64,7 +68,7 @@ namespace SenecaFleaServer.Tests.Controllers
             SetupController(controller, HttpMethod.Put);
 
             var itemData = new ItemEdit {
-                ItemId = 5,
+                ItemId = 1,
                 Title = "JavaScript: The Good Parts",
                 Price = (decimal)39.99,
                 Description = "Programming in Javscript"
@@ -83,22 +87,42 @@ namespace SenecaFleaServer.Tests.Controllers
             // Arrange
             SetUpItemData(context);
             SetupController(controller, HttpMethod.Delete);
+            var itemId = GetItemData().ItemId;
 
-            Item result = context.Items.Find(5);
+            Item result = context.Items.Find(itemId);
             Assert.IsNotNull(result);
 
             // Act
-            controller.Delete(5);
+            controller.Delete(itemId);
 
             // Assert
-            result = context.Items.Find(5);
+            result = context.Items.Find(itemId);
             Assert.IsNull(result);
         }
 
-        // Retrieve sample data
-        public ItemAdd GetItemData()
+        [TestMethod]
+        public void ItemFilterByCourse()
         {
-            var itemData = new ItemAdd {
+            // Arrange
+            SetupItemDataArray(context);
+            SetupController(controller, HttpMethod.Get);
+            var item = Mapper.Map<ItemBase>(context.Items.Find(5));
+
+            // Act
+            IHttpActionResult result = controller.FilterByCourse(2);
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
+            Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().ItemId);
+        }
+
+
+        // ##################################################################
+        // Retrieve sample data
+        public Item GetItemData()
+        {
+            var itemData = new Item {
+                ItemId = 5,
                 Title = "The C++ Programming Language (4th Edition)",
                 Price = (decimal)39.99,
                 Description = "Programming in C++"
@@ -107,16 +131,25 @@ namespace SenecaFleaServer.Tests.Controllers
             return itemData;
         }
 
+        public void SetupItemDataArray(TestAppContext context)
+        {
+            var coursedata = new Course {
+                CourseId = 2,
+                Name = "IPC"
+            };
+
+           context.Courses.Add(coursedata);
+
+            var itemData = GetItemData();
+            itemData.Courses.Add(coursedata);
+            context.Items.Add(itemData);
+        }
+
         // Add sample data to context
         public void SetUpItemData(TestAppContext context)
         {
-            ItemAdd itemData = GetItemData();
-            context.Items.Add(new Item {
-                ItemId = 5,
-                Title = itemData.Title,
-                Price = itemData.Price,
-                Description = itemData.Description
-            });
+            Item itemData = GetItemData();
+            context.Items.Add(itemData);
         }
 
         private static void SetupController(ApiController controller, HttpMethod httpMethod)

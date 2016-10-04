@@ -17,6 +17,7 @@ namespace SenecaFleaServer.Tests
         public TestAppContext()
         {
             this.Items = new TestItemDbSet();
+            this.Courses = new TestDbSet<Course>();
         }
 
         public override DbSet<Book> Books { get; set; }
@@ -30,7 +31,7 @@ namespace SenecaFleaServer.Tests
         public override DbSet<PurchaseHistory> PurchaseHistories { get; set; }
         public override DbSet<User> Users { get; set; }
 
-        public void MarkAsModified(object entity)
+        public new void MarkAsModified(object entity)
         {
             Entry(entity).State = EntityState.Modified;
         }

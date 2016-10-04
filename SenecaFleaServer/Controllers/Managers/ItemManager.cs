@@ -72,5 +72,17 @@ namespace SenecaFleaServer.Controllers
                 ds.SaveChanges();
             }
         }
+
+        public IEnumerable<ItemBase> FilterByCourse(int id)
+        {
+            var course = ds.Courses.SingleOrDefault(c => c.CourseId == id);
+
+            if (course == null) { return null; }
+
+            var items = ds.Items.Where(
+                i => i.Courses.FirstOrDefault(c => c.CourseId == id) == course);
+
+            return Mapper.Map<IEnumerable<ItemBase>>(items);
+        }
     }
 }
