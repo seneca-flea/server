@@ -8,8 +8,16 @@ namespace SenecaFleaServer.Controllers
     public class ItemController : ApiController
     {
         ItemManager m;
-        public ItemController() { m = new ItemManager(); }
-        public ItemController(DataContext repo) { m = new ItemManager(repo); }
+
+        public ItemController()
+        {
+            m = new ItemManager();
+
+        }
+        public ItemController(DataContext repo)
+        {
+            m = new ItemManager(repo);
+        }
 
         // GET: api/Item/5
         public IHttpActionResult Get(int? id)
@@ -83,6 +91,24 @@ namespace SenecaFleaServer.Controllers
         public void Delete (int id)
         {
             m.ItemDelete(id);
+        }
+
+        // GET: /api/Item/filter/course/{courseid}
+        [Route("api/Item/filter/course/{id}")]
+        public IHttpActionResult FilterByCourse(int? id)
+        {
+            if (!id.HasValue) { return NotFound(); }
+
+            var items = m.FilterByCourse((int)id);
+
+            return Ok(items);
+        }
+
+        // PUT: api/Item/5/Favorite/{userid}
+        [Route("api/item/{itemid}/favorite/{userid}")]
+        public IHttpActionResult Favorite(int? itemid, int? userid)
+        {
+            return Ok();
         }
     }
 }
