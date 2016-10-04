@@ -109,7 +109,7 @@ namespace SenecaFleaServer.Tests.Controllers
             var item = Mapper.Map<ItemBase>(context.Items.Find(5));
 
             // Act
-            IHttpActionResult result = controller.FilterByCourse(2);
+            IHttpActionResult result = controller.FilterByCourse("IPC");
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
