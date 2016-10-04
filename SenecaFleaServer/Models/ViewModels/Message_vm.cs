@@ -6,11 +6,8 @@ using System.Web;
 
 namespace SenecaFleaServer.Models
 {
-    public class Message
+    public class MessageAdd
     {
-        [Required]
-        public int id { get; set; }
-
         [Required, StringLength(1000)]
         public string text { get; set; }
 
@@ -24,5 +21,18 @@ namespace SenecaFleaServer.Models
 
 
         public int ItemId { get; set; }
+    }
+
+
+    public class MessageBase : MessageAdd
+    {
+        [Key]
+        public int id { get; set; }
+    }
+
+    //
+    public class MessageWithItem : MessageBase
+    {
+        public Item item { get; set; }
     }
 }
