@@ -8,49 +8,30 @@ namespace SenecaFleaServer.Models
 {
     public class Item
     {
+        public Item()
+        {
+            Courses = new HashSet<Course>();
+        }
+
         public int ItemId { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string Title { get; set; }
 
+        [Required]
         public decimal Price { get; set; }
 
-        public int CourseId { get; set; }
-
-        public int PublisherId { get; set; }
-
-        [StringLength(65)]
-        public string PhotoPath { get; set; }
-
-        [StringLength(500)]
         public string Description { get; set; }
 
-        public DateTime PickUpDate { get; set; }
+        public ICollection<Course> Courses { get; set; }
 
-        public int StreetNumber { get; set; }
+        public PickUpDetail PickUp { get; set; }
 
-        public string StreetName { get; set; }
+        public string Status { get; set; }
 
-        [StringLength(20)]
-        public string City { get; set; }
+        public ICollection<Image> ImageSet { get; set; }
 
-        [StringLength(7)]
-        public string PostalCode { get; set; }
-
-        public int StatusId { get; set; }
-
-        public int CategoryId { get; set; }
-
-        public int ProgramId { get; set; }
-
-        public virtual CourseItem Course { get; set; }
-
-        public virtual PublisherItem Publisher { get; set; }
-
-        public virtual ItemStatus Status { get; set; }
-
-        public virtual Category Category { get; set; }
-
-        public virtual ProgramItem Program { get; set; }
+        public User Seller { get; set; }
     }
 }

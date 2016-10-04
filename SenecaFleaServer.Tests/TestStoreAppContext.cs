@@ -19,15 +19,15 @@ namespace SenecaFleaServer.Tests
             this.Items = new TestItemDbSet();
         }
 
-        public override DbSet<Item> Items { get; set; }
-        public override DbSet<Category> Categories { get; set; }
-        public override DbSet<ItemStatus> ItemStatuses { get; set; }
-        public override DbSet<Publisher> Publishers { get; set; }
+        public override DbSet<Book> Books { get; set; }
         public override DbSet<Course> Courses { get; set; }
-        public override DbSet<Program> Programs { get; set; }
-        public override DbSet<Favorite> Favorites { get; set; }
-        public override DbSet<PostHistory> PostHistories { get; set; }
+        public override DbSet<GoogleMap> GoogleMaps { get; set; }
+        public override DbSet<Image> Images { get; set; }
+        public override DbSet<Item> Items { get; set; }
+        public override DbSet<Location> Locations { get; set; }
         public override DbSet<Message> Messages { get; set; }
+        public override DbSet<PickUpDetail> PickUpDetails { get; set; }
+        public override DbSet<PurchaseHistory> PurchaseHistories { get; set; }
         public override DbSet<User> Users { get; set; }
 
         public void MarkAsModified(object entity)
