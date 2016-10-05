@@ -23,14 +23,14 @@ namespace SenecaFleaServer.Controllers
 
         public IEnumerable<MessageBase> MessageGetAll()
         {
-            var fetchedObjs = ds.Messages.OrderBy(m => m.id);
-            return (fetchedObjs == null) ? null : Mapper.Map<IEnumerable<MessageBase>>(fetchedObjs);            
+            var c = ds.Messages.OrderBy(m => m.id);
+            return Mapper.Map<IEnumerable<MessageBase>>(c);            
         }
 
         public MessageBase MessageGetById(int id)
         {
-            var fechedObj = ds.Messages.SingleOrDefault(m => m.id == id);
-            return (fechedObj == null) ? null : Mapper.Map<MessageBase>(fechedObj);
+            var o = ds.Messages.SingleOrDefault(m => m.id == id);
+            return (o == null) ? null : Mapper.Map<MessageBase>(o);
         }
 
         public MessageBase MessageAdd(MessageAdd newItem)

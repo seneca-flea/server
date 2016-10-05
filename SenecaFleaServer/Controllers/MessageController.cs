@@ -29,9 +29,11 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: api/Message/5
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult Get(int? id)
         {
-            var obj = m.MessageGetById(id);
+            if (!id.HasValue) { return NotFound(); }
+
+            var obj = m.MessageGetById(id.Value);
 
             if (obj == null)
             {

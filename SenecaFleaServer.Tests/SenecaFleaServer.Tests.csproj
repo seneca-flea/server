@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MessageControllerTest.cs" />
+    <Compile Include="Controllers\UserControllerTest.cs" />
     <Compile Include="TestDBSet.cs" />
     <Compile Include="Controllers\ItemControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
