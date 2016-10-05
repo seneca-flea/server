@@ -107,8 +107,8 @@
     <Compile Include="Controllers\ItemControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="TestItemDbSet.cs" />
-    <Compile Include="TestStoreAppContext.cs" />
+    <Compile Include="TestCustomDbSet.cs" />
+    <Compile Include="TestAppContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

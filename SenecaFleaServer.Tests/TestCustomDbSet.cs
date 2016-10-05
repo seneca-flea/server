@@ -11,4 +11,12 @@ namespace SenecaFleaServer.Tests
             return this.SingleOrDefault(i => i.ItemId == (int)keyValues.Single());
         }
     }
+
+    class TestMessageDbSet : TestDbSet<Message>
+    {
+        public override Message Find(params object[] keyValues)
+        {
+            return this.SingleOrDefault(i => i.id == (int)keyValues.Single());
+        }
+    }
 }

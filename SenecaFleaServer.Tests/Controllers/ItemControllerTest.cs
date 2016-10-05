@@ -87,16 +87,16 @@ namespace SenecaFleaServer.Tests.Controllers
             // Arrange
             SetUpItemData(context);
             SetupController(controller, HttpMethod.Delete);
-            var itemId = GetItemData().ItemId;
+            int id = GetItemData().ItemId;
 
-            Item result = context.Items.Find(itemId);
+            Item result = context.Items.Find(id);
             Assert.IsNotNull(result);
 
             // Act
-            controller.Delete(itemId);
+            controller.Delete(id);
 
             // Assert
-            result = context.Items.Find(itemId);
+            result = context.Items.Find(id);
             Assert.IsNull(result);
         }
 
@@ -138,7 +138,7 @@ namespace SenecaFleaServer.Tests.Controllers
                 Name = "IPC"
             };
 
-           context.Courses.Add(coursedata);
+            context.Courses.Add(coursedata);
 
             var itemData = GetItemData();
             itemData.Courses.Add(coursedata);
@@ -158,7 +158,8 @@ namespace SenecaFleaServer.Tests.Controllers
             var config = new HttpConfiguration();
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/item");
             var route = config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}");
-            var routeData = new HttpRouteData(route, new HttpRouteValueDictionary { { "controller", "item" } });
+            var routeData = new HttpRouteData(route, 
+                new HttpRouteValueDictionary { { "controller", "item" } });
 
             controller.ControllerContext = new HttpControllerContext(config, routeData, request);
             controller.Request = request;

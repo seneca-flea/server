@@ -12,101 +12,99 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Hosting;
 using System.Web.Http.Results;
 using System.Web.Http.Routing;
+using AutoMapper;
 
 namespace SenecaFleaServer.Tests.Controllers
 {
     [TestClass]
-    class MessageControllerTest
+    public class MessageControllerTest
     {
         TestAppContext context;
         MessageController controller;
 
-
+        [TestInitialize]
         public void SetUp()
         {
+            Mapper.CreateMap<Message, MessageAdd>();
             context = new TestAppContext();
-            controller = new MessageController();
+            controller = new MessageController(context);
         }
 
-
-
+        [TestMethod]
         public void MessageGetById()
         {
-            //MessageAdd message = GetMessageData();
+            Message message = GetMessageData();
             SetUpMessageData(context);
             SetUpController(controller, HttpMethod.Get);
 
-            IHttpActionResult result = controller.Get(1);
+            IHttpActionResult result = controller.Get(message.id);
 
             var negResult = result as OkNegotiatedContentResult<MessageBase>;
-            Assert.AreEqual(1, negResult.Content.id);
-            Assert.AreEqual(1, negResult.Content.ItemId);
+            Assert.AreEqual(message.id, negResult.Content.id);
+            Assert.AreEqual(message.ItemId, negResult.Content.ItemId);
+            Assert.AreEqual(message.text, negResult.Content.text);
             //TODO: [Han] add test data to campare
-            //Assert.AreEqual("", negResult.Content.text);
             //Assert.AreEqual("2016-10-04T00:00:00", negResult.Content.time);
             //Assert.AreEqual(new User { }, negResult.Content.sender);
             //Assert.AreEqual(new User { }, negResult.Content.receiver);
         }
-
 
         [TestMethod]
         public void MessageAdd()
         {
-            MessageAdd message = GetMessageData();
+            var message = Mapper.Map<MessageAdd>(GetMessageData());
             SetUpController(controller, HttpMethod.Post);
 
+            IHttpActionResult result = controller.Post(message);
 
-            IHttpActionResult re = controller.Post(message);
-
-            var negResult = re as OkNegotiatedContentResult<MessageBase>;
-            Assert.AreEqual(2, negResult.Content.id);
-            Assert.AreEqual(2, negResult.Content.ItemId);
+            var negResult = result as CreatedNegotiatedContentResult<MessageBase>;
+            Assert.AreEqual(1, negResult.Content.id);
+            Assert.AreEqual(message.ItemId, negResult.Content.ItemId);
+            Assert.AreEqual(message.text, negResult.Content.text);
             //TODO: [Han] add test data to campare
-            //Assert.AreEqual("", negResult.Content.text);
             //Assert.AreEqual("2016-10-04T00:00:00", negResult.Content.time);
             //Assert.AreEqual(new User { }, negResult.Content.sender);
             //Assert.AreEqual(new User { }, negResult.Content.receiver);
         }
-
 
         [TestMethod]
         public void MessageDelete()
         {
             SetUpMessageData(context);
             SetUpController(controller, HttpMethod.Delete);
+            int id = GetMessageData().id;
 
-            Message result = context.Messages.Find(1);
+            Message result = context.Messages.Find(id);
             Assert.IsNotNull(result);
 
-            controller.Delete(1);
+            controller.Delete(id);
 
-            result = context.Messages.Find(1);
+            result = context.Messages.Find(id);
             Assert.IsNull(result);
         }
 
-        private MessageAdd GetMessageData()
+        // ##################################################################
+        // Retrieve sample data
+        private Message GetMessageData()
         {
-            var itemData = new MessageAdd {
+            var itemData = new Message {
+                id = 1,
+                ItemId = 1,
                 sender = new User(),
                 receiver = new User(),
-                ItemId = 1,
-                time = DateTime.Now
+                time = DateTime.Now,
+                text = "Hello World"
             };
 
             return itemData;
         }
 
+        // Add sample data to context
         private void SetUpMessageData(TestAppContext context)
         {
-            MessageAdd messageData = GetMessageData();
-            context.Messages.Add(new Message {
-                ItemId = messageData.ItemId,
-                sender = messageData.sender,
-                receiver = messageData.receiver,
-                time = messageData.time
-            });
+            Message itemData = GetMessageData();
+            context.Messages.Add(itemData);
         }
-
 
         private static void SetUpController(ApiController controller, HttpMethod htttpMethod )
         {
@@ -114,8 +112,8 @@ namespace SenecaFleaServer.Tests.Controllers
             var config = new HttpConfiguration();
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/message");
             var route = config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}");
-            var routeData = new HttpRouteData(route, new HttpRouteValueDictionary { { "controller", "message" } });
-
+            var routeData = new HttpRouteData(route, 
+                new HttpRouteValueDictionary { { "controller", "message" } });
 
             controller.ControllerContext = new HttpControllerContext(config, routeData, request);
             controller.Request = request;

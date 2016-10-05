@@ -16,8 +16,9 @@ namespace SenecaFleaServer.Tests
     {
         public TestAppContext()
         {
-            this.Items = new TestItemDbSet();
-            this.Courses = new TestDbSet<Course>();
+            Items = new TestItemDbSet();
+            Messages = new TestMessageDbSet();
+            Courses = new TestDbSet<Course>();
         }
 
         public override DbSet<Book> Books { get; set; }
