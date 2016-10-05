@@ -19,7 +19,6 @@ namespace SenecaFleaServer.Models
 
         public DateTime time { get; set; }
 
-
         public int ItemId { get; set; }
     }
 

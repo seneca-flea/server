@@ -10,7 +10,17 @@ namespace SenecaFleaServer.Controllers
 {
     public class MessageController : ApiController
     {
-        private MessageManager m = new MessageManager();
+        MessageManager m;
+
+        public MessageController()
+        {
+            m = new MessageManager();
+        }
+
+        public MessageController(DataContext repo)
+        {
+            m = new MessageManager(repo);
+        }
 
         // GET: api/Message
         public IHttpActionResult Get()
@@ -22,6 +32,7 @@ namespace SenecaFleaServer.Controllers
         public IHttpActionResult Get(int id)
         {
             var obj = m.MessageGetById(id);
+
             if (obj == null)
             {
                 return NotFound();
@@ -35,8 +46,6 @@ namespace SenecaFleaServer.Controllers
         // POST: api/Message
         public IHttpActionResult Post([FromBody]MessageAdd newItem)
         {
-            if(Request.GetRouteData().Values["id"] != null ) { return BadRequest("Invalid request URI"); }
-
             if(newItem == null) { return BadRequest("Must send an entity body with the objec"); }
 
             if(!ModelState.IsValid) { return BadRequest(ModelState); }
@@ -46,7 +55,7 @@ namespace SenecaFleaServer.Controllers
             if(addedItem == null) { return BadRequest("Cannot add the object"); }
 
             var uri = Url.Link("DefaultApi", new { id = addedItem.id});
-            
+
             return Created(uri, addedItem);
         }
 

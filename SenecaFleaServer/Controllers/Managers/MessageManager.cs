@@ -9,7 +9,17 @@ namespace SenecaFleaServer.Controllers
 {
     public class MessageManager
     {
-        private DataContext ds = new DataContext();
+        private DataContext ds;
+
+        public MessageManager()
+        {
+            ds = new DataContext();
+        }
+
+        public MessageManager(DataContext context)
+        {
+            ds = context;
+        }
 
         public IEnumerable<MessageBase> MessageGetAll()
         {
@@ -25,19 +35,23 @@ namespace SenecaFleaServer.Controllers
 
         public MessageBase MessageAdd(MessageAdd newItem)
         {
-            var addedItem = ds.Messages.Add(Mapper.Map<Message>(newItem));
+            // Set id
+            int? newId = ds.Messages.Select(m => (int?)m.id).Max() + 1;
+            if (newId == null) { newId = 1; }
+
+            var addedItem = Mapper.Map<Message>(newItem);
+            addedItem.id = (int)newId;
+            ds.Messages.Add(addedItem);
             ds.SaveChanges();
 
             return (addedItem == null) ? null : Mapper.Map<MessageBase>(addedItem);
         }
 
-
         public void MessageDelete(int id)
         {
-
             var storedItem = ds.Messages.Find(id);
 
-            if(storedItem == null)
+            if (storedItem == null)
             {
                 //Throw an exception
                 throw new NotImplementedException();

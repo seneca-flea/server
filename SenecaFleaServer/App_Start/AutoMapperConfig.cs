@@ -16,7 +16,7 @@ namespace SenecaFleaServer
             Mapper.CreateMap<ItemAdd, Item>();
             Mapper.CreateMap<ItemEdit, Item>();
 
-
+            Mapper.CreateMap<MessageAdd, Message>();
             Mapper.CreateMap<Message, MessageBase>();
             Mapper.CreateMap<Message, MessageWithItem>();
 
