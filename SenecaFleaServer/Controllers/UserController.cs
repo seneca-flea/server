@@ -48,7 +48,7 @@ namespace SenecaFleaServer.Controllers
         public IHttpActionResult Post([FromBody]UserAdd newItem)
         {
             // Ensure that the URI is clean (and does not have an id parameter)
-            if (Request.GetRouteData().Values["id"] != null) { return BadRequest("Invalid request URI"); }
+            //if (Request.GetRouteData().Values["id"] != null) { return BadRequest("Invalid request URI"); }
 
             // Ensure that a "newItem" is in the entity body
             if (newItem == null) { return BadRequest("Must send an entity body with the request"); }

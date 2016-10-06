@@ -19,4 +19,12 @@ namespace SenecaFleaServer.Tests
             return this.SingleOrDefault(i => i.id == (int)keyValues.Single());
         }
     }
+
+    class TestUserDbSet : TestDbSet<User>
+    {
+        public override User Find(params object[] keyValues)
+        {
+            return this.SingleOrDefault(i => i.Id == (int)keyValues.Single());
+        }
+    }
 }

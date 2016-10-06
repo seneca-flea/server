@@ -18,6 +18,7 @@ namespace SenecaFleaServer.Tests
         {
             Items = new TestItemDbSet();
             Messages = new TestMessageDbSet();
+            Users = new TestUserDbSet();
             Courses = new TestDbSet<Course>();
         }
 

@@ -20,6 +20,9 @@ namespace SenecaFleaServer
             Mapper.CreateMap<Message, MessageBase>();
             Mapper.CreateMap<Message, MessageWithItem>();
 
+            Mapper.CreateMap<UserAdd, User>();
+            Mapper.CreateMap<User, UserBase>();
+
 #pragma warning restore CS0618
         }
     }

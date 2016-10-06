@@ -17,11 +17,6 @@ namespace SenecaFleaServer.Tests.Controllers
     [TestClass]
     public class UserControllerTest
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
-
         TestAppContext context;
         UserController controller;
 
@@ -46,10 +41,11 @@ namespace SenecaFleaServer.Tests.Controllers
             // Assert
             var negResult = result as CreatedNegotiatedContentResult<UserBase>;
             Assert.AreEqual(1, negResult.Content.Id);
+            Assert.AreEqual(itemData.Email, negResult.Content.Email);
         }
 
         [TestMethod]
-        public void ItemGetById()
+        public void UserGetById()
         {
             // Arrange
             User userData = GetUserData();
@@ -114,14 +110,14 @@ namespace SenecaFleaServer.Tests.Controllers
             SetupController(controller, HttpMethod.Delete);
             int id = GetUserData().Id;
 
-            User result = context.Items.Find(id);
+            User result = context.Users.Find(id);
             Assert.IsNotNull(result);
 
             // Act
             controller.Delete(id);
 
             // Assert
-            result = context.Items.Find(id);
+            result = context.Users.Find(id);
             Assert.IsNull(result);
         }
 

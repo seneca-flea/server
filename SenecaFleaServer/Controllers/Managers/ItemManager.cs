@@ -12,8 +12,15 @@ namespace SenecaFleaServer.Controllers
     {
         private DataContext ds;
 
-        public ItemManager() { ds = new DataContext(); }
-        public ItemManager(DataContext context) { ds = context; }
+        public ItemManager()
+        {
+            ds = new DataContext();
+        }
+
+        public ItemManager(DataContext context)
+        {
+            ds = context;
+        }
 
         public ItemBase ItemGetById(int id)
         {
@@ -75,8 +82,8 @@ namespace SenecaFleaServer.Controllers
 
         public IEnumerable<ItemBase> FilterByCourse(string courseName)
         {
+            // Find if course exists
             var course = ds.Courses.SingleOrDefault(c => c.Name == courseName);
-
             if (course == null) { return null; }
 
             var items = ds.Items.Where(
