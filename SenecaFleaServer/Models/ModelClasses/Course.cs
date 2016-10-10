@@ -12,5 +12,8 @@ namespace SenecaFleaServer.Models
 
         [StringLength(25)]
         public string Name { get; set; }
+
+        [StringLength(6)]
+        public string Code { get; set; }
     }
 }

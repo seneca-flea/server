@@ -10,7 +10,7 @@ using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using System.Web.Http.Controllers;
 using System.Collections.Generic;
-
+#pragma warning disable CS0618
 
 namespace SenecaFleaServer.Tests.Controllers
 {

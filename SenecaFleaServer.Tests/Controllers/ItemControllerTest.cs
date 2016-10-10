@@ -10,6 +10,7 @@ using System.Web.Http.Controllers;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
+#pragma warning disable CS0618
 
 namespace SenecaFleaServer.Tests.Controllers
 {
@@ -101,7 +102,7 @@ namespace SenecaFleaServer.Tests.Controllers
         }
 
         [TestMethod]
-        public void ItemFilterByCourse()
+        public void ItemFilterByCategory()
         {
             // Arrange
             SetupItemDataArray(context);
@@ -109,7 +110,39 @@ namespace SenecaFleaServer.Tests.Controllers
             var item = Mapper.Map<ItemBase>(context.Items.Find(5));
 
             // Act
-            IHttpActionResult result = controller.FilterByCourse("IPC");
+            IHttpActionResult result = controller.FilterByCourseName("Programming with C++");
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
+            Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().ItemId);
+        }
+
+        [TestMethod]
+        public void ItemFilterByCourseName()
+        {
+            // Arrange
+            SetupItemDataArray(context);
+            SetupController(controller, HttpMethod.Get);
+            var item = Mapper.Map<ItemBase>(context.Items.Find(5));
+
+            // Act
+            IHttpActionResult result = controller.FilterByCategory("Selling");
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
+            Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().ItemId);
+        }
+
+        [TestMethod]
+        public void ItemFilterByCourseCode()
+        {
+            // Arrange
+            SetupItemDataArray(context);
+            SetupController(controller, HttpMethod.Get);
+            var item = Mapper.Map<ItemBase>(context.Items.Find(5));
+
+            // Act
+            IHttpActionResult result = controller.FilterByCourseCode("OOP");
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
@@ -125,7 +158,8 @@ namespace SenecaFleaServer.Tests.Controllers
                 ItemId = 5,
                 Title = "The C++ Programming Language (4th Edition)",
                 Price = (decimal)39.99,
-                Description = "Programming in C++"
+                Description = "Programming in C++",
+                Status = "Selling"
             };
 
             return itemData;
@@ -135,7 +169,8 @@ namespace SenecaFleaServer.Tests.Controllers
         {
             var coursedata = new Course {
                 CourseId = 2,
-                Name = "IPC"
+                Name = "Programming with C++",
+                Code = "OOP"
             };
 
             context.Courses.Add(coursedata);

@@ -94,21 +94,42 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: /api/Item/filter/course/{coursename}
-        [Route("api/Item/filter/course/{name}")]
-        public IHttpActionResult FilterByCourse(string courseName)
+        [Route("api/Item/filter/coursename/{coursename}")]
+        public IHttpActionResult FilterByCategory(string category)
+        {
+            if (category == null) { return NotFound(); }
+
+            var items = m.FilterByCategory(category);
+
+            if (items == null) { return NotFound(); }
+
+            return Ok(items);
+        }
+
+        // GET: /api/Item/filter/course/{coursename}
+        [Route("api/Item/filter/coursename/{coursename}")]
+        public IHttpActionResult FilterByCourseName(string courseName)
         {
             if (courseName == null) { return NotFound(); }
 
-            var items = m.FilterByCourse(courseName);
+            var items = m.FilterByCourseName(courseName);
 
-            if (items == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(items);
-            }
+            if (items == null) { return NotFound(); }
+
+            return Ok(items);
+        }
+
+        // GET: /api/Item/filter/course/{coursecode}
+        [Route("api/Item/filter/coursename/{coursecode}")]
+        public IHttpActionResult FilterByCourseCode(string courseCode)
+        {
+            if (courseCode == null) { return NotFound(); }
+
+            var items = m.FilterByCourseCode(courseCode);
+
+            if (items == null) { return NotFound(); }
+
+            return Ok(items);
         }
 
         // PUT: api/Item/5/Favorite/{userid}
