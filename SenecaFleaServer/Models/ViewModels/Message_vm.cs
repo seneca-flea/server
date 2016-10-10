@@ -26,7 +26,7 @@ namespace SenecaFleaServer.Models
     public class MessageBase : MessageAdd
     {
         [Key]
-        public int id { get; set; }
+        public int MessageId { get; set; }
     }
 
     //

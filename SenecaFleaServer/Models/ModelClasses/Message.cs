@@ -8,8 +8,13 @@ namespace SenecaFleaServer.Models
 {
     public class Message
     {
+        public Message()
+        {
+            time = DateTime.Now;
+        }
+
         [Required]
-        public int id { get; set; }
+        public int MessageId { get; set; }
 
         [Required, StringLength(1000)]
         public string text { get; set; }

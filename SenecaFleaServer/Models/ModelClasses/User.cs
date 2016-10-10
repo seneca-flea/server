@@ -16,7 +16,7 @@ namespace SenecaFleaServer.Models
         }
 
         [Required]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         public bool IsLogged { get; set; }
 

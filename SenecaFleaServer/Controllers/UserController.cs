@@ -64,7 +64,7 @@ namespace SenecaFleaServer.Controllers
 
             // HTTP 201 with the new object in the entity body
             // Notice how to create the URI for the Location header
-            var uri = Url.Link("DefaultApi", new { id=addedItem.Id});
+            var uri = Url.Link("DefaultApi", new { id=addedItem.UserId});
 
             return Created(uri, addedItem);
         }
@@ -79,7 +79,7 @@ namespace SenecaFleaServer.Controllers
             }
 
             // Ensure that the id value in the URI matches the id value in the entity body
-            if (id.GetValueOrDefault() != editedItem.Id)
+            if (id.GetValueOrDefault() != editedItem.UserId)
             {
                 return BadRequest("Invalid data in the entity body");
             }
@@ -119,7 +119,7 @@ namespace SenecaFleaServer.Controllers
             }
 
             // Ensure that the id value in the URI matches the id value in the entity body
-            if (id.GetValueOrDefault() != editedItem.Id)
+            if (id.GetValueOrDefault() != editedItem.UserId)
             {
                 return BadRequest("Invalid data in the entity body");
             }

@@ -25,7 +25,7 @@ namespace SenecaFleaServer.Controllers
         // Get all users
         public IEnumerable<UserBase> UserGetAll()
         {
-            var c = ds.Users.OrderBy(i => i.Id);
+            var c = ds.Users.OrderBy(i => i.UserId);
 
             return Mapper.Map<IEnumerable<UserBase>>(c);
         }
@@ -33,7 +33,7 @@ namespace SenecaFleaServer.Controllers
         // Get user by identifier
         public UserBase UserGetById(int id)
         {
-            var o = ds.Users.SingleOrDefault(i => i.Id == id);
+            var o = ds.Users.SingleOrDefault(i => i.UserId == id);
 
             return Mapper.Map<UserBase>(o);
         }
@@ -44,12 +44,12 @@ namespace SenecaFleaServer.Controllers
             if (newItem == null) { return null; }
 
             // Set id
-            int? newId = ds.Users.Select(i => (int?)i.Id).Max() + 1;
+            int? newId = ds.Users.Select(i => (int?)i.UserId).Max() + 1;
             if (newId == null) { newId = 1; }
 
             // Add item
             User addedItem = Mapper.Map<User>(newItem);
-            addedItem.Id = (int)newId;
+            addedItem.UserId = (int)newId;
 
             ds.Users.Add(addedItem);
             ds.SaveChanges();
@@ -64,7 +64,7 @@ namespace SenecaFleaServer.Controllers
 
             // Fetch the object
             //var storedItem = ds.Items.Find(editedItem.ItemId);
-            var storedItem = ds.Users.First(i => i.Id == editedItem.Id);
+            var storedItem = ds.Users.First(i => i.UserId == editedItem.UserId);
 
             if (storedItem == null) { return null; }
 
@@ -83,7 +83,7 @@ namespace SenecaFleaServer.Controllers
 
             // Fetch the object
             //var storedItem = ds.Items.Find(editedItem.ItemId);
-            var storedItem = ds.Users.First(i => i.Id == editedItem.Id);
+            var storedItem = ds.Users.First(i => i.UserId == editedItem.UserId);
 
             if (storedItem == null) { return null; }
 

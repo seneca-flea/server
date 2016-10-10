@@ -56,7 +56,7 @@ namespace SenecaFleaServer.Controllers
 
             if(addedItem == null) { return BadRequest("Cannot add the object"); }
 
-            var uri = Url.Link("DefaultApi", new { id = addedItem.id});
+            var uri = Url.Link("DefaultApi", new { id = addedItem.MessageId});
 
             return Created(uri, addedItem);
         }

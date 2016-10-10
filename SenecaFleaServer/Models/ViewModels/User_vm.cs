@@ -24,7 +24,7 @@ namespace SenecaFleaServer.Models
     public class UserBase : UserAdd
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         public bool IsLogged { get; set; }
 
@@ -35,7 +35,7 @@ namespace SenecaFleaServer.Models
     public class UserEdit
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         //these properties below are not allowed to edit
         //FirstName, LastName, Email
@@ -46,7 +46,7 @@ namespace SenecaFleaServer.Models
     public class UserEditLocation
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         public virtual Location PreferableLocation { get; set; }
     }

@@ -40,7 +40,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
             // Assert
             var negResult = result as CreatedNegotiatedContentResult<UserBase>;
-            Assert.AreEqual(1, negResult.Content.Id);
+            Assert.AreEqual(1, negResult.Content.UserId);
             Assert.AreEqual(itemData.Email, negResult.Content.Email);
         }
 
@@ -53,11 +53,11 @@ namespace SenecaFleaServer.Tests.Controllers
             SetupController(controller, HttpMethod.Get);
 
             // Act
-            IHttpActionResult result = controller.Get(userData.Id);
+            IHttpActionResult result = controller.Get(userData.UserId);
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<UserBase>;
-            Assert.AreEqual(userData.Id, negResult.Content.Id);
+            Assert.AreEqual(userData.UserId, negResult.Content.UserId);
             
         }
 
@@ -70,7 +70,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
             var itemData = new UserEdit
             {
-                Id = 1,
+                UserId = 1,
                 PhoneNumber = "123-456-9876"                
             };
 
@@ -92,7 +92,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
             var userEditLocationData = new UserEditLocation
             {
-                Id = 1,
+                UserId = 1,
                 PreferableLocation = new Location{
                     PostalCode = "M2V2C9",
                     Street = "70 Pond Road",
@@ -108,7 +108,7 @@ namespace SenecaFleaServer.Tests.Controllers
             // Arrange
             SetupUserData(context);
             SetupController(controller, HttpMethod.Delete);
-            int id = GetUserData().Id;
+            int id = GetUserData().UserId;
 
             User result = context.Users.Find(id);
             Assert.IsNotNull(result);
@@ -127,7 +127,7 @@ namespace SenecaFleaServer.Tests.Controllers
         {
             var itemData = new User
             {
-                Id = 1,
+                UserId = 1,
                 FirstName = "Eunju",
                 LastName = "Han",
                 Email = "ejhan4@myseneca.ca",

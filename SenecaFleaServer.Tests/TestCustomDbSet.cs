@@ -16,7 +16,7 @@ namespace SenecaFleaServer.Tests
     {
         public override Message Find(params object[] keyValues)
         {
-            return this.SingleOrDefault(i => i.id == (int)keyValues.Single());
+            return this.SingleOrDefault(i => i.MessageId == (int)keyValues.Single());
         }
     }
 
@@ -24,7 +24,7 @@ namespace SenecaFleaServer.Tests
     {
         public override User Find(params object[] keyValues)
         {
-            return this.SingleOrDefault(i => i.Id == (int)keyValues.Single());
+            return this.SingleOrDefault(i => i.UserId == (int)keyValues.Single());
         }
     }
 }

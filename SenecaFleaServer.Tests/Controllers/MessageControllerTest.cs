@@ -37,10 +37,10 @@ namespace SenecaFleaServer.Tests.Controllers
             SetUpMessageData(context);
             SetUpController(controller, HttpMethod.Get);
 
-            IHttpActionResult result = controller.Get(message.id);
+            IHttpActionResult result = controller.Get(message.MessageId);
 
             var negResult = result as OkNegotiatedContentResult<MessageBase>;
-            Assert.AreEqual(message.id, negResult.Content.id);
+            Assert.AreEqual(message.MessageId, negResult.Content.MessageId);
             Assert.AreEqual(message.ItemId, negResult.Content.ItemId);
             Assert.AreEqual(message.text, negResult.Content.text);
             //TODO: [Han] add test data to campare
@@ -58,7 +58,7 @@ namespace SenecaFleaServer.Tests.Controllers
             IHttpActionResult result = controller.Post(message);
 
             var negResult = result as CreatedNegotiatedContentResult<MessageBase>;
-            Assert.AreEqual(1, negResult.Content.id);
+            Assert.AreEqual(1, negResult.Content.MessageId);
             Assert.AreEqual(message.ItemId, negResult.Content.ItemId);
             Assert.AreEqual(message.text, negResult.Content.text);
             //TODO: [Han] add test data to campare
@@ -72,7 +72,7 @@ namespace SenecaFleaServer.Tests.Controllers
         {
             SetUpMessageData(context);
             SetUpController(controller, HttpMethod.Delete);
-            int id = GetMessageData().id;
+            int id = GetMessageData().MessageId;
 
             Message result = context.Messages.Find(id);
             Assert.IsNotNull(result);
@@ -88,7 +88,7 @@ namespace SenecaFleaServer.Tests.Controllers
         private Message GetMessageData()
         {
             var itemData = new Message {
-                id = 1,
+                MessageId = 1,
                 ItemId = 1,
                 sender = new User(),
                 receiver = new User(),

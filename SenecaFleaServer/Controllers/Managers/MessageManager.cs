@@ -25,14 +25,14 @@ namespace SenecaFleaServer.Controllers
         // Get all messages
         public IEnumerable<MessageBase> MessageGetAll()
         {
-            var c = ds.Messages.OrderBy(m => m.id);
+            var c = ds.Messages.OrderBy(m => m.MessageId);
             return Mapper.Map<IEnumerable<MessageBase>>(c);            
         }
 
         // Get message by identifiers
         public MessageBase MessageGetById(int id)
         {
-            var o = ds.Messages.SingleOrDefault(m => m.id == id);
+            var o = ds.Messages.SingleOrDefault(m => m.MessageId == id);
             return (o == null) ? null : Mapper.Map<MessageBase>(o);
         }
 
@@ -40,11 +40,11 @@ namespace SenecaFleaServer.Controllers
         public MessageBase MessageAdd(MessageAdd newItem)
         {
             // Set id
-            int? newId = ds.Messages.Select(m => (int?)m.id).Max() + 1;
+            int? newId = ds.Messages.Select(m => (int?)m.MessageId).Max() + 1;
             if (newId == null) { newId = 1; }
 
             var addedItem = Mapper.Map<Message>(newItem);
-            addedItem.id = (int)newId;
+            addedItem.MessageId = (int)newId;
             ds.Messages.Add(addedItem);
             ds.SaveChanges();
 
