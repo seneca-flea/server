@@ -10,22 +10,22 @@ namespace SenecaFleaServer.Models
     {
         public Message()
         {
-            time = DateTime.Now;
+            Time = DateTime.Now;
         }
 
         [Required]
         public int MessageId { get; set; }
 
         [Required, StringLength(1000)]
-        public string text { get; set; }
+        public string Text { get; set; }
 
         [Required]
-        public virtual User sender { get; set; }
+        public virtual User Sender { get; set; }
 
         [Required]
-        public virtual User receiver { get; set; }
+        public virtual User Receiver { get; set; }
 
-        public DateTime time { get; set; }
+        public DateTime Time { get; set; }
 
         public int ItemId { get; set; }
     }

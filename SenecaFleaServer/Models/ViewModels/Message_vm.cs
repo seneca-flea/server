@@ -9,15 +9,15 @@ namespace SenecaFleaServer.Models
     public class MessageAdd
     {
         [Required, StringLength(1000)]
-        public string text { get; set; }
+        public string Text { get; set; }
 
         [Required]
-        public virtual User sender { get; set; }
+        public int SenderId { get; set; }
 
         [Required]
-        public virtual User receiver { get; set; }
+        public int ReceiverId { get; set; }
 
-        public DateTime time { get; set; }
+        public DateTime Time { get; set; }
 
         public int ItemId { get; set; }
     }

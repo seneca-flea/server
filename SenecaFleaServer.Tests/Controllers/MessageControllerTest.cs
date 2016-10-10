@@ -43,7 +43,7 @@ namespace SenecaFleaServer.Tests.Controllers
             var negResult = result as OkNegotiatedContentResult<MessageBase>;
             Assert.AreEqual(message.MessageId, negResult.Content.MessageId);
             Assert.AreEqual(message.ItemId, negResult.Content.ItemId);
-            Assert.AreEqual(message.text, negResult.Content.text);
+            Assert.AreEqual(message.Text, negResult.Content.Text);
             //TODO: [Han] add test data to campare
             //Assert.AreEqual("2016-10-04T00:00:00", negResult.Content.time);
             //Assert.AreEqual(new User { }, negResult.Content.sender);
@@ -61,7 +61,7 @@ namespace SenecaFleaServer.Tests.Controllers
             var negResult = result as CreatedNegotiatedContentResult<MessageBase>;
             Assert.AreEqual(1, negResult.Content.MessageId);
             Assert.AreEqual(message.ItemId, negResult.Content.ItemId);
-            Assert.AreEqual(message.text, negResult.Content.text);
+            Assert.AreEqual(message.Text, negResult.Content.Text);
             //TODO: [Han] add test data to campare
             //Assert.AreEqual("2016-10-04T00:00:00", negResult.Content.time);
             //Assert.AreEqual(new User { }, negResult.Content.sender);
@@ -91,10 +91,10 @@ namespace SenecaFleaServer.Tests.Controllers
             var itemData = new Message {
                 MessageId = 1,
                 ItemId = 1,
-                sender = new User(),
-                receiver = new User(),
-                time = DateTime.Now,
-                text = "Hello World"
+                Sender = new User(),
+                Receiver = new User(),
+                Time = DateTime.Now,
+                Text = "Hello World"
             };
 
             return itemData;

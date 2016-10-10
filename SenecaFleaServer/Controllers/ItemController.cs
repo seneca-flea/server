@@ -88,13 +88,13 @@ namespace SenecaFleaServer.Controllers
         }
 
         // DELETE: api/Item/5
-        public void Delete (int id)
+        public void Delete(int id)
         {
             m.ItemDelete(id);
         }
 
         // GET: /api/Item/filter/course/{coursename}
-        [Route("api/Item/filter/coursename/{coursename}")]
+        [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
         public IHttpActionResult FilterByCategory(string category)
         {
             if (category == null) { return NotFound(); }
@@ -107,7 +107,7 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: /api/Item/filter/course/{coursename}
-        [Route("api/Item/filter/coursename/{coursename}")]
+        [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
         public IHttpActionResult FilterByCourseName(string courseName)
         {
             if (courseName == null) { return NotFound(); }
@@ -120,7 +120,7 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: /api/Item/filter/course/{coursecode}
-        [Route("api/Item/filter/coursename/{coursecode}")]
+        [HttpGet, Route("api/Item/filter/coursename/{coursecode}")]
         public IHttpActionResult FilterByCourseCode(string courseCode)
         {
             if (courseCode == null) { return NotFound(); }
@@ -130,13 +130,6 @@ namespace SenecaFleaServer.Controllers
             if (items == null) { return NotFound(); }
 
             return Ok(items);
-        }
-
-        // PUT: api/Item/5/Favorite/{userid}
-        [Route("api/item/{itemid}/favorite/{userid}")]
-        public IHttpActionResult Favorite(int? itemid, int? userid)
-        {
-            return Ok();
         }
     }
 }

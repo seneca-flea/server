@@ -113,5 +113,45 @@ namespace SenecaFleaServer.Controllers
                 }
             }
         }
+
+        // Add item to a user's favorites
+        public bool UserAddFavorite(UserFavorite data)
+        {
+            var user = ds.Users.SingleOrDefault(i => i.UserId == data.UserId);
+            var item = ds.Items.SingleOrDefault(i => i.ItemId == data.ItemId);
+
+            if (user == null || item == null)
+            {
+                return false;
+            }
+            else
+            {
+                // Add favorite
+                user.FavoriteItems.Add(item);
+                ds.SaveChanges();
+
+                return true;
+            }
+        }
+
+        // Remove item from a user's favorites
+        public bool UserRemoveFavorite(UserFavorite data)
+        {
+            var user = ds.Users.SingleOrDefault(i => i.UserId == data.UserId);
+            var item = ds.Items.SingleOrDefault(i => i.ItemId == data.ItemId);
+
+            if (user == null || item == null)
+            {
+                return false;
+            }
+            else
+            {
+                // Remove favorite
+                user.FavoriteItems.Remove(item);
+                ds.SaveChanges();
+
+                return true;
+            }
+        }
     }
 }
