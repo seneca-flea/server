@@ -11,6 +11,7 @@ namespace SenecaFleaServer.Controllers
     {
         private DataContext ds;
 
+        // Constructors
         public MessageManager()
         {
             ds = new DataContext();
@@ -21,18 +22,21 @@ namespace SenecaFleaServer.Controllers
             ds = context;
         }
 
+        // Get all messages
         public IEnumerable<MessageBase> MessageGetAll()
         {
             var c = ds.Messages.OrderBy(m => m.id);
             return Mapper.Map<IEnumerable<MessageBase>>(c);            
         }
 
+        // Get message by identifiers
         public MessageBase MessageGetById(int id)
         {
             var o = ds.Messages.SingleOrDefault(m => m.id == id);
             return (o == null) ? null : Mapper.Map<MessageBase>(o);
         }
 
+        // Add message
         public MessageBase MessageAdd(MessageAdd newItem)
         {
             // Set id
@@ -47,16 +51,12 @@ namespace SenecaFleaServer.Controllers
             return (addedItem == null) ? null : Mapper.Map<MessageBase>(addedItem);
         }
 
+        // Delete message
         public void MessageDelete(int id)
         {
             var storedItem = ds.Messages.Find(id);
 
-            if (storedItem == null)
-            {
-                //Throw an exception
-                throw new NotImplementedException();
-            }
-            else
+            if (storedItem != null)
             {
                 try
                 {
@@ -67,7 +67,6 @@ namespace SenecaFleaServer.Controllers
                     //log and handle it
                 }
             }
-
         }
     }
 }

@@ -10,7 +10,7 @@ namespace SenecaFleaServer.Controllers
 {
     public class MessageController : ApiController
     {
-        MessageManager m;
+        private MessageManager m;
 
         public MessageController()
         {

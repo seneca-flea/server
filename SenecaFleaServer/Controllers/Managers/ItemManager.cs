@@ -12,6 +12,7 @@ namespace SenecaFleaServer.Controllers
     {
         private DataContext ds;
 
+        // Constructors
         public ItemManager()
         {
             ds = new DataContext();
@@ -22,6 +23,7 @@ namespace SenecaFleaServer.Controllers
             ds = context;
         }
 
+        // Get item by identifier
         public ItemBase ItemGetById(int id)
         {
             var result = ds.Items.SingleOrDefault(i => i.ItemId == id);
@@ -29,6 +31,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<ItemBase>(result);
         }
 
+        // Add item
         public ItemBase ItemAdd(ItemAdd newItem)
         {
             if (newItem == null) { return null; }
@@ -47,6 +50,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<ItemBase>(addedItem);
         }
 
+        // Edit item
         public ItemBase ItemEdit(ItemEdit editedItem)
         {
             if (editedItem == null) { return null; }
@@ -69,6 +73,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<ItemBase>(storedItem);
         }
 
+        // Delete item
         public void ItemDelete(int id)
         {
             var storedItem = ds.Items.Find(id);
@@ -80,6 +85,7 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        // Get items by course name
         public IEnumerable<ItemBase> FilterByCourse(string courseName)
         {
             // Find if course exists

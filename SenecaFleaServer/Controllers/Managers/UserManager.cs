@@ -11,11 +11,18 @@ namespace SenecaFleaServer.Controllers
     {
         private DataContext ds;
 
-        public UserManager() { ds = new DataContext(); }
+        // Constructors
+        public UserManager()
+        {
+            ds = new DataContext();
+        }
 
-        public UserManager(DataContext context) { ds = context; }
+        public UserManager(DataContext context)
+        {
+            ds = context;
+        }
 
-
+        // Get all users
         public IEnumerable<UserBase> UserGetAll()
         {
             var c = ds.Users.OrderBy(i => i.Id);
@@ -23,6 +30,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<IEnumerable<UserBase>>(c);
         }
 
+        // Get user by identifier
         public UserBase UserGetById(int id)
         {
             var o = ds.Users.SingleOrDefault(i => i.Id == id);
@@ -30,6 +38,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<UserBase>(o);
         }
 
+        // Add user
         public UserBase UserAdd(UserAdd newItem)
         {
             if (newItem == null) { return null; }
@@ -48,6 +57,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<UserBase>(addedItem);
         }
 
+        // Edit user
         public UserBase UserEdit(UserEdit editedItem)
         {
             if (editedItem == null) { return null; }
@@ -66,6 +76,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<UserBase>(storedItem);
         }
 
+        // Edit user location
         public UserBase UserEditLocation(UserEditLocation editedItem)
         {
             if (editedItem == null) { return null; }
@@ -84,16 +95,12 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<UserBase>(storedItem);
         }
 
+        // Delete user
         public void UserDelete(int id)
         {
             var storedItem = ds.Users.Find(id);
 
-            if (storedItem == null)
-            {
-                //Throw an exception
-                throw new NotImplementedException();
-            }
-            else
+            if (storedItem != null)
             {
                 try
                 {

@@ -7,7 +7,7 @@ namespace SenecaFleaServer.Controllers
 {
     public class ItemController : ApiController
     {
-        ItemManager m;
+        private ItemManager m;
 
         public ItemController()
         {
