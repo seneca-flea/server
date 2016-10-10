@@ -58,7 +58,6 @@ namespace SenecaFleaServer.Tests.Controllers
             // Assert
             var negResult = result as OkNegotiatedContentResult<UserBase>;
             Assert.AreEqual(userData.UserId, negResult.Content.UserId);
-            
         }
 
         //[TestMethod]
@@ -121,6 +120,55 @@ namespace SenecaFleaServer.Tests.Controllers
             Assert.IsNull(result);
         }
 
+        [TestMethod]
+        public void UserAddFavorite()
+        {
+            // Arrange
+            SetupUserData(context);
+            SetupItemData(context);
+            SetupController(controller, HttpMethod.Put);
+            User user = context.Users.Find(GetUserData().UserId);
+            Item item = context.Items.Find(GetItemData().ItemId);
+
+            var favoriteData = new UserFavorite
+            {
+                UserId = user.UserId,
+                ItemId = GetItemData().ItemId
+            };
+
+            // Act
+            IHttpActionResult result = controller.AddFavorite(user.UserId, favoriteData);
+
+            // Assert
+            Assert.IsTrue(user.FavoriteItems.Contains(item));
+        }
+
+        [TestMethod]
+        public void UserRemoveFavorite()
+        {
+            // Arrange
+            SetupUserData(context);
+            SetupItemData(context);
+            SetupController(controller, HttpMethod.Put);
+            User user = context.Users.Find(GetUserData().UserId);
+            Item item = context.Items.Find(GetItemData().ItemId);
+
+            user.FavoriteItems.Add(item);
+            Assert.IsTrue(user.FavoriteItems.Contains(item));
+
+            var favoriteData = new UserFavorite
+            {
+                UserId = user.UserId,
+                ItemId = GetItemData().ItemId
+            };
+
+            // Act
+            IHttpActionResult result = controller.RemoveFavorite(user.UserId, favoriteData);
+
+            // Assert
+            Assert.IsFalse(user.FavoriteItems.Contains(item));
+        }
+
         // ##################################################################
         // Retrieve sample data
         private User GetUserData()
@@ -149,6 +197,28 @@ namespace SenecaFleaServer.Tests.Controllers
         {
             User user = GetUserData();
             context.Users.Add(user);
+        }
+
+        // Retrieve sample item data
+        public Item GetItemData()
+        {
+            var itemData = new Item
+            {
+                ItemId = 5,
+                Title = "The C++ Programming Language (4th Edition)",
+                Price = (decimal)39.99,
+                Description = "Programming in C++",
+                Status = "Selling"
+            };
+
+            return itemData;
+        }
+
+        // Add sample item data to context
+        private void SetupItemData(TestAppContext context)
+        {
+            Item item = GetItemData();
+            context.Items.Add(item);
         }
 
         private static void SetupController(ApiController controller, HttpMethod htttpMethod)

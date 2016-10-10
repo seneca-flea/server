@@ -148,11 +148,67 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        // PUT: api/User/5/AddFavorite
+        [HttpPut, Route("api/User/{id}/AddFavorite")]
+        public IHttpActionResult AddFavorite(int? id, [FromBody]UserFavorite favorite)
+        {
+            // Ensure that an "editedItem" is in the entity body
+            if (favorite == null)
+            {
+                return BadRequest("Must send an entity body with the request");
+            }
+
+            // Ensure that the id value in the URI matches the id value in the entity body
+            if (id.GetValueOrDefault() != favorite.UserId)
+            {
+                return BadRequest("Invalid data in the entity body");
+            }
+
+            // Ensure that we can use the incoming data
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+
+            // Attempt to add favorite
+            var addedFavorite = m.UserAddFavorite(favorite);
+
+            if (!addedFavorite)
+            {
+                return BadRequest("Cannot add item to favorites");
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+        // PUT: api/User/5/RemoveFavorite
+        [HttpPut, Route("api/User/{id}/RemoveFavorite")]
+        public IHttpActionResult RemoveFavorite(int? id, [FromBody]UserFavorite favorite)
+        {
+            // Ensure that an "editedItem" is in the entity body
+            if (favorite == null)
+            {
+                return BadRequest("Must send an entity body with the request");
+            }
+
+            // Ensure that the id value in the URI matches the id value in the entity body
+            if (id.GetValueOrDefault() != favorite.UserId)
+            {
+                return BadRequest("Invalid data in the entity body");
+            }
+
+            // Ensure that we can use the incoming data
+            if (!ModelState.IsValid) { return BadRequest(ModelState); }
+
+            // Remove favorite
+            var removedFavorite = m.UserRemoveFavorite(favorite);
+
+            return Ok();
+        }
+
         // DELETE: api/User/5
         public void Delete(int id)
         {
-            // In a controller 'Delete' method, a void return type will
-            // automatically generate a HTTP 204 "No content" response
             m.UserDelete(id);
         }
     }
