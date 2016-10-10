@@ -13,6 +13,7 @@ using System.Web.Http.Hosting;
 using System.Web.Http.Results;
 using System.Web.Http.Routing;
 using AutoMapper;
+#pragma warning disable CS0618
 
 namespace SenecaFleaServer.Tests.Controllers
 {

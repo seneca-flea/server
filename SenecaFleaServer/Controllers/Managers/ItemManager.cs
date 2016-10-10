@@ -56,7 +56,6 @@ namespace SenecaFleaServer.Controllers
             if (editedItem == null) { return null; }
 
             // Fetch the object
-            //var storedItem = ds.Items.Find(editedItem.ItemId);
             var storedItem = ds.Items.First(i => i.ItemId == editedItem.ItemId);
 
             if (storedItem == null) { return null; }
@@ -85,8 +84,16 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        // Get items by category
+        public IEnumerable<ItemBase> FilterByCategory(string category)
+        {
+            var items = ds.Items.Where(c => c.Status == category);
+
+            return Mapper.Map<IEnumerable<ItemBase>>(items);
+        }
+
         // Get items by course name
-        public IEnumerable<ItemBase> FilterByCourse(string courseName)
+        public IEnumerable<ItemBase> FilterByCourseName(string courseName)
         {
             // Find if course exists
             var course = ds.Courses.SingleOrDefault(c => c.Name == courseName);
@@ -94,6 +101,19 @@ namespace SenecaFleaServer.Controllers
 
             var items = ds.Items.Where(
                 i => i.Courses.FirstOrDefault(c => c.Name == courseName) == course);
+
+            return Mapper.Map<IEnumerable<ItemBase>>(items);
+        }
+
+        // Get items by course code
+        public IEnumerable<ItemBase> FilterByCourseCode(string courseCode)
+        {
+            // Find if course exists
+            var course = ds.Courses.SingleOrDefault(c => c.Code == courseCode);
+            if (course == null) { return null; }
+
+            var items = ds.Items.Where(
+                i => i.Courses.FirstOrDefault(c => c.Code == courseCode) == course);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
