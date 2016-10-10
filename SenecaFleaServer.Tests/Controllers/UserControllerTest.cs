@@ -23,6 +23,7 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestInitialize]
         public void SetUp()
         {
+            AutoMapperConfig.RegisterMappings();
             Mapper.CreateMap<User, UserAdd>();
             context = new TestAppContext();
             controller = new UserController(context);
@@ -48,8 +49,7 @@ namespace SenecaFleaServer.Tests.Controllers
         public void UserGetById()
         {
             // Arrange
-            User userData = GetUserData();
-            SetupUserData(context);
+            User userData = SetupUserData();
             SetupController(controller, HttpMethod.Get);
 
             // Act
@@ -64,7 +64,7 @@ namespace SenecaFleaServer.Tests.Controllers
         public void UserEdit()
         {
             // Arrange
-            SetupUserData(context);
+            SetupUserData();
             SetupController(controller, HttpMethod.Put);
 
             var itemData = new UserEdit
@@ -84,7 +84,7 @@ namespace SenecaFleaServer.Tests.Controllers
         public void UserEditLocation()
         {
             // Arrange
-            SetupUserData(context);
+            SetupUserData();
             SetupController(controller, HttpMethod.Put);
 
             GoogleMap map = new GoogleMap();
@@ -105,9 +105,8 @@ namespace SenecaFleaServer.Tests.Controllers
         public void UserDelete()
         {
             // Arrange
-            SetupUserData(context);
+            int id = SetupUserData().UserId;
             SetupController(controller, HttpMethod.Delete);
-            int id = GetUserData().UserId;
 
             User result = context.Users.Find(id);
             Assert.IsNotNull(result);
@@ -124,11 +123,9 @@ namespace SenecaFleaServer.Tests.Controllers
         public void UserAddFavorite()
         {
             // Arrange
-            SetupUserData(context);
-            SetupItemData(context);
+            User user = SetupUserData();
+            Item item = SetupItemData();
             SetupController(controller, HttpMethod.Put);
-            User user = context.Users.Find(GetUserData().UserId);
-            Item item = context.Items.Find(GetItemData().ItemId);
 
             var favoriteData = new UserFavorite
             {
@@ -147,11 +144,9 @@ namespace SenecaFleaServer.Tests.Controllers
         public void UserRemoveFavorite()
         {
             // Arrange
-            SetupUserData(context);
-            SetupItemData(context);
+            User user = SetupUserData();
+            Item item = SetupItemData();
             SetupController(controller, HttpMethod.Put);
-            User user = context.Users.Find(GetUserData().UserId);
-            Item item = context.Items.Find(GetItemData().ItemId);
 
             user.FavoriteItems.Add(item);
             Assert.IsTrue(user.FavoriteItems.Contains(item));
@@ -193,10 +188,12 @@ namespace SenecaFleaServer.Tests.Controllers
         }
 
         // Add sample data to context
-        private void SetupUserData(TestAppContext context)
+        private User SetupUserData()
         {
             User user = GetUserData();
             context.Users.Add(user);
+
+            return user;
         }
 
         // Retrieve sample item data
@@ -215,15 +212,16 @@ namespace SenecaFleaServer.Tests.Controllers
         }
 
         // Add sample item data to context
-        private void SetupItemData(TestAppContext context)
+        private Item SetupItemData()
         {
             Item item = GetItemData();
             context.Items.Add(item);
+
+            return item;
         }
 
         private static void SetupController(ApiController controller, HttpMethod htttpMethod)
         {
-            AutoMapperConfig.RegisterMappings();
             var config = new HttpConfiguration();
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/message");
             var route = config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}");

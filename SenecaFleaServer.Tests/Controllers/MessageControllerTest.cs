@@ -26,6 +26,7 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestInitialize]
         public void SetUp()
         {
+            AutoMapperConfig.RegisterMappings();
             Mapper.CreateMap<Message, MessageAdd>();
             context = new TestAppContext();
             controller = new MessageController(context);
@@ -34,8 +35,7 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestMethod]
         public void MessageGetById()
         {
-            Message message = GetMessageData();
-            SetUpMessageData(context);
+            Message message = SetUpMessageData();
             SetUpController(controller, HttpMethod.Get);
 
             IHttpActionResult result = controller.Get(message.MessageId);
@@ -71,9 +71,8 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestMethod]
         public void MessageDelete()
         {
-            SetUpMessageData(context);
+            int id = SetUpMessageData().MessageId;
             SetUpController(controller, HttpMethod.Delete);
-            int id = GetMessageData().MessageId;
 
             Message result = context.Messages.Find(id);
             Assert.IsNotNull(result);
@@ -101,17 +100,18 @@ namespace SenecaFleaServer.Tests.Controllers
         }
 
         // Add sample data to context
-        private void SetUpMessageData(TestAppContext context)
+        private Message SetUpMessageData()
         {
-            Message itemData = GetMessageData();
-            context.Messages.Add(itemData);
+            Message message = GetMessageData();
+            context.Messages.Add(message);
+
+            return message;
         }
 
-        private static void SetUpController(ApiController controller, HttpMethod htttpMethod )
+        private static void SetUpController(ApiController controller, HttpMethod httpMethod)
         {
-            AutoMapperConfig.RegisterMappings();
             var config = new HttpConfiguration();
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/message");
+            var request = new HttpRequestMessage(httpMethod, "http://localhost/api/message");
             var route = config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}");
             var routeData = new HttpRouteData(route, 
                 new HttpRouteValueDictionary { { "controller", "message" } });

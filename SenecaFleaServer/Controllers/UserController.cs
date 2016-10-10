@@ -167,7 +167,6 @@ namespace SenecaFleaServer.Controllers
             // Ensure that we can use the incoming data
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
-
             // Attempt to add favorite
             var addedFavorite = m.UserAddFavorite(favorite);
 

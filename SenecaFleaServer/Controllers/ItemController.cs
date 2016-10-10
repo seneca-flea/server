@@ -93,13 +93,13 @@ namespace SenecaFleaServer.Controllers
             m.ItemDelete(id);
         }
 
-        // GET: /api/Item/filter/course/{coursename}
-        [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
-        public IHttpActionResult FilterByCategory(string category)
+        // GET: /api/Item/filter/status/{status}
+        [HttpGet, Route("api/Item/filter/status/{status}")]
+        public IHttpActionResult FilterByStatus(string status)
         {
-            if (category == null) { return NotFound(); }
+            if (status == null) { return NotFound(); }
 
-            var items = m.FilterByCategory(category);
+            var items = m.FilterByStatus(status);
 
             if (items == null) { return NotFound(); }
 

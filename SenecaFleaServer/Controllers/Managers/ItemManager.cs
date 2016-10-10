@@ -85,9 +85,9 @@ namespace SenecaFleaServer.Controllers
         }
 
         // Get items by category
-        public IEnumerable<ItemBase> FilterByCategory(string category)
+        public IEnumerable<ItemBase> FilterByStatus(string status)
         {
-            var items = ds.Items.Where(c => c.Status == category);
+            var items = ds.Items.Where(c => c.Status == status);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }

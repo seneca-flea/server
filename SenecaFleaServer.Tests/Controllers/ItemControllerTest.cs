@@ -23,6 +23,7 @@ namespace SenecaFleaServer.Tests.Controllers
         [TestInitialize]
         public void SetUp()
         {
+            AutoMapperConfig.RegisterMappings();
             Mapper.CreateMap<Item, ItemAdd>();
             context = new TestAppContext();
             controller = new ItemController(context);
@@ -32,40 +33,39 @@ namespace SenecaFleaServer.Tests.Controllers
         public void ItemGetById()
         {
             // Arrange
-            Item itemData = GetItemData();
-            SetUpItemData(context);
+            Item item = SetUpItemData();
             SetupController(controller, HttpMethod.Get);
 
             // Act
-            IHttpActionResult result = controller.Get(itemData.ItemId);
+            IHttpActionResult result = controller.Get(item.ItemId);
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<ItemBase>;
-            Assert.AreEqual(itemData.ItemId, negResult.Content.ItemId);
-            Assert.AreEqual(itemData.Title, negResult.Content.Title);
+            Assert.AreEqual(item.ItemId, negResult.Content.ItemId);
+            Assert.AreEqual(item.Title, negResult.Content.Title);
         }
 
         [TestMethod]
         public void ItemAdd()
         {
             // Arrange
-            var itemData = Mapper.Map<ItemAdd>(GetItemData());
+            var item = Mapper.Map<ItemAdd>(GetItemData());
             SetupController(controller, HttpMethod.Post);
 
             // Act
-            IHttpActionResult result = controller.Post(itemData);
+            IHttpActionResult result = controller.Post(item);
 
             // Assert
             var negResult = result as CreatedNegotiatedContentResult<ItemBase>;
             Assert.AreEqual(1, negResult.Content.ItemId);
-            Assert.AreEqual(itemData.Title, negResult.Content.Title);
+            Assert.AreEqual(item.Title, negResult.Content.Title);
         }
 
         //[TestMethod]
         public void ItemEdit()
         {
             // Arrange
-            SetUpItemData(context);
+            SetUpItemData();
             SetupController(controller, HttpMethod.Put);
 
             var itemData = new ItemEdit {
@@ -86,9 +86,8 @@ namespace SenecaFleaServer.Tests.Controllers
         public void ItemDelete()
         {
             // Arrange
-            SetUpItemData(context);
+            int id = SetUpItemData().ItemId;
             SetupController(controller, HttpMethod.Delete);
-            int id = GetItemData().ItemId;
 
             Item result = context.Items.Find(id);
             Assert.IsNotNull(result);
@@ -102,15 +101,14 @@ namespace SenecaFleaServer.Tests.Controllers
         }
 
         [TestMethod]
-        public void ItemFilterByCategory()
+        public void ItemFilterByStatus()
         {
             // Arrange
-            SetupItemDataArray(context);
+            Item item = SetUpItemData();
             SetupController(controller, HttpMethod.Get);
-            var item = Mapper.Map<ItemBase>(context.Items.Find(5));
 
             // Act
-            IHttpActionResult result = controller.FilterByCourseName("Programming with C++");
+            IHttpActionResult result = controller.FilterByStatus("Selling");
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
@@ -121,12 +119,11 @@ namespace SenecaFleaServer.Tests.Controllers
         public void ItemFilterByCourseName()
         {
             // Arrange
-            SetupItemDataArray(context);
+            Item item = SetUpItemData();
             SetupController(controller, HttpMethod.Get);
-            var item = Mapper.Map<ItemBase>(context.Items.Find(5));
 
             // Act
-            IHttpActionResult result = controller.FilterByCategory("Selling");
+            IHttpActionResult result = controller.FilterByCourseName("Programming with C++");
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
@@ -137,9 +134,8 @@ namespace SenecaFleaServer.Tests.Controllers
         public void ItemFilterByCourseCode()
         {
             // Arrange
-            SetupItemDataArray(context);
+            Item item = SetUpItemData();
             SetupController(controller, HttpMethod.Get);
-            var item = Mapper.Map<ItemBase>(context.Items.Find(5));
 
             // Act
             IHttpActionResult result = controller.FilterByCourseCode("OOP");
@@ -154,44 +150,41 @@ namespace SenecaFleaServer.Tests.Controllers
         // Retrieve sample data
         public Item GetItemData()
         {
-            var itemData = new Item {
-                ItemId = 5,
-                Title = "The C++ Programming Language (4th Edition)",
-                Price = (decimal)39.99,
-                Description = "Programming in C++",
-                Status = "Selling"
-            };
-
-            return itemData;
-        }
-
-        public void SetupItemDataArray(TestAppContext context)
-        {
-            var coursedata = new Course {
+            var course = new Course
+            {
                 CourseId = 2,
                 Name = "Programming with C++",
                 Code = "OOP"
             };
 
-            context.Courses.Add(coursedata);
+            var item = new Item
+            {
+                ItemId = 5,
+                Title = "The C++ Programming Language (4th Edition)",
+                Price = (decimal)39.99,
+                Description = "Programming in C++",
+                Status = "Selling",
+            };
 
-            var itemData = GetItemData();
-            itemData.Courses.Add(coursedata);
-            context.Items.Add(itemData);
+            context.Courses.Add(course);
+            item.Courses.Add(course);
+
+            return item;
         }
 
         // Add sample data to context
-        public void SetUpItemData(TestAppContext context)
+        public Item SetUpItemData()
         {
-            Item itemData = GetItemData();
-            context.Items.Add(itemData);
+            Item item = GetItemData();
+            context.Items.Add(item);
+
+            return item;
         }
 
         private static void SetupController(ApiController controller, HttpMethod httpMethod)
         {
-            AutoMapperConfig.RegisterMappings();
             var config = new HttpConfiguration();
-            var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost/api/item");
+            var request = new HttpRequestMessage(httpMethod, "http://localhost/api/item");
             var route = config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}");
             var routeData = new HttpRouteData(route, 
                 new HttpRouteValueDictionary { { "controller", "item" } });
