@@ -56,7 +56,7 @@ namespace SenecaFleaServer.Controllers
             if (editedItem == null) { return null; }
 
             // Fetch the object
-            var storedItem = ds.Items.First(i => i.ItemId == editedItem.ItemId);
+            var storedItem = ds.Items.SingleOrDefault(c => c.ItemId == editedItem.ItemId);
 
             if (storedItem == null) { return null; }
 

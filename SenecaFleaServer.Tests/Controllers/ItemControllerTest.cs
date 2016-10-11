@@ -61,6 +61,8 @@ namespace SenecaFleaServer.Tests.Controllers
             Assert.AreEqual(item.Title, negResult.Content.Title);
         }
 
+        // TODO: Figure out how to unit test editing data
+        // This is currently broken
         //[TestMethod]
         public void ItemEdit()
         {
@@ -69,7 +71,7 @@ namespace SenecaFleaServer.Tests.Controllers
             SetupController(controller, HttpMethod.Put);
 
             var itemData = new ItemEdit {
-                ItemId = 1,
+                ItemId = 5,
                 Title = "JavaScript: The Good Parts",
                 Price = (decimal)39.99,
                 Description = "Programming in Javscript"
@@ -80,6 +82,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
             // Assert
             //var negResult = result as OkNegotiatedContentResult<ItemBase>;
+            //Assert.AreEqual(itemData.Title, negResult.Content.Title);
         }
 
         [TestMethod]

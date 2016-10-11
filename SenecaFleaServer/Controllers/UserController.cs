@@ -10,6 +10,8 @@ namespace SenecaFleaServer.Controllers
 {
     public class UserController : ApiController
     {
+        // TODO: View user's bought or sold items
+
         private UserManager m;
 
         public UserController()

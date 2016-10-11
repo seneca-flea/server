@@ -8,9 +8,11 @@ namespace SenecaFleaServer.Models
 {
     public class GoogleMap
     {
+        // TODO: Fill this
         public GoogleMap()
         {
 
         }
+
     }
 }

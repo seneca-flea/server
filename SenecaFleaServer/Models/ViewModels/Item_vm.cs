@@ -6,6 +6,7 @@ using System.Web;
 
 namespace SenecaFleaServer.Models
 {
+    // TODO: Complete ItemAdd and ItemEdit
     public class ItemAdd
     {
         public string Title { get; set; }
@@ -16,11 +17,12 @@ namespace SenecaFleaServer.Models
 
     public class ItemEdit
     {
+        [Key]
         public int ItemId { get; set; }
+
         public string Title { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-        // ...
     }
 
     public class ItemBase : ItemAdd

@@ -8,5 +8,6 @@ namespace SenecaFleaServer.Models
 {
     public class PurchaseHistory
     {
+        // TODO: Fill this
     }
 }

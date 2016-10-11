@@ -8,5 +8,6 @@ namespace SenecaFleaServer.Models
 {
     public class Image
     {
+        // TODO: Fill this
     }
 }

@@ -7,13 +7,18 @@ namespace SenecaFleaServer.Controllers
 {
     public class ItemController : ApiController
     {
+        // TODO: Filter items by item title
+        // TODO: Filter items by price range
+        // TODO: Filter items by book information (title, author)
+        // TODO: Add and update item with image and pickup details
+
         private ItemManager m;
 
         public ItemController()
         {
             m = new ItemManager();
-
         }
+        
         public ItemController(DataContext repo)
         {
             m = new ItemManager(repo);
@@ -106,7 +111,7 @@ namespace SenecaFleaServer.Controllers
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/course/{coursename}
+        // GET: /api/Item/filter/coursename/{coursename}
         [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
         public IHttpActionResult FilterByCourseName(string courseName)
         {
@@ -119,8 +124,8 @@ namespace SenecaFleaServer.Controllers
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/course/{coursecode}
-        [HttpGet, Route("api/Item/filter/coursename/{coursecode}")]
+        // GET: /api/Item/filter/coursecode/{coursecode}
+        [HttpGet, Route("api/Item/filter/coursecode/{coursecode}")]
         public IHttpActionResult FilterByCourseCode(string courseCode)
         {
             if (courseCode == null) { return NotFound(); }

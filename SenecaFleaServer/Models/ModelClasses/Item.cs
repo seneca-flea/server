@@ -13,6 +13,7 @@ namespace SenecaFleaServer.Models
             Courses = new HashSet<Course>();
         }
 
+        [Required]
         public int ItemId { get; set; }
 
         [Required, StringLength(50)]
@@ -21,16 +22,18 @@ namespace SenecaFleaServer.Models
         [Required]
         public decimal Price { get; set; }
 
+        [StringLength(1000)]
         public string Description { get; set; }
+
+        [StringLength(35)]
+        public string Status { get; set; }
 
         public ICollection<Course> Courses { get; set; }
 
-        public PickUpDetail PickUp { get; set; }
-
-        public string Status { get; set; }
-
         public ICollection<Image> ImageSet { get; set; }
 
-        public User Seller { get; set; }
+        public virtual PickUpDetail PickUp { get; set; }
+
+        public virtual User Seller { get; set; }
     }
 }

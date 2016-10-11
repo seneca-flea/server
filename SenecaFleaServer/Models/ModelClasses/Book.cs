@@ -8,5 +8,6 @@ namespace SenecaFleaServer.Models
 {
     public class Book
     {
+        // TODO: Fill this
     }
 }
