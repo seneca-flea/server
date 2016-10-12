@@ -19,6 +19,9 @@ namespace SenecaFleaServer
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // Add ByteFormatter to the pipeline
+            GlobalConfiguration.Configuration.Formatters.Add(new ServiceLayer.ByteFormatter());
+
             AutoMapperConfig.RegisterMappings();
         }
     }

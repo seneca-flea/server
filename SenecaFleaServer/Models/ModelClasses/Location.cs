@@ -9,15 +9,18 @@ namespace SenecaFleaServer.Models
     public class Location
     {
         [StringLength(100)]
-        public string Street { get; set; }
+        public string Address { get; set; }
 
         [StringLength(20)]
         public string City { get; set; }
 
-        [StringLength(10)]
+        [StringLength(20)]
         public string Province { get; set; }
 
-        [StringLength(6)]
+        [StringLength(20)]
+        public string Country { get; set; }
+
+        [StringLength(10)]
         public string PostalCode { get; set; }
         
         [Required]

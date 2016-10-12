@@ -8,6 +8,11 @@ namespace SenecaFleaServer.Models
 {
     public class Image
     {
-        // TODO: Fill this
+        // TODO: Miguel, Confirm these properties
+
+        [Required, StringLength(50)]
+        public string ContentType { get; set; }
+        [Required]
+        public byte[] Photo { get; set; }        
     }
 }

@@ -8,6 +8,20 @@ namespace SenecaFleaServer.Models
 {
     public class PurchaseHistory
     {
-        // TODO: Fill this
+        // TODO: Miguel, Confirm these properties
+
+        public PurchaseHistory()
+        {
+            PurchaseDate = DateTime.Now.AddSeconds(1);
+        }
+        
+        [Required]
+        public Item item { get; set; }
+
+        [Required]
+        public User Seller { get; set; }
+
+        [Required]
+        public DateTime PurchaseDate { get; set; }
     }
 }

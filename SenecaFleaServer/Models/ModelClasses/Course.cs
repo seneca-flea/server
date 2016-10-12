@@ -6,6 +6,8 @@ using System.Web;
 
 namespace SenecaFleaServer.Models
 {
+    //TODO: Miguel? we might need Program model
+
     public class Course
     {
         public int CourseId { get; set; }
