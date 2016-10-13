@@ -94,7 +94,7 @@ namespace SenecaFleaServer.Tests.Controllers
                 UserId = 1,
                 PreferableLocation = new Location{
                     PostalCode = "M2V2C9",
-                    Street = "70 Pond Road",
+                    Address = "70 Pond Road",
                     City ="Toronto",
                     Province ="ON"//, map
                 }
