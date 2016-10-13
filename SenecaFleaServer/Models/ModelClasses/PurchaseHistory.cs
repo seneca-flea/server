@@ -14,7 +14,10 @@ namespace SenecaFleaServer.Models
         {
             PurchaseDate = DateTime.Now.AddSeconds(1);
         }
-        
+
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         public Item item { get; set; }
 

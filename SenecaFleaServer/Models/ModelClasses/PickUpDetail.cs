@@ -16,6 +16,9 @@ namespace SenecaFleaServer.Models
         }
 
         [Required]
+        public int PickUpDetailId { get; set; }
+
+        [Required]
         public Location PickupLocation { get; set; }
 
         [Required]

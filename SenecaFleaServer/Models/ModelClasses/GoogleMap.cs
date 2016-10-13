@@ -15,6 +15,9 @@ namespace SenecaFleaServer.Models
 
         }
 
+        [Required]
+        public int GoogleMapId { get; set; }
+
         [Column(TypeName = "numeric")]
         public decimal latitude { get; set; }
 
