@@ -108,6 +108,14 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        // Get items by title
+        public IEnumerable<ItemBase> FilterByTitle(string title)
+        {
+            var items = ds.Items.Where(c => c.Title.Contains(title))
+
+            return Mapper.Map<IEnumerable<ItemBase>>(items);
+        }
+
         // Get items by category
         public IEnumerable<ItemBase> FilterByStatus(string status)
         {
