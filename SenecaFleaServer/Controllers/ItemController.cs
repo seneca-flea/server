@@ -98,6 +98,19 @@ namespace SenecaFleaServer.Controllers
             m.ItemDelete(id);
         }
 
+        // GET: /api/Item/filter/title/{title}
+        [HttpGet, Route("api/Item/filter/title/{title}")]
+        public IHttpActionResult FilterByTitle(string title)
+        {
+            if (title == null) { return NotFound(); }
+
+            var items = m.FilterByTitle(title);
+
+            if (items == null) { return NotFound(); }
+
+            return Ok(items);
+        }
+
         // GET: /api/Item/filter/status/{status}
         [HttpGet, Route("api/Item/filter/status/{status}")]
         public IHttpActionResult FilterByStatus(string status)
