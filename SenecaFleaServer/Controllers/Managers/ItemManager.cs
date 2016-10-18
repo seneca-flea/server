@@ -26,9 +26,18 @@ namespace SenecaFleaServer.Controllers
         // Get item by identifier
         public ItemBase ItemGetById(int id)
         {
-            var result = ds.Items.SingleOrDefault(i => i.ItemId == id);
+            var result = ds.Items.Include("Courses")
+                .SingleOrDefault(i => i.ItemId == id);
 
             return Mapper.Map<ItemBase>(result);
+        }
+
+        public ItemWithMedia ItemGetByIdWithMedia(int id) 
+        {
+            var result = ds.Items.Include("Courses").Include("Images")
+                .SingleOrDefault(i => i.ItemId == id);      
+
+            return Mapper.Map<ItemWithMedia>(result);      
         }
 
         // Add item
@@ -48,6 +57,21 @@ namespace SenecaFleaServer.Controllers
             ds.SaveChanges();
 
             return Mapper.Map<ItemBase>(addedItem);
+        }
+
+        // Add Image
+        public bool ItemSetPhoto(int id, string contentType, byte[] photo)
+        {
+            if (string.IsNullOrEmpty(contentType) | photo == null) { return false; }
+
+            // Find matching object
+            var storedItem = ds.Items.Find(id);
+
+            if (storedItem == null) { return false; }
+
+            // TODO: Save the photo
+
+            return (ds.SaveChanges() > 0) ? true : false;
         }
 
         // Edit item

@@ -6,16 +6,17 @@ using System.Web;
 
 namespace SenecaFleaServer.Models
 {
-    //TODO: Miguel? we might need Program model
-
     public class Course
     {
         public int CourseId { get; set; }
 
-        [StringLength(25)]
+        [Required, StringLength(25)]
         public string Name { get; set; }
 
-        [StringLength(6)]
+        [Required, StringLength(25)]
+        public string ProgramName { get; set; }
+
+        [StringLength(7)]
         public string Code { get; set; }
     }
 }

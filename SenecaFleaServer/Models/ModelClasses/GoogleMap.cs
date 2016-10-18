@@ -9,12 +9,6 @@ namespace SenecaFleaServer.Models
 {
     public class GoogleMap
     {
-        // ATTENTION: Fill this
-        public GoogleMap()
-        {
-
-        }
-
         [Required]
         public int GoogleMapId { get; set; }
 

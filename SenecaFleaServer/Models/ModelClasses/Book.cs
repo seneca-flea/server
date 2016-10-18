@@ -8,11 +8,8 @@ namespace SenecaFleaServer.Models
 {
     public class Book
     {
-        // TODO: Miguel's work - I have added some you might need to change them later on
-
         [Required]
         public int BookId { get; set; }
-
 
         [Required, StringLength(100)]
         public string Title { get; set; }

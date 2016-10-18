@@ -30,4 +30,9 @@ namespace SenecaFleaServer.Models
         [Key]
         public int ItemId { get; set; }
     }
+
+    public class ItemWithMedia : ItemBase 
+    {
+        public IEnumerable<Image> Images { get; set; }
+    }
 }

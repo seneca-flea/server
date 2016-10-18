@@ -11,6 +11,7 @@ namespace SenecaFleaServer.Models
         public Item()
         {
             Courses = new HashSet<Course>();
+            Images = new HashSet<Image>();
         }
 
         [Required]
@@ -30,7 +31,7 @@ namespace SenecaFleaServer.Models
 
         public ICollection<Course> Courses { get; set; }
 
-        public ICollection<Image> ImageSet { get; set; }
+        public ICollection<Image> Images { get; set; }
 
         public virtual PickUpDetail PickUp { get; set; }
 

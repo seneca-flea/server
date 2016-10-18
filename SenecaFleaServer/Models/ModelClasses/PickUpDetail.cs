@@ -8,8 +8,6 @@ namespace SenecaFleaServer.Models
 {
     public class PickUpDetail
     {
-        // TODO: Miguel, Confirm these properties
-
         public PickUpDetail()
         {
             PickupDate = DateTime.Now.AddSeconds(1);
