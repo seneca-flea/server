@@ -23,12 +23,19 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: api/Message
+        /// <summary>
+        /// Retrieve all messages
+        /// </summary>
         public IHttpActionResult Get()
         {
             return Ok(m.MessageGetAll());
         }
 
         // GET: api/Message/5
+        /// <summary>
+        /// Retrieve a message
+        /// </summary>
+        /// <param name="id">Message Id</param>
         public IHttpActionResult Get(int? id)
         {
             if (!id.HasValue) { return NotFound(); }
@@ -46,6 +53,10 @@ namespace SenecaFleaServer.Controllers
         }
 
         // POST: api/Message
+        /// <summary>
+        /// Add a message
+        /// </summary>
+        /// <param name="newItem"></param>
         public IHttpActionResult Post([FromBody]MessageAdd newItem)
         {
             if(newItem == null) { return BadRequest("Must send an entity body with the objec"); }
@@ -61,12 +72,11 @@ namespace SenecaFleaServer.Controllers
             return Created(uri, addedItem);
         }
 
-        //// PUT: api/Message/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
         // DELETE: api/Message/5
+        /// <summary>
+        /// Delete a message
+        /// </summary>
+        /// <param name="id">Message Id</param>
         public void Delete(int id)
         {
             m.MessageDelete(id);

@@ -25,7 +25,7 @@ namespace SenecaFleaServer.Controllers
         // Get all users
         public IEnumerable<UserBase> UserGetAll()
         {
-            var c = ds.Users.OrderBy(i => i.UserId);
+            var c = ds.Users.OrderBy(i => i.UserId).Take(100);
 
             return Mapper.Map<IEnumerable<UserBase>>(c);
         }

@@ -126,7 +126,7 @@ namespace SenecaFleaServer.Tests.Controllers
             SetupController(controller, HttpMethod.Get);
 
             // Act
-            IHttpActionResult result = controller.FilterByStatus("Selling");
+            IHttpActionResult result = controller.FilterByStatus("Available");
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
@@ -181,7 +181,7 @@ namespace SenecaFleaServer.Tests.Controllers
                 Title = "The C++ Programming Language (4th Edition)",
                 Price = (decimal)39.99,
                 Description = "Programming in C++",
-                Status = "Selling",
+                Status = "Available",
             };
 
             context.Courses.Add(course);

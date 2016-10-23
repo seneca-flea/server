@@ -7,7 +7,6 @@ namespace SenecaFleaServer.Controllers
 {
     public class ItemController : ApiController
     {
-        // TODO: Filter items by item title
         // TODO: Filter items by price range
         // TODO: Filter items by book information (title, author)
         // TODO: Add and update item with image and pickup details
@@ -25,6 +24,10 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: api/Item/5
+        /// <summary>
+        /// Retrieve an item
+        /// </summary>
+        /// <param name="id">Item ID</param>
         public IHttpActionResult Get(int? id)
         {
             if (!id.HasValue) { return NotFound(); }
@@ -42,6 +45,10 @@ namespace SenecaFleaServer.Controllers
         }
 
         // POST: api/Item
+        /// <summary>
+        /// Add an item
+        /// </summary>
+        /// <param name="newItem"></param>
         public IHttpActionResult Post([FromBody]ItemAdd newItem)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
@@ -62,6 +69,11 @@ namespace SenecaFleaServer.Controllers
         }
 
         // PUT: api/Items/5
+        /// <summary>
+        /// Edit an item
+        /// </summary>
+        /// <param name="id">Item Id</param>
+        /// <param name="editedItem"></param>
         public IHttpActionResult Put(int id, [FromBody]ItemEdit editedItem)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -88,17 +100,25 @@ namespace SenecaFleaServer.Controllers
             else
             {
                 // HTTP 200 with the changed item in the entity body
-                return Ok<ItemBase>(changedItem);
+                return Ok(changedItem);
             }
         }
 
         // DELETE: api/Item/5
+        /// <summary>
+        /// Delete an item 
+        /// </summary>
+        /// <param name="id">Item Id</param>
         public void Delete(int id)
         {
             m.ItemDelete(id);
         }
 
         // GET: /api/Item/filter/title/{title}
+        /// <summary>
+        /// Filter items by title
+        /// </summary>
+        /// <param name="title">Title</param>
         [HttpGet, Route("api/Item/filter/title/{title}")]
         public IHttpActionResult FilterByTitle(string title)
         {
@@ -112,6 +132,10 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: /api/Item/filter/status/{status}
+        /// <summary>
+        /// Filter items by status
+        /// </summary>
+        /// <param name="status">Status</param>
         [HttpGet, Route("api/Item/filter/status/{status}")]
         public IHttpActionResult FilterByStatus(string status)
         {
@@ -125,6 +149,11 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: /api/Item/filter/coursename/{coursename}
+        /// <summary>
+        /// Filter items by course name
+        /// </summary>
+        /// <param name="courseName">Course Name</param>
+        /// <returns></returns>
         [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
         public IHttpActionResult FilterByCourseName(string courseName)
         {
@@ -138,6 +167,11 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: /api/Item/filter/coursecode/{coursecode}
+        /// <summary>
+        /// Filter items by course code
+        /// </summary>
+        /// <param name="courseCode">Course Code</param>
+        /// <returns></returns>
         [HttpGet, Route("api/Item/filter/coursecode/{coursecode}")]
         public IHttpActionResult FilterByCourseCode(string courseCode)
         {

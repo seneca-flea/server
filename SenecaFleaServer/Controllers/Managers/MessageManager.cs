@@ -25,7 +25,7 @@ namespace SenecaFleaServer.Controllers
         // Get all messages
         public IEnumerable<MessageBase> MessageGetAll()
         {
-            var c = ds.Messages.OrderBy(m => m.MessageId);
+            var c = ds.Messages.OrderBy(m => m.MessageId).Take(100);
             return Mapper.Map<IEnumerable<MessageBase>>(c);            
         }
 

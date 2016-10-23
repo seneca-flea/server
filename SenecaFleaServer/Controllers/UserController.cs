@@ -24,14 +24,22 @@ namespace SenecaFleaServer.Controllers
             m = new UserManager(repo);
         }
 
-
         // GET: api/User
+        /// <summary>
+        /// Retrieve all users
+        /// </summary>
+        /// <returns></returns>
         public IHttpActionResult Get()
         {
             return Ok(m.UserGetAll());
         }
 
         // GET: api/User/5
+        /// <summary>
+        /// Retrieve a user
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <returns></returns>
         public IHttpActionResult Get(int? id)
         {
             var o = m.UserGetById(id.GetValueOrDefault());
@@ -47,6 +55,11 @@ namespace SenecaFleaServer.Controllers
         }
 
         // POST: api/User
+        /// <summary>
+        /// Add a user
+        /// </summary>
+        /// <param name="newItem"></param>
+        /// <returns></returns>
         public IHttpActionResult Post([FromBody]UserAdd newItem)
         {
             // Ensure that the URI is clean (and does not have an id parameter)
@@ -72,6 +85,12 @@ namespace SenecaFleaServer.Controllers
         }
 
         // PUT: api/User/5
+        /// <summary>
+        /// Edit a user's info
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <param name="editedItem"></param>
+        /// <returns></returns>
         public IHttpActionResult Put(int? id, [FromBody]UserEdit editedItem)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -111,6 +130,12 @@ namespace SenecaFleaServer.Controllers
         }
 
         // PUT: api/User/5
+        /// <summary>
+        /// Edit a user's location
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <param name="editedItem"></param>
+        /// <returns></returns>
         [Route("api/User/{id}/SetLocation")]
         public IHttpActionResult Put(int? id, [FromBody]UserEditLocation editedItem)
         {
@@ -151,6 +176,12 @@ namespace SenecaFleaServer.Controllers
         }
 
         // PUT: api/User/5/AddFavorite
+        /// <summary>
+        /// Add a favourite
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <param name="favorite"></param>
+        /// <returns></returns>
         [HttpPut, Route("api/User/{id}/AddFavorite")]
         public IHttpActionResult AddFavorite(int? id, [FromBody]UserFavorite favorite)
         {
@@ -183,6 +214,12 @@ namespace SenecaFleaServer.Controllers
         }
 
         // PUT: api/User/5/RemoveFavorite
+        /// <summary>
+        /// Remove a favourite
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <param name="favorite"></param>
+        /// <returns></returns>
         [HttpPut, Route("api/User/{id}/RemoveFavorite")]
         public IHttpActionResult RemoveFavorite(int? id, [FromBody]UserFavorite favorite)
         {
@@ -208,6 +245,10 @@ namespace SenecaFleaServer.Controllers
         }
 
         // DELETE: api/User/5
+        /// <summary>
+        /// Delete a user
+        /// </summary>
+        /// <param name="id">User Id</param>
         public void Delete(int id)
         {
             m.UserDelete(id);
