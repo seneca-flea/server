@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SenecaFleaServer.Models;
+using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
@@ -26,6 +27,7 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Retrieve all messages
         /// </summary>
+        [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult Get()
         {
             return Ok(m.MessageGetAll());
@@ -36,6 +38,7 @@ namespace SenecaFleaServer.Controllers
         /// Retrieve a message
         /// </summary>
         /// <param name="id">Message Id</param>
+        [ResponseType(typeof(MessageBase))]
         public IHttpActionResult Get(int? id)
         {
             if (!id.HasValue) { return NotFound(); }
@@ -57,6 +60,7 @@ namespace SenecaFleaServer.Controllers
         /// Add a message
         /// </summary>
         /// <param name="newItem"></param>
+        [ResponseType(typeof(MessageBase))]
         public IHttpActionResult Post([FromBody]MessageAdd newItem)
         {
             if(newItem == null) { return BadRequest("Must send an entity body with the objec"); }

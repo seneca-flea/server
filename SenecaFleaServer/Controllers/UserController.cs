@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
@@ -29,6 +30,7 @@ namespace SenecaFleaServer.Controllers
         /// Retrieve all users
         /// </summary>
         /// <returns></returns>
+        [ResponseType(typeof(IEnumerable<UserBase>))]
         public IHttpActionResult Get()
         {
             return Ok(m.UserGetAll());
@@ -40,6 +42,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">User Id</param>
         /// <returns></returns>
+        [ResponseType(typeof(UserBase))]
         public IHttpActionResult Get(int? id)
         {
             var o = m.UserGetById(id.GetValueOrDefault());
@@ -60,6 +63,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="newItem"></param>
         /// <returns></returns>
+        [ResponseType(typeof(UserBase))]
         public IHttpActionResult Post([FromBody]UserAdd newItem)
         {
             // Ensure that the URI is clean (and does not have an id parameter)
@@ -91,6 +95,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="id">User Id</param>
         /// <param name="editedItem"></param>
         /// <returns></returns>
+        [ResponseType(typeof(UserBase))]
         public IHttpActionResult Put(int? id, [FromBody]UserEdit editedItem)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -137,6 +142,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="editedItem"></param>
         /// <returns></returns>
         [Route("api/User/{id}/SetLocation")]
+        [ResponseType(typeof(UserBase))]
         public IHttpActionResult Put(int? id, [FromBody]UserEditLocation editedItem)
         {
             // Ensure that an "editedItem" is in the entity body

@@ -1,7 +1,9 @@
 using SenecaFleaServer.Models;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
@@ -28,6 +30,7 @@ namespace SenecaFleaServer.Controllers
         /// Retrieve an item
         /// </summary>
         /// <param name="id">Item ID</param>
+        [ResponseType(typeof(ItemBase))]
         public IHttpActionResult Get(int? id)
         {
             if (!id.HasValue) { return NotFound(); }
@@ -49,6 +52,7 @@ namespace SenecaFleaServer.Controllers
         /// Add an item
         /// </summary>
         /// <param name="newItem"></param>
+        [ResponseType(typeof(ItemBase))]
         public IHttpActionResult Post([FromBody]ItemAdd newItem)
         {
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
@@ -64,7 +68,7 @@ namespace SenecaFleaServer.Controllers
             {
                 // HTTP 201 with the new object in the entity body
                 var uri = Url.Link("DefaultApi", new { id = addedItem.ItemId });
-                return Created<ItemBase>(uri, addedItem);
+                return Created(uri, addedItem);
             }
         }
 
@@ -74,6 +78,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">Item Id</param>
         /// <param name="editedItem"></param>
+        [ResponseType(typeof(ItemBase))]
         public IHttpActionResult Put(int id, [FromBody]ItemEdit editedItem)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -120,6 +125,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="title">Title</param>
         [HttpGet, Route("api/Item/filter/title/{title}")]
+        [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByTitle(string title)
         {
             if (title == null) { return NotFound(); }
@@ -137,6 +143,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="status">Status</param>
         [HttpGet, Route("api/Item/filter/status/{status}")]
+        [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByStatus(string status)
         {
             if (status == null) { return NotFound(); }
@@ -155,6 +162,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="courseName">Course Name</param>
         /// <returns></returns>
         [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
+        [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByCourseName(string courseName)
         {
             if (courseName == null) { return NotFound(); }
@@ -173,6 +181,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="courseCode">Course Code</param>
         /// <returns></returns>
         [HttpGet, Route("api/Item/filter/coursecode/{coursecode}")]
+        [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByCourseCode(string courseCode)
         {
             if (courseCode == null) { return NotFound(); }
