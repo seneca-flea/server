@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
-using System.Web;
+using static SenecaFleaServer.Migrations.Configuration;
 
 namespace SenecaFleaServer.Models
 {
@@ -17,6 +18,7 @@ namespace SenecaFleaServer.Models
     {
         public DataContext() : base("name=DataContext")
         {
+            Database.SetInitializer(new DBInitializer());
         }
 
         public virtual DbSet<Book> Books { get; set; }
@@ -38,6 +40,8 @@ namespace SenecaFleaServer.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
         }
     }
 }
