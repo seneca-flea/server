@@ -10,6 +10,7 @@ using System.Web.Http.Controllers;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Linq;
+using System.Net.Http.Headers;
 #pragma warning disable CS0618
 
 namespace SenecaFleaServer.Tests.Controllers
@@ -57,6 +58,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
             // Assert
             var negResult = result as CreatedNegotiatedContentResult<ItemBase>;
+            Assert.AreEqual(context.Items.Count(), 1);
             Assert.AreEqual(1, negResult.Content.ItemId);
             Assert.AreEqual(item.Title, negResult.Content.Title);
         }
@@ -163,6 +165,42 @@ namespace SenecaFleaServer.Tests.Controllers
             Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().ItemId);
         }
 
+        [TestMethod]
+        public void ItemAddPhoto()
+        {
+            // Arrange
+            Item item = SetUpItemData();
+            var bytes = new byte[] { 0x20 };
+
+            SetupController(controller, HttpMethod.Post);
+            controller.Request.Content = new ByteArrayContent(bytes);
+            controller.Request.Content.Headers.Add("Content-Type", "image/jpg");
+
+            // Act
+            controller.AddImage(item.ItemId, bytes);
+
+            // Assert
+            Assert.AreEqual(item.Images.Count, 2);
+        }
+
+        [TestMethod]
+        public void ItemGetPhoto()
+        {
+            // Arrange
+            Item item = SetUpItemData();
+            
+            SetupController(controller, HttpMethod.Get);
+            controller.Request.Content = new ByteArrayContent(new byte[] { });
+            controller.Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("image/*"));
+
+            // Act
+            IHttpActionResult result = controller.Get(item.ItemId);
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<Image>>;
+            Assert.AreEqual(negResult.Content.Count(), 1);
+            Assert.AreEqual(negResult.Content.First().Photo, item.Images.First().Photo);
+        }
 
         // ##################################################################
         // Retrieve sample data
@@ -173,6 +211,13 @@ namespace SenecaFleaServer.Tests.Controllers
                 CourseId = 2,
                 Name = "Programming with C++",
                 Code = "OOP"
+            };
+
+            var image = new Image
+            {
+                ImageId = 1,
+                ContentType = "image/jpg",
+                Photo = new byte[] { 0x20 }
             };
 
             var item = new Item
@@ -186,6 +231,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
             context.Courses.Add(course);
             item.Courses.Add(course);
+            item.Images.Add(image);
 
             return item;
         }

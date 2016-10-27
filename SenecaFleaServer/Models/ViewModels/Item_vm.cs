@@ -35,4 +35,10 @@ namespace SenecaFleaServer.Models
     {
         public IEnumerable<Image> Images { get; set; }
     }
+
+    public class ImageAdd
+    {
+        public string ContentType { get; set; }
+        public byte[] Photo { get; set; }
+    }
 }

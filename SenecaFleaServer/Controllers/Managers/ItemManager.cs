@@ -59,8 +59,8 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<ItemBase>(addedItem);
         }
 
-        // Add Image
-        public bool ItemSetPhoto(int id, string contentType, byte[] photo)
+        // Add image to item
+        public bool ItemAddPhoto(int id, string contentType, byte[] photo)
         {
             if (string.IsNullOrEmpty(contentType) | photo == null) { return false; }
 
@@ -69,7 +69,14 @@ namespace SenecaFleaServer.Controllers
 
             if (storedItem == null) { return false; }
 
-            // TODO: Save the photo
+            // Save the photo
+            var image = new ImageAdd
+            {
+                ContentType = contentType,
+                Photo = photo
+            };
+
+            storedItem.Images.Add(Mapper.Map<Image>(image));
 
             return (ds.SaveChanges() > 0) ? true : false;
         }

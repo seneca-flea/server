@@ -500,6 +500,13 @@
             <param name="id">Item Id</param>
             <param name="editedItem"></param>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.ItemController.AddImage(System.Int32,System.Byte[])">
+            <summary>
+            Add an image to an item
+            </summary>
+            <param name="id">Item Id</param>
+            <param name="photo">Image data</param>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.Delete(System.Int32)">
             <summary>
             Delete an item 

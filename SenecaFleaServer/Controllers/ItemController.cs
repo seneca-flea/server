@@ -1,5 +1,7 @@
+using AutoMapper;
 using SenecaFleaServer.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -11,7 +13,7 @@ namespace SenecaFleaServer.Controllers
     {
         // TODO: Filter items by price range
         // TODO: Filter items by book information (title, author)
-        // TODO: Add and update item with image and pickup details
+        // TODO: Add and update item with pickup details
 
         private ItemManager m;
 
@@ -35,15 +37,29 @@ namespace SenecaFleaServer.Controllers
         {
             if (!id.HasValue) { return NotFound(); }
 
-            var obj = m.ItemGetById(id.Value);
+            var obj = m.ItemGetByIdWithMedia(id.Value);
 
-            if (obj == null)
+            if (obj == null) { return NotFound(); }
+
+            var imageHeader = Request.Headers.Accept
+                    .SingleOrDefault(a => a.MediaType.ToLower().StartsWith("image/"));
+
+            if (imageHeader == null)
             {
-                return NotFound();
+                // Return item info
+                return Ok(Mapper.Map<ItemBase>(obj));
             }
             else
             {
-                return Ok(obj);
+                if (obj.Images.Count() > 0)
+                {
+                    // Return images
+                    return Ok(obj.Images);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
         }
 
@@ -72,7 +88,7 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
-        // PUT: api/Items/5
+        // PUT: api/Item/5
         /// <summary>
         /// Edit an item
         /// </summary>
@@ -106,6 +122,29 @@ namespace SenecaFleaServer.Controllers
             {
                 // HTTP 200 with the changed item in the entity body
                 return Ok(changedItem);
+            }
+        }
+
+        // POST: api/Item/5/AddImage
+        /// <summary>
+        /// Add an image to an item
+        /// </summary>
+        /// <param name="id">Item Id</param>
+        /// <param name="photo">Image data</param>
+        [Route("api/item/{id}/addimage")]
+        [HttpPost]
+        public IHttpActionResult AddImage(int id, [FromBody]byte[] photo)
+        {
+            var contentType = Request.Content.Headers.ContentType.MediaType;
+
+            // Attempt to save
+            if (m.ItemAddPhoto(id, contentType, photo))
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            else
+            {
+                return BadRequest("Unable to set the photo");
             }
         }
 
