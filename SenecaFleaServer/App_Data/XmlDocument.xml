@@ -539,6 +539,13 @@
             <param name="courseCode">Course Code</param>
             <returns></returns>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByPriceRange(SenecaFleaServer.Models.PriceRange)">
+            <summary>
+            Filter items by price range
+            </summary>
+            <param name="range">Price range</param>
+            <returns></returns>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Get">
             <summary>
             Retrieve all messages

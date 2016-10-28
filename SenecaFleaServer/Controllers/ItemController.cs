@@ -231,5 +231,24 @@ namespace SenecaFleaServer.Controllers
 
             return Ok(items);
         }
+
+        // GET: /api/Item/filter/price
+        /// <summary>
+        /// Filter items by price range
+        /// </summary>
+        /// <param name="range">Price range</param>
+        /// <returns></returns>
+        [HttpGet, Route("api/Item/filter/price")]
+        [ResponseType(typeof(IEnumerable<ItemBase>))]
+        public IHttpActionResult FilterByPriceRange([FromBody]PriceRange range)
+        {
+            if (range == null) { return BadRequest(); }
+
+            var items = m.FilterByPriceRange(range.min, range.max);
+
+            if (items == null) { return NotFound(); }
+
+            return Ok(items);
+        }
     }
 }

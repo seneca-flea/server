@@ -166,6 +166,27 @@ namespace SenecaFleaServer.Tests.Controllers
         }
 
         [TestMethod]
+        public void ItemFilterByPriceRange()
+        {
+            // Arrange
+            Item item = SetUpItemData();
+            SetupController(controller, HttpMethod.Get);
+
+            var range = new PriceRange
+            {
+                min = 30,
+                max = 60,
+            };
+
+            // Act
+            IHttpActionResult result = controller.FilterByPriceRange(range);
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
+            Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().ItemId);
+        }
+
+        [TestMethod]
         public void ItemAddPhoto()
         {
             // Arrange
