@@ -29,6 +29,11 @@ namespace SenecaFleaServer.Models
     {
         [Key]
         public int ItemId { get; set; }
+
+        /// <summary>
+        /// Number of images the item contains
+        /// </summary>
+        public int ImagesCount { get; set; }
     }
 
     public class ItemWithMedia : ItemBase 

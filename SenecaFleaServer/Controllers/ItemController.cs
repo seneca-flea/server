@@ -11,7 +11,6 @@ namespace SenecaFleaServer.Controllers
 {
     public class ItemController : ApiController
     {
-        // TODO: Filter items by price range
         // TODO: Filter items by book information (title, author)
         // TODO: Add and update item with pickup details
 
@@ -37,6 +36,7 @@ namespace SenecaFleaServer.Controllers
         {
             if (!id.HasValue) { return NotFound(); }
 
+            // Attempt to get item
             var obj = m.ItemGetByIdWithMedia(id.Value);
 
             if (obj == null) { return NotFound(); }
@@ -167,7 +167,7 @@ namespace SenecaFleaServer.Controllers
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByTitle(string title)
         {
-            if (title == null) { return NotFound(); }
+            if (title == null) { return BadRequest("Empty request"); }
 
             var items = m.FilterByTitle(title);
 
@@ -185,7 +185,7 @@ namespace SenecaFleaServer.Controllers
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByStatus(string status)
         {
-            if (status == null) { return NotFound(); }
+            if (status == null) { return BadRequest("Empty request"); }
 
             var items = m.FilterByStatus(status);
 
@@ -199,12 +199,11 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by course name
         /// </summary>
         /// <param name="courseName">Course Name</param>
-        /// <returns></returns>
         [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByCourseName(string courseName)
         {
-            if (courseName == null) { return NotFound(); }
+            if (courseName == null) { return BadRequest("Empty request"); }
 
             var items = m.FilterByCourseName(courseName);
 
@@ -218,12 +217,11 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by course code
         /// </summary>
         /// <param name="courseCode">Course Code</param>
-        /// <returns></returns>
         [HttpGet, Route("api/Item/filter/coursecode/{coursecode}")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByCourseCode(string courseCode)
         {
-            if (courseCode == null) { return NotFound(); }
+            if (courseCode == null) { return BadRequest("Empty request"); }
 
             var items = m.FilterByCourseCode(courseCode);
 
@@ -237,12 +235,12 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by price range
         /// </summary>
         /// <param name="range">Price range</param>
-        /// <returns></returns>
         [HttpGet, Route("api/Item/filter/price")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByPriceRange([FromBody]PriceRange range)
         {
-            if (range == null) { return BadRequest(); }
+            if (range == null) { return BadRequest("Empty request"); }
+            if (range.min > range.max) { return BadRequest("Invalid parameters"); }
 
             var items = m.FilterByPriceRange(range.min, range.max);
 

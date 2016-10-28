@@ -530,21 +530,18 @@
             Filter items by course name
             </summary>
             <param name="courseName">Course Name</param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByCourseCode(System.String)">
             <summary>
             Filter items by course code
             </summary>
             <param name="courseCode">Course Code</param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByPriceRange(SenecaFleaServer.Models.PriceRange)">
             <summary>
             Filter items by price range
             </summary>
             <param name="range">Price range</param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Get">
             <summary>
@@ -573,21 +570,18 @@
             <summary>
             Retrieve all users
             </summary>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Get(System.Nullable{System.Int32})">
             <summary>
             Retrieve a user
             </summary>
             <param name="id">User Id</param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Post(SenecaFleaServer.Models.UserAdd)">
             <summary>
             Add a user
             </summary>
             <param name="newItem"></param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Put(System.Nullable{System.Int32},SenecaFleaServer.Models.UserEdit)">
             <summary>
@@ -595,7 +589,6 @@
             </summary>
             <param name="id">User Id</param>
             <param name="editedItem"></param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Put(System.Nullable{System.Int32},SenecaFleaServer.Models.UserEditLocation)">
             <summary>
@@ -603,7 +596,6 @@
             </summary>
             <param name="id">User Id</param>
             <param name="editedItem"></param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.AddFavorite(System.Nullable{System.Int32},SenecaFleaServer.Models.UserFavorite)">
             <summary>
@@ -611,7 +603,6 @@
             </summary>
             <param name="id">User Id</param>
             <param name="favorite"></param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.RemoveFavorite(System.Nullable{System.Int32},SenecaFleaServer.Models.UserFavorite)">
             <summary>
@@ -619,13 +610,17 @@
             </summary>
             <param name="id">User Id</param>
             <param name="favorite"></param>
-            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Delete(System.Int32)">
             <summary>
             Delete a user
             </summary>
             <param name="id">User Id</param>
+        </member>
+        <member name="P:SenecaFleaServer.Models.ItemBase.ImagesCount">
+            <summary>
+            Number of images the item contains
+            </summary>
         </member>
     </members>
 </doc>

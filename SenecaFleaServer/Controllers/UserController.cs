@@ -29,7 +29,6 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Retrieve all users
         /// </summary>
-        /// <returns></returns>
         [ResponseType(typeof(IEnumerable<UserBase>))]
         public IHttpActionResult Get()
         {
@@ -41,7 +40,6 @@ namespace SenecaFleaServer.Controllers
         /// Retrieve a user
         /// </summary>
         /// <param name="id">User Id</param>
-        /// <returns></returns>
         [ResponseType(typeof(UserBase))]
         public IHttpActionResult Get(int? id)
         {
@@ -62,7 +60,6 @@ namespace SenecaFleaServer.Controllers
         /// Add a user
         /// </summary>
         /// <param name="newItem"></param>
-        /// <returns></returns>
         [ResponseType(typeof(UserBase))]
         public IHttpActionResult Post([FromBody]UserAdd newItem)
         {
@@ -94,7 +91,6 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">User Id</param>
         /// <param name="editedItem"></param>
-        /// <returns></returns>
         [ResponseType(typeof(UserBase))]
         public IHttpActionResult Put(int? id, [FromBody]UserEdit editedItem)
         {
@@ -140,7 +136,6 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">User Id</param>
         /// <param name="editedItem"></param>
-        /// <returns></returns>
         [Route("api/User/{id}/SetLocation")]
         [ResponseType(typeof(UserBase))]
         public IHttpActionResult Put(int? id, [FromBody]UserEditLocation editedItem)
@@ -187,7 +182,6 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">User Id</param>
         /// <param name="favorite"></param>
-        /// <returns></returns>
         [HttpPut, Route("api/User/{id}/AddFavorite")]
         public IHttpActionResult AddFavorite(int? id, [FromBody]UserFavorite favorite)
         {
@@ -225,7 +219,6 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">User Id</param>
         /// <param name="favorite"></param>
-        /// <returns></returns>
         [HttpPut, Route("api/User/{id}/RemoveFavorite")]
         public IHttpActionResult RemoveFavorite(int? id, [FromBody]UserFavorite favorite)
         {
