@@ -68,5 +68,52 @@ namespace SenecaFleaServer.Controllers
                 }
             }
         }
+        
+
+        // Get messages by identifiers
+        public IEnumerable<MessageBase> FilterByUserId(int userId)
+        {
+            //TODO: How would I retrieve the current user id?
+
+            // Find the user if exists
+            var user = ds.Users.SingleOrDefault(u => u.UserId == userId);
+            if (user == null) { return null; }
+
+            // Get messages by userid
+            var msgs = ds.Messages.Where(u => u.SenderId == userId);
+
+            return Mapper.Map<IEnumerable<MessageBase>>(msgs);
+        }
+
+        // Get messages by identifiers, filted by one receivedId
+        public IEnumerable<MessageBase> FilterByUserIdWithReceiverId(MessageFilterByUserIdWithReceiverId filterObj)
+        {
+            var userMsgs = FilterByUserId(filterObj.UserId);
+                        
+            var msgs = userMsgs.Where(u => u.ReceiverId == filterObj.ReceiverId);
+
+            return Mapper.Map<IEnumerable<MessageBase>>(msgs);
+        }
+
+        // Get messages by identifiers, filtered by datetime
+        public IEnumerable<MessageBase> FilterByUserIdWithDate(MessageFilterByUserIdWithTime filterObj)
+        {
+            var userMsgs = FilterByUserId(filterObj.UserId);
+            
+            var msgs = userMsgs.Where(u => u.Time == filterObj.Time);
+
+            return Mapper.Map<IEnumerable<MessageBase>>(msgs);
+        }
+
+        // Get messages by identifiers, filtered by item
+        public IEnumerable<MessageBase> FilterByUserIdWithItem(MessageFilterByUserIdWithItem filterObj)
+        {
+            var userMsgs = FilterByUserId(filterObj.UserId);            
+
+            var msgs = userMsgs.Where(u => u.ItemId == filterObj.ItemId);
+
+            return Mapper.Map<IEnumerable<MessageBase>>(msgs);
+        }
+
     }
 }

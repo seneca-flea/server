@@ -32,6 +32,36 @@ namespace SenecaFleaServer.Models
     //
     public class MessageWithItem : MessageBase
     {
-        public Item item { get; set; }
+        public Item Item { get; set; }
     }
+
+
+    #region Filter
+
+    public class MessageFilterByUserIdWithReceiverId
+    {
+        public int UserId { get; set; }
+
+        public int ReceiverId { get; set; }
+    }
+
+
+    public class MessageFilterByUserIdWithTime
+    {
+        public int UserId { get; set; }
+
+        public DateTime Time { get; set; }
+    }
+
+    public class MessageFilterByUserIdWithItem
+    {
+        public int UserId { get; set; }
+
+        public int ItemId { get; set; }
+
+        //public Item Item { get; set; }
+    }
+
+    #endregion Filter
+
 }

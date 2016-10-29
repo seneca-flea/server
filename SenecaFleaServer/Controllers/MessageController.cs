@@ -63,7 +63,7 @@ namespace SenecaFleaServer.Controllers
         [ResponseType(typeof(MessageBase))]
         public IHttpActionResult Post([FromBody]MessageAdd newItem)
         {
-            if(newItem == null) { return BadRequest("Must send an entity body with the objec"); }
+            if(newItem == null) { return BadRequest("Must send an entity body with the object"); }
 
             if(!ModelState.IsValid) { return BadRequest(ModelState); }
 
@@ -85,5 +85,65 @@ namespace SenecaFleaServer.Controllers
         {
             m.MessageDelete(id);
         }
+
+
+        // Get messages by identifiers
+        [HttpGet, Route("api/Message/filter/User")]
+        [ResponseType(typeof(IEnumerable<MessageBase>))]
+        public IHttpActionResult FilterByUserId(int userId)
+        {
+            //TODO: How would I retrieve the current user id?
+
+            if (userId < 0) { return BadRequest("Must send a userId"); }
+
+            var msgs = m.FilterByUserId(userId);
+
+            if(msgs == null) { return NotFound(); }
+
+            return Ok(msgs);            
+        }
+
+        // Get messages by identifiers, filted by one receivedId
+        [HttpGet, Route("api/Message/filter/UserWithReceiver")]
+        [ResponseType(typeof(IEnumerable<MessageBase>))]
+        public IHttpActionResult FilterByUserIdWithReceiverId([FromBody]MessageFilterByUserIdWithReceiverId filterObj)
+        {
+            if (filterObj == null ) { return BadRequest("Must send an entity body"); }
+
+            var msgs = m.FilterByUserIdWithReceiverId(filterObj);
+
+            if (msgs == null) { return NotFound(); }
+
+            return Ok(msgs);
+        }
+
+        // Get messages by identifiers, filtered by datetime
+        [HttpGet, Route("api/Message/filter/UserWithDate")]
+        [ResponseType(typeof(IEnumerable<MessageBase>))]
+        public IHttpActionResult FilterByUserIdWithDate([FromBody]MessageFilterByUserIdWithTime filterObj)
+        {
+            if (filterObj == null) { return BadRequest("Must send an entity body"); }
+
+            var msgs = m.FilterByUserIdWithDate(filterObj);
+
+            if (msgs == null) { return NotFound(); }
+
+            return Ok(msgs);
+        }
+
+        // Get messages by identifiers, filtered by item
+        [HttpGet, Route("api/Message/filter/UserWithItem")]
+        [ResponseType(typeof(IEnumerable<MessageBase>))]
+        public IHttpActionResult FilterByUserIdWithItem([FromBody] MessageFilterByUserIdWithItem filterObj)
+        {
+            if (filterObj == null) { return BadRequest("Must send an entity body"); }
+
+            var msgs = m.FilterByUserIdWithItem(filterObj);
+
+            if (msgs == null) { return NotFound(); }
+
+            return Ok(msgs);
+        }
+
     }
 }

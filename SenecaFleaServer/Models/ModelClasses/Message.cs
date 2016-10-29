@@ -19,11 +19,19 @@ namespace SenecaFleaServer.Models
         [Required, StringLength(1000)]
         public string Text { get; set; }
 
-        [Required]
-        public virtual User Sender { get; set; }
 
+        //TODO: [Han]
         [Required]
-        public virtual User Receiver { get; set; }
+        public int SenderId { get; set; }
+        
+        [Required]
+        public int ReceiverId { get; set; }
+
+        //[Required]
+        //public virtual User Sender { get; set; }
+
+        //[Required]
+        //public virtual User Receiver { get; set; }
 
         public DateTime Time { get; set; }
 
