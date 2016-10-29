@@ -90,8 +90,8 @@ namespace SenecaFleaServer.Tests.Controllers
             var itemData = new Message {
                 MessageId = 1,
                 ItemId = 1,
-                Sender = new User(),
-                Receiver = new User(),
+                SenderId = 101,
+                ReceiverId = 102,
                 Time = DateTime.Now,
                 Text = "Hello World"
             };
