@@ -9,10 +9,17 @@ namespace SenecaFleaServer.Models
     // TODO: Complete ItemAdd and ItemEdit
     public class ItemAdd
     {
+        [Required]
         public string Title { get; set; }
-        public decimal Price { get; set; }
-        public string Description { get; set; }
+
+        [Required]
         public string Status { get; set; }
+
+        [Required]
+        public int SellerId { get; set; }
+
+        public string Description { get; set; }
+        public decimal Price { get; set; }
     }
 
     public class ItemEdit
@@ -23,6 +30,7 @@ namespace SenecaFleaServer.Models
         public string Title { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
+        public string Status { get; set; }
     }
 
     public class ItemBase : ItemAdd

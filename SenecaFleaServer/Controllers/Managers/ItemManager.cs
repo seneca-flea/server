@@ -45,6 +45,11 @@ namespace SenecaFleaServer.Controllers
         {
             if (newItem == null) { return null; }
 
+            // Check for matching user
+            var userId = ds.Users.SingleOrDefault(i => i.UserId == newItem.SellerId);
+
+            if (userId == null) { return null; }
+
             // Set id
             int? newId = ds.Items.Select(m => (int?)m.ItemId).Max() + 1;
             if (newId == null) { newId = 1; }

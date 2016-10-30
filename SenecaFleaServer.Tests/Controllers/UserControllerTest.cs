@@ -124,13 +124,13 @@ namespace SenecaFleaServer.Tests.Controllers
         {
             // Arrange
             User user = SetupUserData();
-            Item item = SetupItemData();
+            Item item = GetItemData();
             SetupController(controller, HttpMethod.Put);
 
             var favoriteData = new UserFavorite
             {
                 UserId = user.UserId,
-                ItemId = GetItemData().ItemId
+                ItemId = item.ItemId
             };
 
             // Act
@@ -145,7 +145,7 @@ namespace SenecaFleaServer.Tests.Controllers
         {
             // Arrange
             User user = SetupUserData();
-            Item item = SetupItemData();
+            Item item = GetItemData();
             SetupController(controller, HttpMethod.Put);
 
             user.FavoriteItems.Add(item);
@@ -154,7 +154,7 @@ namespace SenecaFleaServer.Tests.Controllers
             var favoriteData = new UserFavorite
             {
                 UserId = user.UserId,
-                ItemId = GetItemData().ItemId
+                ItemId = item.ItemId
             };
 
             // Act
@@ -166,9 +166,9 @@ namespace SenecaFleaServer.Tests.Controllers
 
         // ##################################################################
         // Retrieve sample data
-        private User GetUserData()
+        public User GetUserData()
         {
-            var itemData = new User
+            var user = new User
             {
                 UserId = 1,
                 FirstName = "Eunju",
@@ -184,7 +184,7 @@ namespace SenecaFleaServer.Tests.Controllers
                 //PurchaseHistories
             };
 
-            return itemData;
+            return user;
         }
 
         // Add sample data to context
@@ -199,7 +199,7 @@ namespace SenecaFleaServer.Tests.Controllers
         // Retrieve sample item data
         public Item GetItemData()
         {
-            var itemData = new Item
+            var item = new Item
             {
                 ItemId = 5,
                 Title = "The C++ Programming Language (4th Edition)",
@@ -208,15 +208,7 @@ namespace SenecaFleaServer.Tests.Controllers
                 Status = "Selling"
             };
 
-            return itemData;
-        }
-
-        // Add sample item data to context
-        private Item SetupItemData()
-        {
-            Item item = GetItemData();
             context.Items.Add(item);
-
             return item;
         }
 

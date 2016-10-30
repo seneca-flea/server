@@ -87,7 +87,11 @@ namespace SenecaFleaServer.Tests.Controllers
         // Retrieve sample data
         private Message GetMessageData()
         {
-            var itemData = new Message {
+            context.Users.Add(new User() { UserId = 101 });
+            context.Users.Add(new User() { UserId = 102 });
+            context.Items.Add(new Item() { ItemId = 1 });
+
+            var message = new Message {
                 MessageId = 1,
                 ItemId = 1,
                 SenderId = 101,
@@ -96,7 +100,7 @@ namespace SenecaFleaServer.Tests.Controllers
                 Text = "Hello World"
             };
 
-            return itemData;
+            return message;
         }
 
         // Add sample data to context

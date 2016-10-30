@@ -39,7 +39,7 @@ namespace SenecaFleaServer.Controllers
         // Add message
         public MessageBase MessageAdd(MessageAdd newItem)
         {
-            // Check users are exist
+            // Check for matching users
             var senderId = ds.Users.SingleOrDefault(u => u.UserId == newItem.SenderId);
             var receiverId = ds.Users.SingleOrDefault(u => u.UserId == newItem.ReceiverId);
 
@@ -48,17 +48,16 @@ namespace SenecaFleaServer.Controllers
             {
                 return null;
             }
-            
-            // Check an item is exists if the item is not empty.
-            if(newItem.ItemId != null)
+
+            // Check for matching item if the item field is not empty
+            if (newItem.ItemId != null)
             {
                 var itemId = ds.Items.SingleOrDefault(i => i.ItemId == newItem.ItemId);
-                if(itemId == null)
+                if (itemId == null)
                 {
                     return null;
                 }
             }
-            
 
             // Set id
             int? newId = ds.Messages.Select(m => (int?)m.MessageId).Max() + 1;

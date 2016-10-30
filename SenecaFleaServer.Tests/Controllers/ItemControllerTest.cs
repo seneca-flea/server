@@ -227,6 +227,8 @@ namespace SenecaFleaServer.Tests.Controllers
         // Retrieve sample data
         public Item GetItemData()
         {
+            var user = new User { UserId = 1 };
+
             var course = new Course
             {
                 CourseId = 2,
@@ -248,8 +250,10 @@ namespace SenecaFleaServer.Tests.Controllers
                 Price = (decimal)39.99,
                 Description = "Programming in C++",
                 Status = "Available",
+                SellerId = user.UserId
             };
 
+            context.Users.Add(user);
             context.Courses.Add(course);
             item.Courses.Add(course);
             item.Images.Add(image);
