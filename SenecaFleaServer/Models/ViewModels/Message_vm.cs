@@ -8,6 +8,11 @@ namespace SenecaFleaServer.Models
 {
     public class MessageAdd
     {
+        public MessageAdd()
+        {
+            Time = DateTime.Now;
+        }
+
         [Required, StringLength(1000)]
         public string Text { get; set; }
 
@@ -36,9 +41,19 @@ namespace SenecaFleaServer.Models
     }
 
 
+    //public class MessageDelete
+    //{
+    //    [Required]
+    //    public int SenderId { get; set; }
+        
+    //    public int? ReceiverId { get; set; }
+
+    //    public int? ItemId { get; set; }
+    //}
+
     #region Filter
 
-    public class MessageFilterByUserIdWithReceiverId
+    public class MessageFilterByUserIdWithReceiver
     {
         public int UserId { get; set; }
 

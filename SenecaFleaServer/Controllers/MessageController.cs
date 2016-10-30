@@ -59,7 +59,7 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Add a message
         /// </summary>
-        /// <param name="newItem"></param>
+        /// <param name="newItem">MessageAdd</param>
         [ResponseType(typeof(MessageBase))]
         public IHttpActionResult Post([FromBody]MessageAdd newItem)
         {
@@ -76,6 +76,18 @@ namespace SenecaFleaServer.Controllers
             return Created(uri, addedItem);
         }
 
+        // DELETE: api/Message/2
+        /// <summary>
+        /// Delete messages that a user sends and receives by its identifier
+        /// </summary>
+        /// <param name="userId">User identifier</param>
+        [HttpDelete, Route("api/Message/DeleteByUser/{userId}")]
+        public void DeleteByUser(int userId)
+        {
+            m.MessageDeleteByUser(userId);
+        }
+
+
         // DELETE: api/Message/5
         /// <summary>
         /// Delete a message
@@ -88,7 +100,12 @@ namespace SenecaFleaServer.Controllers
 
 
         // Get messages by identifiers
-        [HttpGet, Route("api/Message/filter/User")]
+        /// <summary>
+        /// Get all messages that a user sends and receives by its identifiers
+        /// </summary>
+        /// <param name="userId">A user identifier</param>
+        /// <returns>A collection of MessageBase</returns>
+        [HttpGet, Route("api/Message/filter/User/{userId}")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult FilterByUserId(int userId)
         {
@@ -103,21 +120,31 @@ namespace SenecaFleaServer.Controllers
             return Ok(msgs);            
         }
 
-        // Get messages by identifiers, filted by one receivedId
+        // Get messages by an identifier, filted by a receiver
+        /// <summary>
+        /// Get messages by an identifier, filted by a receiver
+        /// </summary>
+        /// <param name="filterObj">MessageFilterByUserIdWithReceiver</param>
+        /// <returns>A collection of MessageBase</returns>
         [HttpGet, Route("api/Message/filter/UserWithReceiver")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
-        public IHttpActionResult FilterByUserIdWithReceiverId([FromBody]MessageFilterByUserIdWithReceiverId filterObj)
+        public IHttpActionResult FilterByUserIdWithReceiver([FromBody]MessageFilterByUserIdWithReceiver filterObj)
         {
             if (filterObj == null ) { return BadRequest("Must send an entity body"); }
 
-            var msgs = m.FilterByUserIdWithReceiverId(filterObj);
+            var msgs = m.FilterByUserIdWithReceiver(filterObj);
 
             if (msgs == null) { return NotFound(); }
 
             return Ok(msgs);
         }
 
-        // Get messages by identifiers, filtered by datetime
+        // Get messages by an identifier, filtered by datetime
+        /// <summary>
+        /// Get messages by an identifier, filtered by datetime
+        /// </summary>
+        /// <param name="filterObj">MessageFilterByUserIdWithTime</param>
+        /// <returns>A collection of MessageBase</returns>
         [HttpGet, Route("api/Message/filter/UserWithDate")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult FilterByUserIdWithDate([FromBody]MessageFilterByUserIdWithTime filterObj)
@@ -131,7 +158,12 @@ namespace SenecaFleaServer.Controllers
             return Ok(msgs);
         }
 
-        // Get messages by identifiers, filtered by item
+        // Get messages by an identifier, filtered by item
+        /// <summary>
+        /// Get messages by an identifier, filtered by item
+        /// </summary>
+        /// <param name="filterObj">MessageFilterByUserIdWithItem</param>
+        /// <returns>A collection of MessageBase</returns>
         [HttpGet, Route("api/Message/filter/UserWithItem")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult FilterByUserIdWithItem([FromBody] MessageFilterByUserIdWithItem filterObj)

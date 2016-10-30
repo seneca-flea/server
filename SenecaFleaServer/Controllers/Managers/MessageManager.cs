@@ -26,7 +26,7 @@ namespace SenecaFleaServer.Controllers
         public IEnumerable<MessageBase> MessageGetAll()
         {
             var c = ds.Messages.OrderBy(m => m.MessageId).Take(100);
-            return Mapper.Map<IEnumerable<MessageBase>>(c);            
+            return Mapper.Map<IEnumerable<MessageBase>>(c);
         }
 
         // Get message by identifiers
@@ -39,6 +39,27 @@ namespace SenecaFleaServer.Controllers
         // Add message
         public MessageBase MessageAdd(MessageAdd newItem)
         {
+            // Check users are exist
+            var senderId = ds.Users.SingleOrDefault(u => u.UserId == newItem.SenderId);
+            var receiverId = ds.Users.SingleOrDefault(u => u.UserId == newItem.ReceiverId);
+
+            // Continue?
+            if (senderId == null || receiverId == null)
+            {
+                return null;
+            }
+            
+            // Check an item is exists if the item is not empty.
+            if(newItem.ItemId != null)
+            {
+                var itemId = ds.Items.SingleOrDefault(i => i.ItemId == newItem.ItemId);
+                if(itemId == null)
+                {
+                    return null;
+                }
+            }
+            
+
             // Set id
             int? newId = ds.Messages.Select(m => (int?)m.MessageId).Max() + 1;
             if (newId == null) { newId = 1; }
@@ -51,7 +72,37 @@ namespace SenecaFleaServer.Controllers
             return (addedItem == null) ? null : Mapper.Map<MessageBase>(addedItem);
         }
 
-        // Delete message
+
+        // Delete messages that a user sends
+        public void MessageDeleteByUser(int userId)
+        {
+            // Check if the user exists
+            var sender = ds.Users.Find(userId);
+            // Continue?
+            if(sender == null)
+            {
+                ////log and handle it
+                //throw new Exception();
+            }
+
+            // Attention: when deleting messages, only messages that a user sends are deleted?
+            var msgs = ds.Messages.Where(m => m.SenderId == userId);
+            
+            if (msgs != null)
+            {
+                try
+                {
+                    ds.Messages.RemoveRange(msgs);
+                    ds.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    //log and handle it
+                }
+            }
+        }
+
+        // Delete a message
         public void MessageDelete(int id)
         {
             var storedItem = ds.Messages.Find(id);
@@ -68,9 +119,9 @@ namespace SenecaFleaServer.Controllers
                 }
             }
         }
-        
 
-        // Get messages by identifiers
+
+        // Get messages that a user sends or receives by its identifiers
         public IEnumerable<MessageBase> FilterByUserId(int userId)
         {
             //TODO: How would I retrieve the current user id?
@@ -79,14 +130,14 @@ namespace SenecaFleaServer.Controllers
             var user = ds.Users.SingleOrDefault(u => u.UserId == userId);
             if (user == null) { return null; }
 
-            // Get messages by userid
-            var msgs = ds.Messages.Where(u => u.SenderId == userId);
+            // Get messages that a user sends or receives by its identifier
+            var msgs = ds.Messages.Where(u => u.SenderId == userId || u.ReceiverId == userId);
 
             return Mapper.Map<IEnumerable<MessageBase>>(msgs);
         }
 
-        // Get messages by identifiers, filted by one receivedId
-        public IEnumerable<MessageBase> FilterByUserIdWithReceiverId(MessageFilterByUserIdWithReceiverId filterObj)
+        // Get messages by identifiers, filted by a receiver
+        public IEnumerable<MessageBase> FilterByUserIdWithReceiver(MessageFilterByUserIdWithReceiver filterObj)
         {
             var userMsgs = FilterByUserId(filterObj.UserId);
                         

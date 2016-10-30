@@ -558,13 +558,47 @@
             <summary>
             Add a message
             </summary>
-            <param name="newItem"></param>
+            <param name="newItem">MessageAdd</param>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.MessageController.DeleteByUser(System.Int32)">
+            <summary>
+            Delete messages that a user sends and receives by its identifier
+            </summary>
+            <param name="userId">User identifier</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Delete(System.Int32)">
             <summary>
             Delete a message
             </summary>
             <param name="id">Message Id</param>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.MessageController.FilterByUserId(System.Int32)">
+            <summary>
+            Get all messages that a user sends and receives by its identifiers
+            </summary>
+            <param name="userId">A user identifier</param>
+            <returns>A collection of MessageBase</returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.MessageController.FilterByUserIdWithReceiver(SenecaFleaServer.Models.MessageFilterByUserIdWithReceiver)">
+            <summary>
+            Get messages by an identifier, filted by a receiver
+            </summary>
+            <param name="filterObj">MessageFilterByUserIdWithReceiver</param>
+            <returns>A collection of MessageBase</returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.MessageController.FilterByUserIdWithDate(SenecaFleaServer.Models.MessageFilterByUserIdWithTime)">
+            <summary>
+            Get messages by an identifier, filtered by datetime
+            </summary>
+            <param name="filterObj">MessageFilterByUserIdWithTime</param>
+            <returns>A collection of MessageBase</returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.MessageController.FilterByUserIdWithItem(SenecaFleaServer.Models.MessageFilterByUserIdWithItem)">
+            <summary>
+            Get messages by an identifier, filtered by item
+            </summary>
+            <param name="filterObj">MessageFilterByUserIdWithItem</param>
+            <returns>A collection of MessageBase</returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Get">
             <summary>
