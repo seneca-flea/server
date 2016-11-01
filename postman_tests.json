@@ -1,0 +1,1045 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Seneca Flea Tests",
+		"_postman_id": "16fbfe5d-8a0f-8a45-bbe8-4ee7f4e5754c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Item",
+			"description": "",
+			"item": [
+				{
+					"name": "Add item (Invalid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Bad request\"] = responseCode.code === 400;"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Item/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add item (User doesn't exist)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Bad request\"] = responseCode.code === 400"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");\npostman.setGlobalVariable(\"itemPrice\", 25.99);\npostman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");\npostman.setGlobalVariable(\"itemStatus\", \"Available\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Item",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Title\": \"{{itemTitle}}\",\r\n\t\"Price\": \"{{itemPrice}}\",\r\n\t\"Description\": \"{{itemDesc}}\",\r\n\t\"Status\": \"{{itemStatus}}\",\r\n\t\"SellerId\": 99999999\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n} \ncatch (e) {}\n\npostman.setGlobalVariable(\"userid\", jsonData.UserId);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/User",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"FirstName\": \"{{firstname}}\",\r\n\t\"LastName\": \"{{lastname}}\",\r\n\t\"Email\": \"{{email}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;\n    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;\n    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;\n    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"itemid\", jsonData.ItemId);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");\npostman.setGlobalVariable(\"itemPrice\", 25.99);\npostman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");\npostman.setGlobalVariable(\"itemStatus\", \"Available\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Item",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Title\": \"{{itemTitle}}\",\r\n\t\"Price\": \"{{itemPrice}}\",\r\n\t\"Description\": \"{{itemDesc}}\",\r\n\t\"Status\": \"{{itemStatus}}\",\r\n\t\"SellerId\": \"{{userid}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get item by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;\n    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;\n    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;\n    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Item/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Item",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{itemid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get items by title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Item/filter/status/:status",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Item",
+								"filter",
+								"status",
+								":status"
+							],
+							"variable": [
+								{
+									"value": "{{itemStatus}}",
+									"id": "status"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get items by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Item/filter/title/:title",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Item",
+								"filter",
+								"title",
+								":title"
+							],
+							"variable": [
+								{
+									"value": "{{itemTitle}}",
+									"id": "title"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Item/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Item",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{itemid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get item by Id (Not found)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 404\"] = responseCode.code === 404;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Item/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Item",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{itemid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"description": "",
+			"item": [
+				{
+					"name": "Add user 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"userid\", jsonData.UserId);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/User",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"FirstName\": \"{{firstname}}\",\r\n\t\"LastName\": \"{{lastname}}\",\r\n\t\"Email\": \"{{email}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add user 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"userid2\", jsonData.UserId);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"firstname2\", \"Eunju\");\npostman.setGlobalVariable(\"lastname2\", \"Han\");\npostman.setGlobalVariable(\"email2\", \"ejhan4@myseneca.ca\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/User",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"FirstName\": \"{{firstname}}\",\r\n\t\"LastName\": \"{{lastname}}\",\r\n\t\"Email\": \"{{email}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;\n    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;\n    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;\n    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"itemid\", jsonData.ItemId);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");\npostman.setGlobalVariable(\"itemPrice\", 25.99);\npostman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");\npostman.setGlobalVariable(\"itemStatus\", \"Available\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Item",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Title\": \"{{itemTitle}}\",\r\n\t\"Price\": \"{{itemPrice}}\",\r\n\t\"Description\": \"{{itemDesc}}\",\r\n\t\"Status\": \"{{itemStatus}}\",\r\n\t\"SellerId\": \"{{userid}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add message (Invalid user)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Bad request\"] = responseCode.code === 400;"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Message",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Text\": \"{{messagetext}}\",\r\n\t\"SenderId\": 9999999,\r\n\t\"ReceiverId\": 99999999,\r\n\t\"ItemId\": \"{{itemid}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add message (Invalid item)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Bad request\"] = responseCode.code === 400;"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Message",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Text\": \"{{messagetext}}\",\r\n\t\"SenderId\": \"{{userid}}\",\r\n\t\"ReceiverId\": \"{{userid2}}\",\r\n\t\"ItemId\": 9999999\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid text\"] = jsonData.Text === globals.messagetext;\n    tests[\"Valid sender\"] = jsonData.SenderId == globals.userid;\n    tests[\"Valid receiver\"] = jsonData.ReceiverId == globals.userid2;\n    tests[\"Valid item\"] = jsonData.ItemId == globals.itemid;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"messageid\", jsonData.MessageId);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Message",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Text\": \"{{messagetext}}\",\r\n\t\"SenderId\": \"{{userid}}\",\r\n\t\"ReceiverId\": \"{{userid2}}\",\r\n\t\"ItemId\": \"{{itemid}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all messages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/Message",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get message by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid text\"] = jsonData.Text === globals.messagetext;\n    tests[\"Valid receiver\"] = jsonData.ReceiverId == globals.userid2;\n    tests[\"Valid item\"] = jsonData.ItemId == globals.itemid;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Message/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Message",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{messageid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get messages by user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Message/filter/User/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Message",
+								"filter",
+								"User",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Message/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Message",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{messageid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get message by Id (Not found)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 404\"] = responseCode.code === 404;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/Message/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"Message",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{messageid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Site",
+			"description": "",
+			"item": [
+				{
+					"name": "Documentation page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/help",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "Add user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"userid\", jsonData.UserId);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/User",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"FirstName\": \"{{firstname}}\",\r\n\t\"LastName\": \"{{lastname}}\",\r\n\t\"Email\": \"{{email}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/User",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/User/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"User",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/User/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"User",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by Id (Not found)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 404\"] = responseCode.code === 404;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://localhost:35810/api/User/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"localhost"
+							],
+							"port": "35810",
+							"path": [
+								"api",
+								"User",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add user (Invalid data)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Bad request\"] = responseCode.code === 400;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Contains ModelState\"] = jsonData.hasOwnProperty('ModelState') === true;\n}\ncatch (e) {}"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/User",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"blah\": \"null\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
