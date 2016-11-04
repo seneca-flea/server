@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "Seneca Flea Tests",
-		"_postman_id": "16fbfe5d-8a0f-8a45-bbe8-4ee7f4e5754c",
+		"_postman_id": "ea89d037-bf7b-ddea-908b-deea14e6baa5",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -23,7 +23,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Item/",
+						"url": "http://senecaflea.azurewebsites.net/api/Item/",
 						"method": "POST",
 						"header": [
 							{
@@ -59,7 +59,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Item",
+						"url": "http://senecaflea.azurewebsites.net/api/Item",
 						"method": "POST",
 						"header": [
 							{
@@ -95,7 +95,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/User",
+						"url": "http://senecaflea.azurewebsites.net/api/User",
 						"method": "POST",
 						"header": [
 							{
@@ -131,7 +131,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Item",
+						"url": "http://senecaflea.azurewebsites.net/api/Item",
 						"method": "POST",
 						"header": [
 							{
@@ -161,13 +161,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Item/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/Item/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Item",
@@ -203,13 +204,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Item/filter/status/:status",
+							"raw": "http://senecaflea.azurewebsites.net/api/Item/filter/status/:status",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Item",
@@ -247,13 +249,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Item/filter/title/:title",
+							"raw": "http://senecaflea.azurewebsites.net/api/Item/filter/title/:title",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Item",
@@ -265,6 +268,51 @@
 								{
 									"value": "{{itemTitle}}",
 									"id": "title"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get items by user Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://senecaflea.azurewebsites.net/api/Item/filter/user/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"senecaflea",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"Item",
+								"filter",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
 								}
 							]
 						},
@@ -291,13 +339,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Item/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/Item/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Item",
@@ -333,13 +382,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Item/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/Item/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Item",
@@ -387,7 +437,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/User",
+						"url": "http://senecaflea.azurewebsites.net/api/User",
 						"method": "POST",
 						"header": [
 							{
@@ -423,7 +473,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/User",
+						"url": "http://senecaflea.azurewebsites.net/api/User",
 						"method": "POST",
 						"header": [
 							{
@@ -459,7 +509,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Item",
+						"url": "http://senecaflea.azurewebsites.net/api/Item",
 						"method": "POST",
 						"header": [
 							{
@@ -495,7 +545,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Message",
+						"url": "http://senecaflea.azurewebsites.net/api/Message",
 						"method": "POST",
 						"header": [
 							{
@@ -531,7 +581,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Message",
+						"url": "http://senecaflea.azurewebsites.net/api/Message",
 						"method": "POST",
 						"header": [
 							{
@@ -567,7 +617,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Message",
+						"url": "http://senecaflea.azurewebsites.net/api/Message",
 						"method": "POST",
 						"header": [
 							{
@@ -596,7 +646,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/Message",
+						"url": "http://senecaflea.azurewebsites.net/api/Message",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -620,13 +670,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Message/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/Message/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Message",
@@ -662,13 +713,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Message/filter/User/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/Message/filter/User/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Message",
@@ -706,13 +758,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Message/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/Message/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Message",
@@ -748,13 +801,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/Message/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/Message/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"Message",
@@ -768,6 +822,92 @@
 							]
 						},
 						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://senecaflea.azurewebsites.net/api/User/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"senecaflea",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"User",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://senecaflea.azurewebsites.net/api/User/:id",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"senecaflea",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"User",
+								":id"
+							],
+							"variable": [
+								{
+									"value": "{{userid2}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "formdata",
@@ -795,7 +935,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/help",
+						"url": "http://senecaflea.azurewebsites.net/help",
 						"method": "GET",
 						"header": [
 							{
@@ -837,7 +977,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/User",
+						"url": "http://senecaflea.azurewebsites.net/api/User",
 						"method": "POST",
 						"header": [
 							{
@@ -866,7 +1006,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/User",
+						"url": "http://senecaflea.azurewebsites.net/api/User",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -890,13 +1030,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/User/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/User/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"User",
@@ -932,13 +1073,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/User/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/User/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"User",
@@ -974,13 +1116,14 @@
 					],
 					"request": {
 						"url": {
-							"raw": "http://localhost:35810/api/User/:id",
+							"raw": "http://senecaflea.azurewebsites.net/api/User/:id",
 							"protocol": "http",
 							"auth": {},
 							"host": [
-								"localhost"
+								"senecaflea",
+								"azurewebsites",
+								"net"
 							],
-							"port": "35810",
 							"path": [
 								"api",
 								"User",
@@ -1022,7 +1165,7 @@
 						}
 					],
 					"request": {
-						"url": "http://localhost:35810/api/User",
+						"url": "http://senecaflea.azurewebsites.net/api/User",
 						"method": "POST",
 						"header": [
 							{

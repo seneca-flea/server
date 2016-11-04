@@ -106,6 +106,21 @@ namespace SenecaFleaServer.Tests.Controllers
         }
 
         [TestMethod]
+        public void ItemFilterByUser()
+        {
+            // Arrange
+            Item item = SetUpItemData();
+            SetupController(controller, HttpMethod.Get);
+
+            // Act
+            IHttpActionResult result = controller.FilterByUser(item.SellerId);
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
+            Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().ItemId);
+        }
+
+        [TestMethod]
         public void ItemFilterByTitle()
         {
             // Arrange

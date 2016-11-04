@@ -513,6 +513,12 @@
             </summary>
             <param name="id">Item Id</param>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByUser(System.Nullable{System.Int32})">
+            <summary>
+            Filter items by user
+            </summary>
+            <param name="id">User Id</param>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByTitle(System.String)">
             <summary>
             Filter items by title

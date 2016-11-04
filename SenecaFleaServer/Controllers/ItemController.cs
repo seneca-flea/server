@@ -158,6 +158,24 @@ namespace SenecaFleaServer.Controllers
             m.ItemDelete(id);
         }
 
+        // GET: /api/Item/filter/user/{userid}
+        /// <summary>
+        /// Filter items by user
+        /// </summary>
+        /// <param name="id">User Id</param>
+        [HttpGet, Route("api/Item/filter/user/{id}")]
+        [ResponseType(typeof(IEnumerable<ItemBase>))]
+        public IHttpActionResult FilterByUser(int? id)
+        {
+            if (id == null) { return BadRequest("Empty request"); }
+
+            var items = m.FilterByUser(id.Value);
+
+            if (items == null) { return NotFound(); }
+
+            return Ok(items);
+        }
+
         // GET: /api/Item/filter/title/{title}
         /// <summary>
         /// Filter items by title

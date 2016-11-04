@@ -120,6 +120,14 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        // Get items by user id
+        public IEnumerable<ItemBase> FilterByUser(int id)
+        {
+            var items = ds.Items.Where(c => c.SellerId == id);
+
+            return Mapper.Map<IEnumerable<ItemBase>>(items);
+        }
+
         // Get items by title
         public IEnumerable<ItemBase> FilterByTitle(string title)
         {
