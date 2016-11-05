@@ -115,10 +115,10 @@ namespace SenecaFleaServer.Controllers
         }
 
         // Add item to a user's favorites
-        public bool UserAddFavorite(UserFavorite data)
+        public bool UserAddFavorite(int userId, int itemId)
         {
-            var user = ds.Users.SingleOrDefault(i => i.UserId == data.UserId);
-            var item = ds.Items.SingleOrDefault(i => i.ItemId == data.ItemId);
+            var user = ds.Users.SingleOrDefault(i => i.UserId == userId);
+            var item = ds.Items.SingleOrDefault(i => i.ItemId == itemId);
 
             if (user == null || item == null)
             {
@@ -135,10 +135,10 @@ namespace SenecaFleaServer.Controllers
         }
 
         // Remove item from a user's favorites
-        public bool UserRemoveFavorite(UserFavorite data)
+        public bool UserRemoveFavorite(int userId, int itemId)
         {
-            var user = ds.Users.SingleOrDefault(i => i.UserId == data.UserId);
-            var item = ds.Items.SingleOrDefault(i => i.ItemId == data.ItemId);
+            var user = ds.Users.SingleOrDefault(i => i.UserId == userId);
+            var item = ds.Items.SingleOrDefault(i => i.ItemId == itemId);
 
             if (user == null || item == null)
             {

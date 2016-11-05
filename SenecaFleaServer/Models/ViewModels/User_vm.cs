@@ -59,13 +59,4 @@ namespace SenecaFleaServer.Models
 
         public virtual ICollection<PurchaseHistory> PurchaseHistories { get; set; }
     }
-
-    public class UserFavorite
-    {
-        [Key]
-        public int UserId { get; set; }
-
-        [Required]
-        public int ItemId { get; set; }
-    }
 }

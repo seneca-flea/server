@@ -174,7 +174,7 @@ namespace SenecaFleaServer.Controllers
         // Get items within price range
         public IEnumerable<ItemBase> FilterByPriceRange(decimal min, decimal max)
         {
-            var items = ds.Items.Where(d => d.Price >= min && d.Price <= max);
+            var items = ds.Items.Where(d => d.Price >= min && d.Price <= max).Take(100);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }

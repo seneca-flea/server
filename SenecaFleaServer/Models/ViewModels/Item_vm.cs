@@ -54,10 +54,4 @@ namespace SenecaFleaServer.Models
         public string ContentType { get; set; }
         public byte[] Photo { get; set; }
     }
-
-    public class PriceRange
-    {
-        public decimal min { get; set; }
-        public decimal max { get; set; }
-    }
 }

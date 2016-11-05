@@ -248,19 +248,20 @@ namespace SenecaFleaServer.Controllers
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/price
+        // GET: /api/Item/filter/price/{min}{max}
         /// <summary>
         /// Filter items by price range
         /// </summary>
-        /// <param name="range">Price range</param>
-        [HttpGet, Route("api/Item/filter/price")]
+        /// <param name="min">Minimum price</param>
+        /// <param name="max">Maximum price</param>
+        [HttpGet, Route("api/Item/filter/price/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
-        public IHttpActionResult FilterByPriceRange([FromBody]PriceRange range)
+        public IHttpActionResult FilterByPriceRange(int? min, int? max)
         {
-            if (range == null) { return BadRequest("Empty request"); }
-            if (range.min > range.max) { return BadRequest("Invalid parameters"); }
+            if (min == null || max == null) { return BadRequest("Missing parameters"); }
+            if (min.Value > max.Value) { return BadRequest("Invalid parameters"); }
 
-            var items = m.FilterByPriceRange(range.min, range.max);
+            var items = m.FilterByPriceRange(min.Value, max.Value);
 
             if (items == null) { return NotFound(); }
 

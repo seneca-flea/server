@@ -180,30 +180,21 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Add a favourite
         /// </summary>
-        /// <param name="id">User Id</param>
-        /// <param name="favorite"></param>
-        [HttpPut, Route("api/User/{id}/AddFavorite")]
-        public IHttpActionResult AddFavorite(int? id, [FromBody]UserFavorite favorite)
+        /// <param name="userId">User Id</param>
+        /// <param name="itemId">Item Id</param>
+        [HttpPut, Route("api/User/{userId}/AddFavorite/{itemId}")]
+        public IHttpActionResult AddFavorite(int? userId, int? itemId)
         {
             // Ensure that an "editedItem" is in the entity body
-            if (favorite == null)
+            if (userId == null || itemId == null)
             {
-                return BadRequest("Must send an entity body with the request");
+                return BadRequest("Missing parameters");
             }
 
-            // Ensure that the id value in the URI matches the id value in the entity body
-            if (id.GetValueOrDefault() != favorite.UserId)
-            {
-                return BadRequest("Invalid data in the entity body");
-            }
+            // Add favorite
+            var added = m.UserAddFavorite(userId.Value, itemId.Value);
 
-            // Ensure that we can use the incoming data
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
-
-            // Attempt to add favorite
-            var addedFavorite = m.UserAddFavorite(favorite);
-
-            if (!addedFavorite)
+            if (!added)
             {
                 return BadRequest("Cannot add item to favorites");
             }
@@ -217,30 +208,28 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Remove a favourite
         /// </summary>
-        /// <param name="id">User Id</param>
-        /// <param name="favorite"></param>
-        [HttpPut, Route("api/User/{id}/RemoveFavorite")]
-        public IHttpActionResult RemoveFavorite(int? id, [FromBody]UserFavorite favorite)
+        /// <param name="userId">User Id</param>
+        /// <param name="itemId">Item Id</param>
+        [HttpPut, Route("api/User/{userId}/RemoveFavorite/{itemId}")]
+        public IHttpActionResult RemoveFavorite(int? userId, int? itemId)
         {
             // Ensure that an "editedItem" is in the entity body
-            if (favorite == null)
+            if (userId == null || itemId == null)
             {
-                return BadRequest("Must send an entity body with the request");
+                return BadRequest("Missing parameters");
             }
-
-            // Ensure that the id value in the URI matches the id value in the entity body
-            if (id.GetValueOrDefault() != favorite.UserId)
-            {
-                return BadRequest("Invalid data in the entity body");
-            }
-
-            // Ensure that we can use the incoming data
-            if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
             // Remove favorite
-            var removedFavorite = m.UserRemoveFavorite(favorite);
+            var removed = m.UserRemoveFavorite(userId.Value, itemId.Value);
 
-            return Ok();
+            if (!removed)
+            {
+                return BadRequest("Cannot remove item to favorites");
+            }
+            else
+            {
+                return Ok();
+            }
         }
 
         // DELETE: api/User/5

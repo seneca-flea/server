@@ -127,14 +127,8 @@ namespace SenecaFleaServer.Tests.Controllers
             Item item = GetItemData();
             SetupController(controller, HttpMethod.Put);
 
-            var favoriteData = new UserFavorite
-            {
-                UserId = user.UserId,
-                ItemId = item.ItemId
-            };
-
             // Act
-            IHttpActionResult result = controller.AddFavorite(user.UserId, favoriteData);
+            IHttpActionResult result = controller.AddFavorite(user.UserId, item.ItemId);
 
             // Assert
             Assert.IsTrue(user.FavoriteItems.Contains(item));
@@ -151,14 +145,8 @@ namespace SenecaFleaServer.Tests.Controllers
             user.FavoriteItems.Add(item);
             Assert.IsTrue(user.FavoriteItems.Contains(item));
 
-            var favoriteData = new UserFavorite
-            {
-                UserId = user.UserId,
-                ItemId = item.ItemId
-            };
-
             // Act
-            IHttpActionResult result = controller.RemoveFavorite(user.UserId, favoriteData);
+            IHttpActionResult result = controller.RemoveFavorite(user.UserId, item.ItemId);
 
             // Assert
             Assert.IsFalse(user.FavoriteItems.Contains(item));

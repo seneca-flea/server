@@ -543,11 +543,12 @@
             </summary>
             <param name="courseCode">Course Code</param>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByPriceRange(SenecaFleaServer.Models.PriceRange)">
+        <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByPriceRange(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Filter items by price range
             </summary>
-            <param name="range">Price range</param>
+            <param name="min">Minimum price</param>
+            <param name="max">Maximum price</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Get">
             <summary>
@@ -637,19 +638,19 @@
             <param name="id">User Id</param>
             <param name="editedItem"></param>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.UserController.AddFavorite(System.Nullable{System.Int32},SenecaFleaServer.Models.UserFavorite)">
+        <member name="M:SenecaFleaServer.Controllers.UserController.AddFavorite(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Add a favourite
             </summary>
-            <param name="id">User Id</param>
-            <param name="favorite"></param>
+            <param name="userId">User Id</param>
+            <param name="itemId">Item Id</param>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.UserController.RemoveFavorite(System.Nullable{System.Int32},SenecaFleaServer.Models.UserFavorite)">
+        <member name="M:SenecaFleaServer.Controllers.UserController.RemoveFavorite(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Remove a favourite
             </summary>
-            <param name="id">User Id</param>
-            <param name="favorite"></param>
+            <param name="userId">User Id</param>
+            <param name="itemId">Item Id</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Delete(System.Int32)">
             <summary>

@@ -187,14 +187,8 @@ namespace SenecaFleaServer.Tests.Controllers
             Item item = SetUpItemData();
             SetupController(controller, HttpMethod.Get);
 
-            var range = new PriceRange
-            {
-                min = 30,
-                max = 60,
-            };
-
             // Act
-            IHttpActionResult result = controller.FilterByPriceRange(range);
+            IHttpActionResult result = controller.FilterByPriceRange(30, 60);
 
             // Assert
             var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
