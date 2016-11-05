@@ -123,7 +123,8 @@ namespace SenecaFleaServer.Controllers
         // Get items by user id
         public IEnumerable<ItemBase> FilterByUser(int id)
         {
-            var items = ds.Items.Where(c => c.SellerId == id);
+            var items = ds.Items.Where(c => c.SellerId == id)
+                .OrderByDescending(x => x.ItemId);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
