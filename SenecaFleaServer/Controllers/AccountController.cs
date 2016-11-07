@@ -153,6 +153,28 @@ namespace SenecaFleaServer.Controllers
             return Ok();
         }
 
+
+        // POST api/Account/SetPassword
+        [Route("SetLocation")]
+        public async Task<IHttpActionResult> SetLocation(SetLocationBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            
+
+            //if (!result.Succeeded)
+            //{
+            //    return GetErrorResult(result);
+            //}
+
+            return Ok();
+        }
+
+
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
@@ -332,12 +354,25 @@ namespace SenecaFleaServer.Controllers
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
+                // Add the new claims that were submitted by the user/requestor
+                await UserManager.AddClaimAsync(user.Id, new Claim(ClaimTypes.Email, model.Email));
+                await UserManager.AddClaimAsync(user.Id, new Claim(ClaimTypes.Role, "User"));
+                //await UserManager.AddClaimAsync(user.Id, new Claim(ClaimTypes.GivenName, model.GivenName));
+                //await UserManager.AddClaimAsync(user.Id, new Claim(ClaimTypes.Surname, model.Surname));
+
+                foreach (var role in model.Roles)
+                {
+                    await UserManager.AddClaimAsync(user.Id, new Claim(ClaimTypes.Role, role));
+                }
+            }
+            else
+            { 
                 return GetErrorResult(result);
             }
 
-            return Ok();
+            return Ok(new { Message = user.Email + " was successfuly registered" });
         }
 
         // POST api/Account/RegisterExternal
