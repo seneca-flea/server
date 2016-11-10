@@ -45,7 +45,7 @@ namespace SenecaFleaServer.Controllers
         {
             var o = m.UserGetById(id.GetValueOrDefault());
 
-            if(o == null)
+            if (o == null)
             {
                 return NotFound();
             }
@@ -174,6 +174,20 @@ namespace SenecaFleaServer.Controllers
                     return Ok(changedItem);
                 }
             }
+        }
+
+        // GET: api/User/5/Favorites
+        /// <summary>
+        /// Get favourites
+        /// </summary>
+        /// <param name="id">User Id</param>
+        [HttpGet, Route("api/User/{id}/Favorites")]
+        [ResponseType(typeof(IEnumerable<ItemBase>))]
+        public IHttpActionResult GetFavorite(int? id)
+        {
+            var items = m.UserGetFavorite(id.GetValueOrDefault());
+
+            return Ok(items);
         }
 
         // PUT: api/User/5/AddFavorite

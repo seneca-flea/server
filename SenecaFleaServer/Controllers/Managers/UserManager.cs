@@ -114,6 +114,23 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        // Get favorites from user
+        public IEnumerable<ItemBase> UserGetFavorite(int userId)
+        {
+            var user = ds.Users.Find(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+            else
+            {
+                var items = user.FavoriteItems;
+
+                return Mapper.Map<IEnumerable<ItemBase>>(items);
+            }
+        }
+
         // Add item to a user's favorites
         public bool UserAddFavorite(int userId, int itemId)
         {

@@ -10,6 +10,7 @@ using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using System.Web.Http.Controllers;
 using System.Collections.Generic;
+using System.Linq;
 #pragma warning disable CS0618
 
 namespace SenecaFleaServer.Tests.Controllers
@@ -117,6 +118,22 @@ namespace SenecaFleaServer.Tests.Controllers
             // Assert
             result = context.Users.Find(id);
             Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void UserGetFavorite()
+        {
+            // Arrange
+            User user = SetupUserData();
+            Item item = GetItemData();
+            user.FavoriteItems.Add(item);
+
+            // Act
+            IHttpActionResult result = controller.GetFavorite(user.UserId);
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<ItemBase>>;
+            Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().ItemId);
         }
 
         [TestMethod]

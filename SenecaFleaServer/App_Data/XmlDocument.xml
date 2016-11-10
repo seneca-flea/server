@@ -638,6 +638,12 @@
             <param name="id">User Id</param>
             <param name="editedItem"></param>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.UserController.GetFavorite(System.Nullable{System.Int32})">
+            <summary>
+            Get favourites
+            </summary>
+            <param name="id">User Id</param>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.AddFavorite(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Add a favourite
