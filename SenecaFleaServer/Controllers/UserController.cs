@@ -9,6 +9,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
+    //[Authorize]
     public class UserController : ApiController
     {
         // TODO: View user's bought or sold items

@@ -9,6 +9,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
+    //[Authorize]
     public class ItemController : ApiController
     {
         // TODO: Filter items by book information (title, author)

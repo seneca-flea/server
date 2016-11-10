@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SenecaFleaServer.Models
 {
@@ -48,6 +49,32 @@ namespace SenecaFleaServer.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        //[Display(Name = "Given (first) name(s)")]
+        //[Required, StringLength(128, ErrorMessage = "The {0} must be {2} or fewer characters.")]
+        //public string GivenName { get; set; }
+
+        //[Display(Name = "Surname (family name)")]
+        //[Required, StringLength(128, ErrorMessage = "The {0} must be {2} or fewer characters.")]
+        //public string Surname { get; set; }
+
+        [Display(Name = "Given (first) name(s)")]
+        [Required, StringLength(128, ErrorMessage = "The {0} must be {2} or fewer characters.")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "LastName (family name)")]
+        [Required, StringLength(128, ErrorMessage = "The {0} must be {2} or fewer characters.")]
+        public string LastName { get; set; }
+
+        [Display(Name = "PhoneNumber")]        
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "PreferableLocation")]
+        public Location PreferableLocation { get; set; }
+
+        public ICollection<string> Roles { get; set; }
+
+        // User(Seller, Buyer), Administrator
     }
 
     public class RegisterExternalBindingModel
@@ -80,5 +107,12 @@ namespace SenecaFleaServer.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class SetLocationBindingModel
+    {
+        [Required]
+        [Display(Name = "PreferableLocation")]
+        public LocationAdd PreferableLocation { get; set; }
     }
 }
