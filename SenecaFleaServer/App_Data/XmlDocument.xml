@@ -658,6 +658,19 @@
             <param name="userId">User Id</param>
             <param name="itemId">Item Id</param>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.UserController.GetHistory(System.Nullable{System.Int32})">
+            <summary>
+            Get user's purchase history
+            </summary>
+            <param name="id">User Id</param>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.UserController.AddHistory(System.Nullable{System.Int32},SenecaFleaServer.Models.PurchaseHistoryAdd)">
+            <summary>
+            Add to user's purchase history
+            </summary>
+            <param name="id">User Id</param>
+            <param name="obj"></param>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Delete(System.Int32)">
             <summary>
             Delete a user

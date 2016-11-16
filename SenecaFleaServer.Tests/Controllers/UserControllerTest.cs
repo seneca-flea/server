@@ -193,6 +193,29 @@ namespace SenecaFleaServer.Tests.Controllers
             Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().Item.ItemId);
         }
 
+        [TestMethod]
+        public void UserAddHistory()
+        {
+            // Arrange
+            User user = SetupUserData();
+            Item item = GetItemData();
+            SetupController(controller, HttpMethod.Post);
+
+            var history = new PurchaseHistoryAdd
+            {
+                ItemId = item.ItemId,
+                SellerId = user.UserId
+            };
+
+            // Act
+            controller.AddHistory(user.UserId, history);
+
+            // Assert
+            var result = user.PurchaseHistories.FirstOrDefault();
+            Assert.IsTrue(result.Item.ItemId == item.ItemId);
+            Assert.IsTrue(result.Seller.UserId == user.UserId);
+        }
+
         // ##################################################################
         // Retrieve sample data
         public User GetUserData()

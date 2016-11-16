@@ -14,15 +14,21 @@ namespace SenecaFleaServer.Models
         }
 
         [Required]
-        public int Id { get; set; }
-
-        [Required]
         public ItemBase Item { get; set; }
 
         [Required]
-        public User Seller { get; set; }
+        public UserBase Seller { get; set; }
 
         [Required]
         public DateTime PurchaseDate { get; set; }
+    }
+
+    public class PurchaseHistoryAdd
+    {
+        [Required]
+        public int ItemId { get; set; }
+
+        [Required]
+        public int SellerId { get; set; }
     }
 }

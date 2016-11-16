@@ -27,8 +27,10 @@ namespace SenecaFleaServer.Models
         public int UserId { get; set; }
 
         public bool IsLogged { get; set; }
+    }
 
-        //ATTENTION: make a different class to get PreferableLocation?
+    public class UserWithLocation : UserBase
+    {
         public virtual Location PreferableLocation { get; set; }
     }
 
@@ -51,7 +53,7 @@ namespace SenecaFleaServer.Models
         public virtual Location PreferableLocation { get; set; }
     }
 
-    public class UserWithAllInfo : UserBase
+    public class UserWithAllInfo : UserWithLocation
     {
         public virtual ICollection<Item> FavoriteItems { get; set; }
 

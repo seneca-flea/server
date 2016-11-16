@@ -12,8 +12,6 @@ namespace SenecaFleaServer.Controllers
     //[Authorize]
     public class UserController : ApiController
     {
-        // TODO: View user's bought or sold items
-
         private UserManager m;
 
         public UserController()
@@ -248,13 +246,43 @@ namespace SenecaFleaServer.Controllers
         }
 
         // GET: api/User/5/History
-        [HttpPut, Route("api/User/{userId}/RemoveFavorite/{itemId}")]
+        /// <summary>
+        /// Get user's purchase history
+        /// </summary>
+        /// <param name="id">User Id</param>
+        [HttpGet, Route("api/User/{id}/History")]
         [ResponseType(typeof(IEnumerable<PurchaseHistoryBase>))]
         public IHttpActionResult GetHistory(int? id)
         {
             var items = m.UserGetHistory(id.GetValueOrDefault());
 
             return Ok(items);
+        }
+
+        // POST: api/User/5/History
+        /// <summary>
+        /// Add to user's purchase history
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <param name="obj"></param>
+        [HttpPost, Route("api/User/{id}/History")]
+        public IHttpActionResult AddHistory(int? id, [FromBody]PurchaseHistoryAdd obj)
+        {
+            if (obj == null)
+            {
+                return BadRequest("Must send an entity body with the request");
+            }
+
+            var added = m.UserAddHistory(id.GetValueOrDefault(), obj);
+
+            if (!added)
+            {
+                return BadRequest("Cannot add to history");
+            }
+            else
+            {
+                return Ok();
+            }
         }
 
         // DELETE: api/User/5

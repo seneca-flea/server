@@ -187,5 +187,28 @@ namespace SenecaFleaServer.Controllers
                 return Mapper.Map<IEnumerable<PurchaseHistoryBase>>(items);
             }
         }
+
+        // Add to user's purchase history
+        public bool UserAddHistory(int userId, PurchaseHistoryAdd obj)
+        {
+            var user = ds.Users.SingleOrDefault(i => i.UserId == userId);
+            var seller = ds.Users.SingleOrDefault(i => i.UserId == obj.SellerId);
+            var item = ds.Items.SingleOrDefault(i => i.ItemId == obj.ItemId);
+
+            if (user == null && seller == null && item == null)
+            {
+                return false;
+            }
+            else
+            {
+                user.PurchaseHistories.Add(new PurchaseHistory
+                {
+                    Item = item,
+                    Seller = seller
+                });
+
+                return true;
+            }
+        }
     }
 }
