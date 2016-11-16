@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -132,7 +133,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">Item Id</param>
         /// <param name="photo">Image data</param>
-        [Route("api/item/{id}/addimage")]
+        [Route("api/Item/{id}/addimage")]
         [HttpPost]
         public IHttpActionResult AddImage(int id, [FromBody]byte[] photo)
         {
@@ -159,30 +160,30 @@ namespace SenecaFleaServer.Controllers
             m.ItemDelete(id);
         }
 
-        // GET: /api/Item/filter/user/{userid}
+        // GET: /api/Item/filter/user
         /// <summary>
         /// Filter items by user
         /// </summary>
-        /// <param name="id">User Id</param>
-        [HttpGet, Route("api/Item/filter/user/{id}")]
+        /// <param name="userid">User Id</param>
+        [HttpGet, Route("api/Item/filter/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
-        public IHttpActionResult FilterByUser(int? id)
+        public IHttpActionResult FilterByUser(int? userid)
         {
-            if (id == null) { return BadRequest("Empty request"); }
+            if (userid == null) { return BadRequest("Empty request"); }
 
-            var items = m.FilterByUser(id.Value);
+            var items = m.FilterByUser(userid.Value);
 
             if (items == null) { return NotFound(); }
 
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/title/{title}
+        // GET: /api/Item/filter/title
         /// <summary>
         /// Filter items by title
         /// </summary>
         /// <param name="title">Title</param>
-        [HttpGet, Route("api/Item/filter/title/{title}")]
+        [HttpGet, Route("api/Item/filter")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByTitle(string title)
         {
@@ -195,12 +196,12 @@ namespace SenecaFleaServer.Controllers
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/status/{status}
+        // GET: /api/Item/filter/status
         /// <summary>
         /// Filter items by status
         /// </summary>
         /// <param name="status">Status</param>
-        [HttpGet, Route("api/Item/filter/status/{status}")]
+        [HttpGet, Route("api/Item/filter/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByStatus(string status)
         {
@@ -213,43 +214,43 @@ namespace SenecaFleaServer.Controllers
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/coursename/{coursename}
+        // GET: /api/Item/filter/coursename
         /// <summary>
         /// Filter items by course name
         /// </summary>
-        /// <param name="courseName">Course Name</param>
-        [HttpGet, Route("api/Item/filter/coursename/{coursename}")]
+        /// <param name="coursename">Course Name</param>
+        [HttpGet, Route("api/Item/filter")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
-        public IHttpActionResult FilterByCourseName(string courseName)
+        public IHttpActionResult FilterByCourseName(string coursename)
         {
-            if (courseName == null) { return BadRequest("Empty request"); }
+            if (coursename == null) { return BadRequest("Empty request"); }
 
-            var items = m.FilterByCourseName(courseName);
+            var items = m.FilterByCourseName(coursename);
 
             if (items == null) { return NotFound(); }
 
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/coursecode/{coursecode}
+        // GET: /api/Item/filter/coursecode
         /// <summary>
         /// Filter items by course code
         /// </summary>
-        /// <param name="courseCode">Course Code</param>
-        [HttpGet, Route("api/Item/filter/coursecode/{coursecode}")]
+        /// <param name="coursecode">Course Code</param>
+        [HttpGet, Route("api/Item/filter/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
-        public IHttpActionResult FilterByCourseCode(string courseCode)
+        public IHttpActionResult FilterByCourseCode(string coursecode)
         {
-            if (courseCode == null) { return BadRequest("Empty request"); }
+            if (coursecode == null) { return BadRequest("Empty request"); }
 
-            var items = m.FilterByCourseCode(courseCode);
+            var items = m.FilterByCourseCode(coursecode);
 
             if (items == null) { return NotFound(); }
 
             return Ok(items);
         }
 
-        // GET: /api/Item/filter/price/{min}{max}
+        // GET: /api/Item/filter/price
         /// <summary>
         /// Filter items by price range
         /// </summary>

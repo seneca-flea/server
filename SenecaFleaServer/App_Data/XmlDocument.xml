@@ -517,7 +517,7 @@
             <summary>
             Filter items by user
             </summary>
-            <param name="id">User Id</param>
+            <param name="userid">User Id</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByTitle(System.String)">
             <summary>
@@ -535,13 +535,13 @@
             <summary>
             Filter items by course name
             </summary>
-            <param name="courseName">Course Name</param>
+            <param name="coursename">Course Name</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByCourseCode(System.String)">
             <summary>
             Filter items by course code
             </summary>
-            <param name="courseCode">Course Code</param>
+            <param name="coursecode">Course Code</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.FilterByPriceRange(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
