@@ -254,6 +254,7 @@
     <Compile Include="Models\ModelClasses\PurchaseHistory.cs" />
     <Compile Include="Models\ViewModels\Item_vm.cs" />
     <Compile Include="Models\ViewModels\Message_vm.cs" />
+    <Compile Include="Models\ViewModels\PurchaseHistory_vm.cs" />
     <Compile Include="Models\ViewModels\User_vm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />

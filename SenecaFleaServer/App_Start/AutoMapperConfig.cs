@@ -26,6 +26,8 @@ namespace SenecaFleaServer
             Mapper.CreateMap<UserAdd, User>();
             Mapper.CreateMap<User, UserBase>();
 
+            Mapper.CreateMap<PurchaseHistory, PurchaseHistoryBase>();
+
 #pragma warning restore CS0618
         }
     }

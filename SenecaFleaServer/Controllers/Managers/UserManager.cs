@@ -170,5 +170,22 @@ namespace SenecaFleaServer.Controllers
                 return true;
             }
         }
+
+        // Get user's purchase history
+        public IEnumerable<PurchaseHistoryBase> UserGetHistory(int id)
+        {
+            var user = ds.Users.SingleOrDefault(i => i.UserId == id);
+
+            if (user == null)
+            {
+                return null;
+            }
+            else
+            {
+                var items = user.PurchaseHistories;
+
+                return Mapper.Map<IEnumerable<PurchaseHistoryBase>>(items);
+            }
+        }
     }
 }

@@ -169,6 +169,30 @@ namespace SenecaFleaServer.Tests.Controllers
             Assert.IsFalse(user.FavoriteItems.Contains(item));
         }
 
+        [TestMethod]
+        public void UserGetHistory()
+        {
+            // Arrange
+            User user = SetupUserData();
+            Item item = GetItemData();
+            SetupController(controller, HttpMethod.Get);
+
+            var history = new PurchaseHistory
+            {
+                Item = item,
+                Seller = new User()
+            };
+
+            user.PurchaseHistories.Add(history);
+
+            // Act
+            IHttpActionResult result = controller.GetHistory(user.UserId);
+
+            // Assert
+            var negResult = result as OkNegotiatedContentResult<IEnumerable<PurchaseHistoryBase>>;
+            Assert.AreEqual(item.ItemId, negResult.Content.FirstOrDefault().Item.ItemId);
+        }
+
         // ##################################################################
         // Retrieve sample data
         public User GetUserData()

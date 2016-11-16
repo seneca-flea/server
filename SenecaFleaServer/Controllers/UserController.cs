@@ -247,6 +247,16 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        // GET: api/User/5/History
+        [HttpPut, Route("api/User/{userId}/RemoveFavorite/{itemId}")]
+        [ResponseType(typeof(IEnumerable<PurchaseHistoryBase>))]
+        public IHttpActionResult GetHistory(int? id)
+        {
+            var items = m.UserGetHistory(id.GetValueOrDefault());
+
+            return Ok(items);
+        }
+
         // DELETE: api/User/5
         /// <summary>
         /// Delete a user
