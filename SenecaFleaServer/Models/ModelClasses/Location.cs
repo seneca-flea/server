@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -25,8 +26,14 @@ namespace SenecaFleaServer.Models
 
         [StringLength(10)]
         public string PostalCode { get; set; }
+
+
+        [Column(TypeName = "numeric")]
+        public decimal latitude { get; set; }
+
+        [Column(TypeName = "numeric")]
+        public decimal longitude { get; set; }
         
-        [Required]
-        public virtual GoogleMap map { get; set; }
+        public virtual User User { get; set; }
     }
 }

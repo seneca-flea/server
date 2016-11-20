@@ -3,7 +3,9 @@ using SenecaFleaServer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
+using System.Web.Http;
 
 namespace SenecaFleaServer.Controllers
 {
@@ -25,7 +27,7 @@ namespace SenecaFleaServer.Controllers
         // Get all users
         public IEnumerable<UserBase> UserGetAll()
         {
-            var c = ds.Users.OrderBy(i => i.UserId).Take(100);
+            var c = ds.Users.OrderBy(i => i.UserId);
 
             return Mapper.Map<IEnumerable<UserBase>>(c);
         }
@@ -34,9 +36,27 @@ namespace SenecaFleaServer.Controllers
         public UserBase UserGetById(int id)
         {
             var o = ds.Users.SingleOrDefault(i => i.UserId == id);
-
+            
             return Mapper.Map<UserBase>(o);
         }
+
+        // Get user by identifier
+        public UserWithLocation UserUserWithLocationById(int id)
+        {
+            var o = ds.Users.SingleOrDefault(i => i.UserId == id);
+
+            return Mapper.Map<UserWithLocation>(o);
+        }
+
+        // Get user by identifier
+        public UserWithAllInfo UserGetWithAllInfoById(int id)
+        {
+            var o = ds.Users.SingleOrDefault(i => i.UserId == id);
+            //var oMap = Mapper.Map<UserWithAllInfo>(o);
+
+            return Mapper.Map<UserWithAllInfo>(o);
+        }
+
 
         // Add user
         public UserBase UserAdd(UserAdd newItem)
@@ -57,38 +77,50 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<UserBase>(addedItem);
         }
 
-        // Edit user
-        public UserBase UserEdit(UserEdit editedItem)
-        {
-            if (editedItem == null) { return null; }
+        //// Edit user
+        //public UserBase UserEdit(UserEdit editedItem)
+        //{
+        //    if (editedItem == null) { return null; }
 
-            // Fetch the object
-            //var storedItem = ds.Items.Find(editedItem.ItemId);
-            var storedItem = ds.Users.First(i => i.UserId == editedItem.UserId);
+        //    // Fetch the object
+        //    //var storedItem = ds.Items.Find(editedItem.ItemId);
+        //    var storedItem = ds.Users.First(i => i.UserId == editedItem.UserId);
 
-            if (storedItem == null) { return null; }
+        //    if (storedItem == null) { return null; }
 
-            // Edit object
-            ds.Entry(storedItem).CurrentValues.SetValues(editedItem);
+        //    // Edit object
+        //    ds.Entry(storedItem).CurrentValues.SetValues(editedItem);
 
-            ds.SaveChanges();
+        //    ds.SaveChanges();
 
-            return Mapper.Map<UserBase>(storedItem);
-        }
+        //    return Mapper.Map<UserBase>(storedItem);
+        //}
+
 
         // Edit user location
         public UserBase UserEditLocation(UserEditLocation editedItem)
         {
-            if (editedItem == null) { return null; }
+            //var u = HttpContext.Current.User as ClaimsPrincipal;
+            //if (!HttpContext.Current.User.Identity.IsAuthenticated)
+            //    throw new HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
 
-            // Fetch the object
-            //var storedItem = ds.Items.Find(editedItem.ItemId);
-            var storedItem = ds.Users.First(i => i.UserId == editedItem.UserId);
+            //// Fetch the object
+            //var storedItem = ds.Users.SingleOrDefault(i => i.Email == u.Identity.Name);
 
+            var storedItem = ds.Users.SingleOrDefault(i => i.UserId == editedItem.UserId);
             if (storedItem == null) { return null; }
 
             // Edit object
-            ds.Entry(storedItem).CurrentValues.SetValues(editedItem);
+            if (editedItem.Location.LocationId != 0)
+            {
+                var loc = ds.Locations.SingleOrDefault(e => e.LocationId == editedItem.Location.LocationId);
+                ds.Entry(loc).CurrentValues.SetValues(editedItem.Location);
+            }
+            else
+            {
+                var location = Mapper.Map<Location>(editedItem.Location);
+                storedItem.PreferableLocations.Add(location);
+            }
 
             ds.SaveChanges();
 

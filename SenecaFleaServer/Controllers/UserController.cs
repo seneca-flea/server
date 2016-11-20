@@ -9,7 +9,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class UserController : ApiController
     {
         private UserManager m;
@@ -28,6 +28,7 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Retrieve all users
         /// </summary>
+        [Authorize(Roles = "SenecaFleaAdministrator")]
         [ResponseType(typeof(IEnumerable<UserBase>))]
         public IHttpActionResult Get()
         {
@@ -39,6 +40,7 @@ namespace SenecaFleaServer.Controllers
         /// Retrieve a user
         /// </summary>
         /// <param name="id">User Id</param>
+        [Authorize(Roles = "User, SenecaFleaAdministrator")]
         [ResponseType(typeof(UserBase))]
         public IHttpActionResult Get(int? id)
         {
@@ -54,11 +56,46 @@ namespace SenecaFleaServer.Controllers
             }            
         }
 
+        [Authorize(Roles = "User, SenecaFleaAdministrator")]
+        [Route("api/User/{id}/Location")]
+        [ResponseType(typeof(UserWithAllInfo))]
+        public IHttpActionResult GetUserWithLocation(int? id)
+        {
+            var o = m.UserUserWithLocationById(id.GetValueOrDefault());
+
+            if (o == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(o);
+            }
+        }
+
+        [Authorize(Roles = "User, SenecaFleaAdministrator")]
+        [Route("api/User/{id}/AllInfo")]
+        [ResponseType(typeof(UserWithAllInfo))]
+        public IHttpActionResult GetUserWithAllInfo(int? id)
+        {
+            var o = m.UserGetWithAllInfoById(id.GetValueOrDefault());
+
+            if (o == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(o);
+            }
+        }
+
         // POST: api/User
         /// <summary>
         /// Add a user
         /// </summary>
         /// <param name="newItem"></param>
+        [AllowAnonymous]
         [ResponseType(typeof(UserBase))]
         public IHttpActionResult Post([FromBody]UserAdd newItem)
         {
@@ -84,50 +121,54 @@ namespace SenecaFleaServer.Controllers
             return Created(uri, addedItem);
         }
 
-        // PUT: api/User/5
-        /// <summary>
-        /// Edit a user's info
-        /// </summary>
-        /// <param name="id">User Id</param>
-        /// <param name="editedItem"></param>
-        [ResponseType(typeof(UserBase))]
-        public IHttpActionResult Put(int? id, [FromBody]UserEdit editedItem)
-        {
-            // Ensure that an "editedItem" is in the entity body
-            if (editedItem == null)
-            {
-                return BadRequest("Must send an entity body with the request");
-            }
+        //// PUT: api/User/5
+        ///// <summary>
+        ///// Edit a user's info
+        ///// </summary>
+        ///// <param name="id">User Id</param>
+        ///// <param name="editedItem"></param>
+        //[ResponseType(typeof(UserBase))]
+        //[Authorize(Roles = "SenecaFleaAdministrator")]
+        //public IHttpActionResult Put(int? id, [FromBody]UserEdit editedItem)
+        //{
+        //    // Ensure that an "editedItem" is in the entity body
+        //    if (editedItem == null)
+        //    {
+        //        return BadRequest("Must send an entity body with the request");
+        //    }
 
-            // Ensure that the id value in the URI matches the id value in the entity body
-            if (id.GetValueOrDefault() != editedItem.UserId)
-            {
-                return BadRequest("Invalid data in the entity body");
-            }
+        //    // Ensure that the id value in the URI matches the id value in the entity body
+        //    if (id.GetValueOrDefault() != editedItem.UserId)
+        //    {
+        //        return BadRequest("Invalid data in the entity body");
+        //    }
 
-            // Ensure that we can use the incoming data
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            else
-            {
-                // Attempt to update the item
-                var changedItem = m.UserEdit(editedItem);
+        //    // Ensure that we can use the incoming data
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    else
+        //    {
+        //        // Attempt to update the item
+        //        var changedItem = m.UserEdit(editedItem);
 
-                // Notice the ApiController convenience methods
-                if (changedItem == null)
-                {
-                    // HTTP 400
-                    return BadRequest("Cannot edit the object");
-                }
-                else
-                {
-                    // HTTP 200 with the changed item in the entity body
-                    return Ok(changedItem);
-                }
-            }
-        }
+        //        // Notice the ApiController convenience methods
+        //        if (changedItem == null)
+        //        {
+        //            // HTTP 400
+        //            return BadRequest("Cannot edit the object");
+        //        }
+        //        else
+        //        {
+        //            // HTTP 200 with the changed item in the entity body
+        //            return Ok(changedItem);
+        //        }
+        //    }
+        //}
+
+
+        #region For Users
 
         // PUT: api/User/5
         /// <summary>
@@ -137,6 +178,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="editedItem"></param>
         [Route("api/User/{id}/SetLocation")]
         [ResponseType(typeof(UserBase))]
+        [Authorize(Roles = "User")]
         public IHttpActionResult Put(int? id, [FromBody]UserEditLocation editedItem)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -182,6 +224,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="id">User Id</param>
         [HttpGet, Route("api/User/{id}/Favorites")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
+        [Authorize(Roles = "User")]
         public IHttpActionResult GetFavorite(int? id)
         {
             var items = m.UserGetFavorite(id.GetValueOrDefault());
@@ -196,6 +239,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="userId">User Id</param>
         /// <param name="itemId">Item Id</param>
         [HttpPut, Route("api/User/{userId}/AddFavorite/{itemId}")]
+        [Authorize(Roles = "User")]
         public IHttpActionResult AddFavorite(int? userId, int? itemId)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -224,6 +268,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="userId">User Id</param>
         /// <param name="itemId">Item Id</param>
         [HttpPut, Route("api/User/{userId}/RemoveFavorite/{itemId}")]
+        [Authorize(Roles = "User")]
         public IHttpActionResult RemoveFavorite(int? userId, int? itemId)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -252,6 +297,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="id">User Id</param>
         [HttpGet, Route("api/User/{id}/History")]
         [ResponseType(typeof(IEnumerable<PurchaseHistoryBase>))]
+        [Authorize(Roles = "User")]
         public IHttpActionResult GetHistory(int? id)
         {
             var items = m.UserGetHistory(id.GetValueOrDefault());
@@ -266,6 +312,7 @@ namespace SenecaFleaServer.Controllers
         /// <param name="id">User Id</param>
         /// <param name="obj"></param>
         [HttpPost, Route("api/User/{id}/History")]
+        [Authorize(Roles = "User")]
         public IHttpActionResult AddHistory(int? id, [FromBody]PurchaseHistoryAdd obj)
         {
             if (obj == null)
@@ -290,9 +337,12 @@ namespace SenecaFleaServer.Controllers
         /// Delete a user
         /// </summary>
         /// <param name="id">User Id</param>
+        [Authorize(Roles = "User")]
         public void Delete(int id)
         {
             m.UserDelete(id);
         }
+
+        #endregion For Users
     }
 }

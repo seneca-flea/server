@@ -36,8 +36,5 @@ namespace SenecaFleaServer.Models
         public virtual PickUpDetail PickUp { get; set; }
 
         public int SellerId { get; set; }
-
-
-        //TODO: Miguel, Can we add Book info with optional?
     }
 }

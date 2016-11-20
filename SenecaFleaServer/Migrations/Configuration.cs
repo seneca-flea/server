@@ -10,7 +10,8 @@ namespace SenecaFleaServer.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         public class DBInitializer : DropCreateDatabaseIfModelChanges<DataContext>

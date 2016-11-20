@@ -624,13 +624,6 @@
             </summary>
             <param name="newItem"></param>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.UserController.Put(System.Nullable{System.Int32},SenecaFleaServer.Models.UserEdit)">
-            <summary>
-            Edit a user's info
-            </summary>
-            <param name="id">User Id</param>
-            <param name="editedItem"></param>
-        </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Put(System.Nullable{System.Int32},SenecaFleaServer.Models.UserEditLocation)">
             <summary>
             Edit a user's location

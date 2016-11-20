@@ -24,7 +24,16 @@ namespace SenecaFleaServer
             Mapper.CreateMap<Message, MessageWithItem>();
 
             Mapper.CreateMap<UserAdd, User>();
+            
+            Mapper.CreateMap<LocationBase, Location>();
+            // UserGetById - UserWithLocation
+            Mapper.CreateMap<Location, LocationBase>();
+
+            // User Get
             Mapper.CreateMap<User, UserBase>();
+            Mapper.CreateMap<User, UserWithLocation>();
+            Mapper.CreateMap<User, UserWithAllInfo>();
+            
 
             Mapper.CreateMap<PurchaseHistory, PurchaseHistoryBase>();
 #pragma warning restore CS0618
