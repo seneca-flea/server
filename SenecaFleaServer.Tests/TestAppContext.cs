@@ -24,7 +24,6 @@ namespace SenecaFleaServer.Tests
 
         public override DbSet<Book> Books { get; set; }
         public override DbSet<Course> Courses { get; set; }
-        public override DbSet<GoogleMap> GoogleMaps { get; set; }
         public override DbSet<Image> Images { get; set; }
         public override DbSet<Item> Items { get; set; }
         public override DbSet<Location> Locations { get; set; }

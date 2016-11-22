@@ -61,46 +61,47 @@ namespace SenecaFleaServer.Tests.Controllers
             Assert.AreEqual(userData.UserId, negResult.Content.UserId);
         }
 
-        //[TestMethod]
-        public void UserEdit()
-        {
-            // Arrange
-            SetupUserData();
-            SetupController(controller, HttpMethod.Put);
+        ////[TestMethod]
+        //public void UserEdit()
+        //{
+        //    // Arrange
+        //    SetupUserData();
+        //    SetupController(controller, HttpMethod.Put);
 
-            var itemData = new UserEdit
-            {
-                UserId = 1,
-                PhoneNumber = "123-456-9876"                
-            };
+        //    var itemData = new UserEdit
+        //    {
+        //        UserId = 1,
+        //        PhoneNumber = "123-456-9876"
+        //    };
 
-            // Act
-            //IHttpActionResult result = controller.Put(itemData.ItemId, itemData);
+        //    // Act
+        //    //IHttpActionResult result = controller.Put(itemData.ItemId, itemData);
 
-            // Assert
-            //var negResult = result as OkNegotiatedContentResult<ItemBase>;
-        }
+        //    // Assert
+        //    //var negResult = result as OkNegotiatedContentResult<ItemBase>;
+        //}
 
-        //[TestMethod]
-        public void UserEditLocation()
-        {
-            // Arrange
-            SetupUserData();
-            SetupController(controller, HttpMethod.Put);
+        ////[TestMethod]
+        //public void UserEditLocation()
+        //{
+        //    // Arrange
+        //    SetupUserData();
+        //    SetupController(controller, HttpMethod.Put);
 
-            GoogleMap map = new GoogleMap();
+        //    GoogleMap map = new GoogleMap();
 
-            var userEditLocationData = new UserEditLocation
-            {
-                UserId = 1,
-                PreferableLocation = new Location{
-                    PostalCode = "M2V2C9",
-                    Address = "70 Pond Road",
-                    City ="Toronto",
-                    Province ="ON"//, map
-                }
-            };
-        }
+        //    var userEditLocationData = new UserEditLocation
+        //    {
+        //        UserId = 1,
+        //        PreferableLocation = new Location
+        //        {
+        //            PostalCode = "M2V2C9",
+        //            Address = "70 Pond Road",
+        //            City = "Toronto",
+        //            Province = "ON"//, map
+        //        }
+        //    };
+        //}
 
         [TestMethod]
         public void UserDelete()
@@ -223,23 +224,16 @@ namespace SenecaFleaServer.Tests.Controllers
             var user = new User
             {
                 UserId = 1,
-                FirstName = "Eunju",
-                LastName = "Han",
+                //FirstName = "Eunju",
+                //LastName = "Han",
                 Email = "ejhan4@myseneca.ca",
-                PhoneNumber = "123-456-7890",
-                PreferableLocation = new Location()
-
-                ////these properties are not allowed to add when adding new user
-                //FavoriteItems,
-                //IsLogged,
-                //Messages,
-                //PurchaseHistories
+                //PhoneNumber = "123-456-7890",                
             };
 
             return user;
         }
 
-        // Add sample data to context
+        //Add sample data to context
         private User SetupUserData()
         {
             User user = GetUserData();
