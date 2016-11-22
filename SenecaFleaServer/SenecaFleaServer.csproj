@@ -247,7 +247,6 @@
     <Compile Include="Models\ModelClasses\Message.cs" />
     <Compile Include="Models\ModelClasses\User.cs" />
     <Compile Include="Models\ModelClasses\Book.cs" />
-    <Compile Include="Models\ModelClasses\GoogleMap.cs" />
     <Compile Include="Models\ModelClasses\Image.cs" />
     <Compile Include="Models\ModelClasses\Location.cs" />
     <Compile Include="Models\ModelClasses\PickUpDetail.cs" />
