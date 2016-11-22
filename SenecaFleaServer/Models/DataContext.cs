@@ -23,7 +23,6 @@ namespace SenecaFleaServer.Models
 
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Course> Courses { get; set; }
-        public virtual DbSet<GoogleMap> GoogleMaps { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
