@@ -206,7 +206,10 @@ namespace SenecaFleaServer.Controllers
         // Get user's purchase history
         public IEnumerable<PurchaseHistoryBase> UserGetHistory(int id)
         {
-            var user = ds.Users.SingleOrDefault(i => i.UserId == id);
+            var user = ds.Users
+                .Include("PurchaseHistories")
+                .Include("PurchaseHistories.Item")
+                .SingleOrDefault(i => i.UserId == id);
 
             if (user == null)
             {
@@ -227,17 +230,18 @@ namespace SenecaFleaServer.Controllers
             var seller = ds.Users.SingleOrDefault(i => i.UserId == obj.SellerId);
             var item = ds.Items.SingleOrDefault(i => i.ItemId == obj.ItemId);
 
-            if (user == null && seller == null && item == null)
+            if (user == null || seller == null || item == null)
             {
                 return false;
             }
             else
             {
-                user.PurchaseHistories.Add(new PurchaseHistory
-                {
-                    Item = item,
-                    Seller = seller
-                });
+                var history = Mapper.Map<PurchaseHistory>(obj);
+                history.Item = item;
+
+                ds.PurchaseHistories.Add(history);
+                user.PurchaseHistories.Add(history);
+                ds.SaveChanges();
 
                 return true;
             }

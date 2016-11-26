@@ -36,6 +36,7 @@ namespace SenecaFleaServer
             
 
             Mapper.CreateMap<PurchaseHistory, PurchaseHistoryBase>();
+            Mapper.CreateMap<PurchaseHistoryAdd, PurchaseHistory>();
 #pragma warning restore CS0618
         }
     }

@@ -13,6 +13,8 @@ namespace SenecaFleaServer.Models
             PurchaseDate = DateTime.Now;
         }
 
+        public int Id { get; set; }
+
         [Required]
         public ItemBase Item { get; set; }
 
