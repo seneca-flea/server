@@ -9,7 +9,8 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
-    [Authorize]
+    //[Authorize]
+    [AllowAnonymous]
     public class UserController : ApiController
     {
         private UserManager m;

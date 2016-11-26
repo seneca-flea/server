@@ -18,7 +18,7 @@ namespace SenecaFleaServer.Models
     {
         public DataContext() : base("name=DataContext")
         {
-            Database.SetInitializer(new DBInitializer());
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContext>());
         }
 
         public virtual DbSet<Book> Books { get; set; }

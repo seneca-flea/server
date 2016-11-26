@@ -3,7 +3,7 @@ namespace SenecaFleaServer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class init : DbMigration
+    public partial class v1 : DbMigration
     {
         public override void Up()
         {
@@ -34,16 +34,6 @@ namespace SenecaFleaServer.Migrations
                 .Index(t => t.Item_ItemId);
             
             CreateTable(
-                "dbo.GoogleMaps",
-                c => new
-                    {
-                        GoogleMapId = c.Int(nullable: false, identity: true),
-                        latitude = c.Decimal(nullable: false, precision: 18, scale: 2, storeType: "numeric"),
-                        longitude = c.Decimal(nullable: false, precision: 18, scale: 2, storeType: "numeric"),
-                    })
-                .PrimaryKey(t => t.GoogleMapId);
-            
-            CreateTable(
                 "dbo.Images",
                 c => new
                     {
@@ -65,14 +55,15 @@ namespace SenecaFleaServer.Migrations
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Description = c.String(maxLength: 1000),
                         Status = c.String(maxLength: 35),
+                        SellerId = c.Int(nullable: false),
+                        User_UserId = c.Int(),
                         PickUp_PickUpDetailId = c.Int(),
-                        Seller_UserId = c.Int(),
                     })
                 .PrimaryKey(t => t.ItemId)
+                .ForeignKey("dbo.Users", t => t.User_UserId)
                 .ForeignKey("dbo.PickUpDetails", t => t.PickUp_PickUpDetailId)
-                .ForeignKey("dbo.Users", t => t.Seller_UserId)
-                .Index(t => t.PickUp_PickUpDetailId)
-                .Index(t => t.Seller_UserId);
+                .Index(t => t.User_UserId)
+                .Index(t => t.PickUp_PickUpDetailId);
             
             CreateTable(
                 "dbo.PickUpDetails",
@@ -96,27 +87,22 @@ namespace SenecaFleaServer.Migrations
                         Province = c.String(maxLength: 20),
                         Country = c.String(maxLength: 20),
                         PostalCode = c.String(maxLength: 10),
-                        map_GoogleMapId = c.Int(nullable: false),
+                        latitude = c.Decimal(nullable: false, precision: 18, scale: 2, storeType: "numeric"),
+                        longitude = c.Decimal(nullable: false, precision: 18, scale: 2, storeType: "numeric"),
+                        User_UserId = c.Int(),
                     })
                 .PrimaryKey(t => t.LocationId)
-                .ForeignKey("dbo.GoogleMaps", t => t.map_GoogleMapId)
-                .Index(t => t.map_GoogleMapId);
+                .ForeignKey("dbo.Users", t => t.User_UserId)
+                .Index(t => t.User_UserId);
             
             CreateTable(
                 "dbo.Users",
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
-                        IsLogged = c.Boolean(nullable: false),
-                        FirstName = c.String(nullable: false, maxLength: 100),
-                        LastName = c.String(nullable: false, maxLength: 100),
                         Email = c.String(maxLength: 100),
-                        PhoneNumber = c.String(),
-                        PreferableLocation_LocationId = c.Int(),
                     })
-                .PrimaryKey(t => t.UserId)
-                .ForeignKey("dbo.Locations", t => t.PreferableLocation_LocationId)
-                .Index(t => t.PreferableLocation_LocationId);
+                .PrimaryKey(t => t.UserId);
             
             CreateTable(
                 "dbo.Messages",
@@ -124,18 +110,14 @@ namespace SenecaFleaServer.Migrations
                     {
                         MessageId = c.Int(nullable: false, identity: true),
                         Text = c.String(nullable: false, maxLength: 1000),
+                        SenderId = c.Int(nullable: false),
+                        ReceiverId = c.Int(nullable: false),
                         Time = c.DateTime(nullable: false),
                         ItemId = c.Int(nullable: false),
-                        Receiver_UserId = c.Int(nullable: false),
-                        Sender_UserId = c.Int(nullable: false),
                         User_UserId = c.Int(),
                     })
                 .PrimaryKey(t => t.MessageId)
-                .ForeignKey("dbo.Users", t => t.Receiver_UserId)
-                .ForeignKey("dbo.Users", t => t.Sender_UserId)
                 .ForeignKey("dbo.Users", t => t.User_UserId)
-                .Index(t => t.Receiver_UserId)
-                .Index(t => t.Sender_UserId)
                 .Index(t => t.User_UserId);
             
             CreateTable(
@@ -157,28 +139,22 @@ namespace SenecaFleaServer.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.PurchaseHistories", "Seller_UserId", "dbo.Users");
-            DropForeignKey("dbo.PurchaseHistories", "Item_ItemId", "dbo.Items");
-            DropForeignKey("dbo.Users", "PreferableLocation_LocationId", "dbo.Locations");
-            DropForeignKey("dbo.Messages", "User_UserId", "dbo.Users");
-            DropForeignKey("dbo.Messages", "Sender_UserId", "dbo.Users");
-            DropForeignKey("dbo.Messages", "Receiver_UserId", "dbo.Users");
-            DropForeignKey("dbo.Items", "Seller_UserId", "dbo.Users");
             DropForeignKey("dbo.Items", "PickUp_PickUpDetailId", "dbo.PickUpDetails");
             DropForeignKey("dbo.PickUpDetails", "PickupLocation_LocationId", "dbo.Locations");
-            DropForeignKey("dbo.Locations", "map_GoogleMapId", "dbo.GoogleMaps");
+            DropForeignKey("dbo.PurchaseHistories", "Seller_UserId", "dbo.Users");
+            DropForeignKey("dbo.PurchaseHistories", "Item_ItemId", "dbo.Items");
+            DropForeignKey("dbo.Locations", "User_UserId", "dbo.Users");
+            DropForeignKey("dbo.Messages", "User_UserId", "dbo.Users");
+            DropForeignKey("dbo.Items", "User_UserId", "dbo.Users");
             DropForeignKey("dbo.Images", "Item_ItemId", "dbo.Items");
             DropForeignKey("dbo.Courses", "Item_ItemId", "dbo.Items");
             DropIndex("dbo.PurchaseHistories", new[] { "Seller_UserId" });
             DropIndex("dbo.PurchaseHistories", new[] { "Item_ItemId" });
             DropIndex("dbo.Messages", new[] { "User_UserId" });
-            DropIndex("dbo.Messages", new[] { "Sender_UserId" });
-            DropIndex("dbo.Messages", new[] { "Receiver_UserId" });
-            DropIndex("dbo.Users", new[] { "PreferableLocation_LocationId" });
-            DropIndex("dbo.Locations", new[] { "map_GoogleMapId" });
+            DropIndex("dbo.Locations", new[] { "User_UserId" });
             DropIndex("dbo.PickUpDetails", new[] { "PickupLocation_LocationId" });
-            DropIndex("dbo.Items", new[] { "Seller_UserId" });
             DropIndex("dbo.Items", new[] { "PickUp_PickUpDetailId" });
+            DropIndex("dbo.Items", new[] { "User_UserId" });
             DropIndex("dbo.Images", new[] { "Item_ItemId" });
             DropIndex("dbo.Courses", new[] { "Item_ItemId" });
             DropTable("dbo.PurchaseHistories");
@@ -188,7 +164,6 @@ namespace SenecaFleaServer.Migrations
             DropTable("dbo.PickUpDetails");
             DropTable("dbo.Items");
             DropTable("dbo.Images");
-            DropTable("dbo.GoogleMaps");
             DropTable("dbo.Courses");
             DropTable("dbo.Books");
         }
