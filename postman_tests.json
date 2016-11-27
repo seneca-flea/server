@@ -18,7 +18,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Bad request\"] = responseCode.code === 400;"
+								"exec": [
+									"tests[\"Bad request\"] = responseCode.code === 400;"
+								]
 							}
 						}
 					],
@@ -47,14 +49,21 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Bad request\"] = responseCode.code === 400"
+								"exec": [
+									"tests[\"Bad request\"] = responseCode.code === 400"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");\npostman.setGlobalVariable(\"itemPrice\", 25.99);\npostman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");\npostman.setGlobalVariable(\"itemStatus\", \"Available\");"
+								"exec": [
+									"postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");",
+									"postman.setGlobalVariable(\"itemPrice\", 25.99);",
+									"postman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");",
+									"postman.setGlobalVariable(\"itemStatus\", \"Available\");"
+								]
 							}
 						}
 					],
@@ -83,14 +92,28 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n} \ncatch (e) {}\n\npostman.setGlobalVariable(\"userid\", jsonData.UserId);"
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid email\"] = jsonData.Email === globals.email;",
+									"} ",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"userid\", jsonData.UserId);"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								"exec": [
+									"postman.setGlobalVariable(\"firstname\", \"Ping\");",
+									"postman.setGlobalVariable(\"lastname\", \"Zhang\");",
+									"postman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								]
 							}
 						}
 					],
@@ -119,14 +142,32 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;\n    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;\n    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;\n    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"itemid\", jsonData.ItemId);"
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;",
+									"    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;",
+									"    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;",
+									"    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;",
+									"}",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"itemid\", jsonData.ItemId);"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");\npostman.setGlobalVariable(\"itemPrice\", 25.99);\npostman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");\npostman.setGlobalVariable(\"itemStatus\", \"Available\");"
+								"exec": [
+									"postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");",
+									"postman.setGlobalVariable(\"itemPrice\", 25.99);",
+									"postman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");",
+									"postman.setGlobalVariable(\"itemStatus\", \"Available\");"
+								]
 							}
 						}
 					],
@@ -155,7 +196,18 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;\n    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;\n    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;\n    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;",
+									"    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;",
+									"    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;",
+									"    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
@@ -192,40 +244,26 @@
 					"response": []
 				},
 				{
-					"name": "Get items by title",
+					"name": "Get items by status",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
 					"request": {
-						"url": {
-							"raw": "http://senecaflea.azurewebsites.net/api/Item/filter/status/:status",
-							"protocol": "http",
-							"auth": {},
-							"host": [
-								"senecaflea",
-								"azurewebsites",
-								"net"
-							],
-							"path": [
-								"api",
-								"Item",
-								"filter",
-								"status",
-								":status"
-							],
-							"variable": [
-								{
-									"value": "{{itemStatus}}",
-									"id": "status"
-								}
-							]
-						},
+						"url": "http://senecaflea.azurewebsites.net/api/Item/filter?status=:status",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -237,40 +275,26 @@
 					"response": []
 				},
 				{
-					"name": "Get items by status",
+					"name": "Get items by title",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
 					"request": {
-						"url": {
-							"raw": "http://senecaflea.azurewebsites.net/api/Item/filter/title/:title",
-							"protocol": "http",
-							"auth": {},
-							"host": [
-								"senecaflea",
-								"azurewebsites",
-								"net"
-							],
-							"path": [
-								"api",
-								"Item",
-								"filter",
-								"title",
-								":title"
-							],
-							"variable": [
-								{
-									"value": "{{itemTitle}}",
-									"id": "title"
-								}
-							]
-						},
+						"url": "http://senecaflea.azurewebsites.net/api/Item/filter?title=:title",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -288,34 +312,51 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
 					"request": {
-						"url": {
-							"raw": "http://senecaflea.azurewebsites.net/api/Item/filter/user/:id",
-							"protocol": "http",
-							"auth": {},
-							"host": [
-								"senecaflea",
-								"azurewebsites",
-								"net"
-							],
-							"path": [
-								"api",
-								"Item",
-								"filter",
-								"user",
-								":id"
-							],
-							"variable": [
-								{
-									"value": "{{userid}}",
-									"id": "id"
-								}
-							]
+						"url": "http://senecaflea.azurewebsites.net/api/Item/filter?userid={{userid}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
 						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get items by price range",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://senecaflea.azurewebsites.net/api/Item/filter/price?min=10&max=80",
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -333,7 +374,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 204;"
+								]
 							}
 						}
 					],
@@ -376,7 +419,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 404\"] = responseCode.code === 404;"
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;"
+								]
 							}
 						}
 					],
@@ -425,14 +470,28 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"userid\", jsonData.UserId);"
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid email\"] = jsonData.Email === globals.email;",
+									"}",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"userid\", jsonData.UserId);"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								"exec": [
+									"postman.setGlobalVariable(\"firstname\", \"Ping\");",
+									"postman.setGlobalVariable(\"lastname\", \"Zhang\");",
+									"postman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								]
 							}
 						}
 					],
@@ -461,14 +520,28 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"userid2\", jsonData.UserId);"
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid email\"] = jsonData.Email === globals.email;",
+									"}",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"userid2\", jsonData.UserId);"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"firstname2\", \"Eunju\");\npostman.setGlobalVariable(\"lastname2\", \"Han\");\npostman.setGlobalVariable(\"email2\", \"ejhan4@myseneca.ca\");"
+								"exec": [
+									"postman.setGlobalVariable(\"firstname2\", \"Eunju\");",
+									"postman.setGlobalVariable(\"lastname2\", \"Han\");",
+									"postman.setGlobalVariable(\"email2\", \"ejhan4@myseneca.ca\");"
+								]
 							}
 						}
 					],
@@ -497,14 +570,32 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;\n    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;\n    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;\n    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"itemid\", jsonData.ItemId);"
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;",
+									"    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;",
+									"    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;",
+									"    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;",
+									"}",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"itemid\", jsonData.ItemId);"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");\npostman.setGlobalVariable(\"itemPrice\", 25.99);\npostman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");\npostman.setGlobalVariable(\"itemStatus\", \"Available\");"
+								"exec": [
+									"postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");",
+									"postman.setGlobalVariable(\"itemPrice\", 25.99);",
+									"postman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");",
+									"postman.setGlobalVariable(\"itemStatus\", \"Available\");"
+								]
 							}
 						}
 					],
@@ -533,14 +624,18 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Bad request\"] = responseCode.code === 400;"
+								"exec": [
+									"tests[\"Bad request\"] = responseCode.code === 400;"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+								"exec": [
+									"postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+								]
 							}
 						}
 					],
@@ -569,14 +664,18 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Bad request\"] = responseCode.code === 400;"
+								"exec": [
+									"tests[\"Bad request\"] = responseCode.code === 400;"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+								"exec": [
+									"postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+								]
 							}
 						}
 					],
@@ -605,14 +704,29 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid text\"] = jsonData.Text === globals.messagetext;\n    tests[\"Valid sender\"] = jsonData.SenderId == globals.userid;\n    tests[\"Valid receiver\"] = jsonData.ReceiverId == globals.userid2;\n    tests[\"Valid item\"] = jsonData.ItemId == globals.itemid;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"messageid\", jsonData.MessageId);"
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid text\"] = jsonData.Text === globals.messagetext;",
+									"    tests[\"Valid sender\"] = jsonData.SenderId == globals.userid;",
+									"    tests[\"Valid receiver\"] = jsonData.ReceiverId == globals.userid2;",
+									"    tests[\"Valid item\"] = jsonData.ItemId == globals.itemid;",
+									"}",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"messageid\", jsonData.MessageId);"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+								"exec": [
+									"postman.setGlobalVariable(\"messagetext\", \"Is this book for DCN455 for CPD/CPA students?\");"
+								]
 							}
 						}
 					],
@@ -641,7 +755,15 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
@@ -664,7 +786,17 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid text\"] = jsonData.Text === globals.messagetext;\n    tests[\"Valid receiver\"] = jsonData.ReceiverId == globals.userid2;\n    tests[\"Valid item\"] = jsonData.ItemId == globals.itemid;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid text\"] = jsonData.Text === globals.messagetext;",
+									"    tests[\"Valid receiver\"] = jsonData.ReceiverId == globals.userid2;",
+									"    tests[\"Valid item\"] = jsonData.ItemId == globals.itemid;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
@@ -707,7 +839,15 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
@@ -752,7 +892,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 204;"
+								]
 							}
 						}
 					],
@@ -795,7 +937,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 404\"] = responseCode.code === 404;"
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;"
+								]
 							}
 						}
 					],
@@ -838,7 +982,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 204;"
+								]
 							}
 						}
 					],
@@ -881,7 +1027,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 204;"
+								]
 							}
 						}
 					],
@@ -930,7 +1078,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
 							}
 						}
 					],
@@ -965,14 +1115,28 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Successful POST request\"] = responseCode.code === 201;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}\n\npostman.setGlobalVariable(\"userid\", jsonData.UserId);"
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid email\"] = jsonData.Email === globals.email;",
+									"}",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"userid\", jsonData.UserId);"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								"exec": [
+									"postman.setGlobalVariable(\"firstname\", \"Ping\");",
+									"postman.setGlobalVariable(\"lastname\", \"Zhang\");",
+									"postman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								]
 							}
 						}
 					],
@@ -995,13 +1159,75 @@
 					"response": []
 				},
 				{
+					"name": "Add item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Successful POST request\"] = responseCode.code === 201;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid title\"] = jsonData.Title === globals.itemTitle;",
+									"    tests[\"Valid description\"] = jsonData.Description === globals.itemDesc;",
+									"    tests[\"Valid price\"] = jsonData.Price == globals.itemPrice;",
+									"    tests[\"Valid seller id\"] = jsonData.SellerId == globals.userid;",
+									"}",
+									"catch (e) {}",
+									"",
+									"postman.setGlobalVariable(\"itemid\", jsonData.ItemId);"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"postman.setGlobalVariable(\"itemTitle\", \"Data Communication\");",
+									"postman.setGlobalVariable(\"itemPrice\", 25.99);",
+									"postman.setGlobalVariable(\"itemDesc\", \"This book is for DCN455\");",
+									"postman.setGlobalVariable(\"itemStatus\", \"Available\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://senecaflea.azurewebsites.net/api/Item",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"Title\": \"{{itemTitle}}\",\r\n\t\"Price\": \"{{itemPrice}}\",\r\n\t\"Description\": \"{{itemDesc}}\",\r\n\t\"Status\": \"{{itemStatus}}\",\r\n\t\"SellerId\": \"{{userid}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Get all users",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Returned data\"] = jsonData.length >= 1;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
@@ -1024,7 +1250,17 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;\n    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;\n    tests[\"Valid email\"] = jsonData.Email === globals.email;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Valid first name\"] = jsonData.FirstName === globals.firstname;",
+									"    tests[\"Valid last name\"] = jsonData.LastName === globals.lastname;",
+									"    tests[\"Valid email\"] = jsonData.Email === globals.email;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						}
 					],
@@ -1061,13 +1297,118 @@
 					"response": []
 				},
 				{
+					"name": "Add history",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"}",
+									"catch (e) {}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://senecaflea.azurewebsites.net/api/User/:id/History",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"senecaflea",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"User",
+								":id",
+								"History"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ItemId\": \"{{itemid}}\",\r\n  \"SellerId\": \"{{userid}}\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get history",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "http://senecaflea.azurewebsites.net/api/User/:id/History",
+							"protocol": "http",
+							"auth": {},
+							"host": [
+								"senecaflea",
+								"azurewebsites",
+								"net"
+							],
+							"path": [
+								"api",
+								"User",
+								":id",
+								"History"
+							],
+							"variable": [
+								{
+									"value": "{{userid}}",
+									"id": "id"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
 					"name": "Delete user",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 204;"
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 204;"
+								]
 							}
 						}
 					],
@@ -1110,7 +1451,9 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 404\"] = responseCode.code === 404;"
+								"exec": [
+									"tests[\"Status code is 404\"] = responseCode.code === 404;"
+								]
 							}
 						}
 					],
@@ -1153,14 +1496,26 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Bad request\"] = responseCode.code === 400;\n\ntry {\n    var jsonData = JSON.parse(responseBody);\n    tests[\"Contains ModelState\"] = jsonData.hasOwnProperty('ModelState') === true;\n}\ncatch (e) {}"
+								"exec": [
+									"tests[\"Bad request\"] = responseCode.code === 400;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Contains ModelState\"] = jsonData.hasOwnProperty('ModelState') === true;",
+									"}",
+									"catch (e) {}"
+								]
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "postman.setGlobalVariable(\"firstname\", \"Ping\");\npostman.setGlobalVariable(\"lastname\", \"Zhang\");\npostman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								"exec": [
+									"postman.setGlobalVariable(\"firstname\", \"Ping\");",
+									"postman.setGlobalVariable(\"lastname\", \"Zhang\");",
+									"postman.setGlobalVariable(\"email\", \"pzhang@myseneca.ca\");"
+								]
 							}
 						}
 					],
@@ -1177,6 +1532,37 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n\t\"blah\": \"null\"\r\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    tests[\"Returned data\"] = jsonData.length >= 1;",
+									"}",
+									"catch (e) {}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:35810/api/User",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
 						},
 						"description": ""
 					},

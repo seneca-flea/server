@@ -20,6 +20,7 @@ namespace SenecaFleaServer.Tests
             Messages = new TestMessageDbSet();
             Users = new TestUserDbSet();
             Courses = new TestDbSet<Course>();
+            PurchaseHistories = new TestDbSet<PurchaseHistory>();
         }
 
         public override DbSet<Book> Books { get; set; }

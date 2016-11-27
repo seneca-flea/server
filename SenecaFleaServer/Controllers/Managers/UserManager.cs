@@ -236,6 +236,10 @@ namespace SenecaFleaServer.Controllers
             }
             else
             {
+                // Set item status
+                item.Status = "Unavailable";
+
+                // Add to history
                 var history = Mapper.Map<PurchaseHistory>(obj);
                 history.Item = item;
 

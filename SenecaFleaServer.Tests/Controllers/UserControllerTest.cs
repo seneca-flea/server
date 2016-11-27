@@ -214,7 +214,6 @@ namespace SenecaFleaServer.Tests.Controllers
             // Assert
             var result = user.PurchaseHistories.FirstOrDefault();
             Assert.IsTrue(result.Item.ItemId == item.ItemId);
-            Assert.IsTrue(result.Seller.UserId == user.UserId);
         }
 
         // ##################################################################
