@@ -18,9 +18,7 @@ namespace SenecaFleaServer.Models
 
         [Required, StringLength(1000)]
         public string Text { get; set; }
-
-
-        //TODO: [Han]
+       
         [Required]
         public int SenderId { get; set; }
         
@@ -36,5 +34,8 @@ namespace SenecaFleaServer.Models
         public DateTime Time { get; set; }
 
         public int ItemId { get; set; }
+
+
+        public virtual Conversation Conversation { get; set; }
     }
 }

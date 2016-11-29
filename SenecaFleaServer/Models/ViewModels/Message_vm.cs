@@ -41,15 +41,16 @@ namespace SenecaFleaServer.Models
     }
 
 
-    //public class MessageDelete
-    //{
-    //    [Required]
-    //    public int SenderId { get; set; }
-        
-    //    public int? ReceiverId { get; set; }
+    public class MessageDelete
+    {
+        [Required]
+        public int SenderId { get; set; }
 
-    //    public int? ItemId { get; set; }
-    //}
+        [Required]
+        public int ReceiverId { get; set; }
+
+        public int? ItemId { get; set; }
+    }
 
     #region Filter
 

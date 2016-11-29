@@ -9,7 +9,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
-    //[Authorize(Roles = "User")]
+    [Authorize]
     public class MessageController : ApiController
     {
         private MessageManager m;
@@ -77,18 +77,18 @@ namespace SenecaFleaServer.Controllers
             return Created(uri, addedItem);
         }
 
-        // DELETE: api/Message/2
+        // DELETE: api/Message/Delete/2/Receiver/3
         /// <summary>
         /// Delete messages that a user sends and receives by its identifier
         /// </summary>
-        /// <param name="userId">User identifier</param>
-        [HttpDelete, Route("api/Message/DeleteByUser/{userId}")]
-        public void DeleteByUser(int userId)
+        /// <param name="SenderId"></param>
+        /// <param name="ReceiverId"></param>
+        [HttpDelete, Route("api/Message/Delete/Sender/{SenderId}/Receiver/{ReceiverId}")]
+        public void DeleteByUser(int SenderId, int ReceiverId)
         {
-            m.MessageDeleteByUser(userId);
+            m.MessageDelete(SenderId, ReceiverId);
         }
-
-
+        
         // DELETE: api/Message/5
         /// <summary>
         /// Delete a message
@@ -96,9 +96,8 @@ namespace SenecaFleaServer.Controllers
         /// <param name="id">Message Id</param>
         public void Delete(int id)
         {
-            m.MessageDelete(id);
+            m.MessageDeleteById(id);
         }
-
 
         // Get messages by identifiers
         /// <summary>
@@ -114,7 +113,7 @@ namespace SenecaFleaServer.Controllers
 
             if (userId < 0) { return BadRequest("Must send a userId"); }
 
-            var msgs = m.FilterByUserId(userId);
+            var msgs = m.MessageFilterByUserId(userId);
 
             if(msgs == null) { return NotFound(); }
 
@@ -133,7 +132,7 @@ namespace SenecaFleaServer.Controllers
         {
             if (filterObj == null ) { return BadRequest("Must send an entity body"); }
 
-            var msgs = m.FilterByUserIdWithReceiver(filterObj);
+            var msgs = m.MessageFilterByUserIdWithReceiver(filterObj);
 
             if (msgs == null) { return NotFound(); }
 
@@ -152,7 +151,7 @@ namespace SenecaFleaServer.Controllers
         {
             if (filterObj == null) { return BadRequest("Must send an entity body"); }
 
-            var msgs = m.FilterByUserIdWithDate(filterObj);
+            var msgs = m.MessageFilterByUserIdWithDate(filterObj);
 
             if (msgs == null) { return NotFound(); }
 
@@ -171,7 +170,7 @@ namespace SenecaFleaServer.Controllers
         {
             if (filterObj == null) { return BadRequest("Must send an entity body"); }
 
-            var msgs = m.FilterByUserIdWithItem(filterObj);
+            var msgs = m.MessageFilterByUserIdWithItem(filterObj);
 
             if (msgs == null) { return NotFound(); }
 

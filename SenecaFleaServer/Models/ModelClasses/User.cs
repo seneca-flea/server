@@ -10,8 +10,9 @@ namespace SenecaFleaServer.Models
     {
         public User()
         {
+            PreferableLocations = new HashSet<Location>();
             FavoriteItems = new HashSet<Item>();
-            Messages = new HashSet<Message>();
+            Conversations = new HashSet<Conversation>();
             PurchaseHistories = new HashSet<PurchaseHistory>();
         }
 
@@ -38,7 +39,7 @@ namespace SenecaFleaServer.Models
         public virtual ICollection<Item> FavoriteItems { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Conversation> Conversations { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseHistory> PurchaseHistories { get; set; }
