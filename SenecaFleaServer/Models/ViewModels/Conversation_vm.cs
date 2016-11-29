@@ -14,10 +14,10 @@ namespace SenecaFleaServer.Models
         }
 
         [Required]
-        public int SenderId { get; set; }
+        public int User1 { get; set; }
 
         [Required]
-        public int ReceiverId { get; set; }
+        public int User2 { get; set; }
 
         public DateTime? Time { get; set; }
     }
@@ -28,7 +28,7 @@ namespace SenecaFleaServer.Models
         public int ConversationId { get; set; }
     }
 
-    public class ConversationWithMessage
+    public class ConversationWithMessage : ConversationBase
     {
         public virtual ICollection<Message> Messages { get; set; }
     }

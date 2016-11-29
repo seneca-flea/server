@@ -19,10 +19,10 @@ namespace SenecaFleaServer.Models
         public int ConversationId { get; set; }
 
         [Required]
-        public int SenderId { get; set; }
+        public int user1 { get; set; }
 
         [Required]
-        public int ReceiverId { get; set; }
+        public int user2 { get; set; }
 
         public DateTime Time { get; set; }
 

@@ -47,7 +47,7 @@ namespace SenecaFleaServer.Controllers
         // Get all conversations by userId
         public IEnumerable<ConversationBase> ConversationGetAllByUserId(int userId)
         {
-            var cc = ds.Conversations.Where(c => c.SenderId == userId);
+            var cc = ds.Conversations.Where(c => c.user1 == userId | c.user2 == userId);
             return Mapper.Map<IEnumerable<ConversationBase>>(cc);
         }
 
@@ -63,7 +63,7 @@ namespace SenecaFleaServer.Controllers
         // Get a conversation by a receiver
         public ConversationBase ConversationGetByReceiver(int receiverId)
         {
-            var o = ds.Conversations.SingleOrDefault(c => c.ReceiverId == receiverId);
+            var o = ds.Conversations.SingleOrDefault(c => c.user2 == receiverId);
             return (o == null) ? null : Mapper.Map<ConversationBase>(o);
         }
 
@@ -77,7 +77,7 @@ namespace SenecaFleaServer.Controllers
                 return null;
             }
 
-            var cc = ds.Conversations.Where(c => c.SenderId == currentUser.UserId | c.ReceiverId == currentUser.UserId);
+            var cc = ds.Conversations.Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
             return Mapper.Map<IEnumerable<ConversationBase>>(cc);
         }
 
@@ -85,7 +85,7 @@ namespace SenecaFleaServer.Controllers
         // Get a conversation with its messages by a receiver
         public ConversationWithMessage ConversationFilterByReceiverWithMessages(int receiverId)
         {
-            var co = ds.Conversations.Include("Messages").SingleOrDefault(c => c.ReceiverId == receiverId);            
+            var co = ds.Conversations.Include("Messages").SingleOrDefault(c => c.user2 == receiverId);            
 
             return (co == null) ? null : Mapper.Map<ConversationWithMessage>(co);
         }       
@@ -126,7 +126,7 @@ namespace SenecaFleaServer.Controllers
             }
 
             var conversation = ds.Conversations
-                .Where(m => m.SenderId == currentUser.UserId && m.ReceiverId == receiverId);
+                .Where(m => m.user1 == currentUser.UserId && m.user2 == receiverId);
             var msgs = ds.Messages
                 .Where(m => m.SenderId == currentUser.UserId && m.ReceiverId == receiverId);
 
@@ -223,19 +223,20 @@ namespace SenecaFleaServer.Controllers
             addedItem.MessageId = (int)newId;
 
             User currentUser = GetCurrentUser();
-            var conversation = ds.Conversations.SingleOrDefault(c => c.SenderId == currentUser.UserId || c.ReceiverId == currentUser.UserId);            
+            var conversation = ds.Conversations.SingleOrDefault(c => c.user1 == currentUser.UserId || c.user2 == currentUser.UserId);            
             if(conversation == null)    //new conversation
             {
                 Conversation con = new Conversation();
-                con.SenderId = newItem.SenderId;
-                con.ReceiverId = newItem.ReceiverId;
+                con.user1 = newItem.SenderId;
+                con.user2 = newItem.ReceiverId;
                 con.Time = DateTime.Now;
                 con.Messages.Add(addedItem);
-
+                
                 ds.Conversations.Add(con);
             }
             else //existing conversation
             {
+                addedItem.Conversation = conversation;
                 ds.Messages.Add(addedItem);
             }
 
