@@ -26,7 +26,7 @@ namespace SenecaFleaServer.Controllers
 
         // GET: api/Message
         /// <summary>
-        /// Retrieve all messages
+        /// Retrieve all messages for administration
         /// </summary>
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult Get()

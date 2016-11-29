@@ -24,6 +24,17 @@ namespace SenecaFleaServer.Controllers
             ds = context;
         }
 
+
+        private User GetCurrentUser()
+        {
+            var u = HttpContext.Current.User as ClaimsPrincipal;
+            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                throw new HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+            // Fetch the object
+            var currentUser = ds.Users.SingleOrDefault(i => i.Email == u.Identity.Name);
+            return currentUser;
+        }
+
         #region Conversation for administration
 
         // Get all conversations
@@ -59,20 +70,17 @@ namespace SenecaFleaServer.Controllers
         // Get all conversations by userId
         public IEnumerable<ConversationBase> ConversationGetAllByCurrentUser()
         {
-            var u = HttpContext.Current.User as ClaimsPrincipal;
-            if (!HttpContext.Current.User.Identity.IsAuthenticated)
-                throw new HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
-            // Fetch the object
-            var currentUser = ds.Users.SingleOrDefault(i => i.Email == u.Identity.Name);
+            User currentUser = GetCurrentUser();
             if (currentUser == null)
             {
                 //throw new Exception();
                 return null;
             }
 
-            var cc = ds.Conversations.Where(c => c.SenderId == currentUser.UserId);
+            var cc = ds.Conversations.Where(c => c.SenderId == currentUser.UserId | c.ReceiverId == currentUser.UserId);
             return Mapper.Map<IEnumerable<ConversationBase>>(cc);
         }
+
 
         // Get a conversation with its messages by a receiver
         public ConversationWithMessage ConversationFilterByReceiverWithMessages(int receiverId)
@@ -214,13 +222,14 @@ namespace SenecaFleaServer.Controllers
             var addedItem = Mapper.Map<Message>(newItem);
             addedItem.MessageId = (int)newId;
 
-            var conversation = ds.Conversations.SingleOrDefault(c => c.SenderId == newItem.SenderId && c.ReceiverId == newItem.ReceiverId);            
+            User currentUser = GetCurrentUser();
+            var conversation = ds.Conversations.SingleOrDefault(c => c.SenderId == currentUser.UserId || c.ReceiverId == currentUser.UserId);            
             if(conversation == null)    //new conversation
             {
                 Conversation con = new Conversation();
                 con.SenderId = newItem.SenderId;
                 con.ReceiverId = newItem.ReceiverId;
-                con.Time = newItem.Time;
+                con.Time = DateTime.Now;
                 con.Messages.Add(addedItem);
 
                 ds.Conversations.Add(con);

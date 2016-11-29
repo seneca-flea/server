@@ -12,6 +12,7 @@ namespace SenecaFleaServer.Models
         public Conversation()
         {
             Time = DateTime.Now;
+            Messages = new HashSet<Message>();
         }
 
         [Required]

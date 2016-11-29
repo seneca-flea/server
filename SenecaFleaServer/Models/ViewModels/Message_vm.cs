@@ -22,7 +22,7 @@ namespace SenecaFleaServer.Models
         [Required]
         public int ReceiverId { get; set; }
 
-        public DateTime Time { get; set; }
+        public DateTime? Time { get; set; }
 
         public int? ItemId { get; set; }
     }
