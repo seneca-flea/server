@@ -10,7 +10,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ItemController : ApiController
     {
         // TODO: Filter items by book information (title, author)
@@ -33,6 +33,7 @@ namespace SenecaFleaServer.Controllers
         /// Retrieve an item
         /// </summary>
         /// <param name="id">Item ID</param>
+        [Authorize(Roles = "User, SenecaFleaAdministrator")]
         [ResponseType(typeof(ItemBase))]
         public IHttpActionResult Get(int? id)
         {
@@ -70,6 +71,7 @@ namespace SenecaFleaServer.Controllers
         /// Add an item
         /// </summary>
         /// <param name="newItem"></param>
+        [Authorize(Roles = "User")]
         [ResponseType(typeof(ItemBase))]
         public IHttpActionResult Post([FromBody]ItemAdd newItem)
         {
@@ -96,6 +98,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">Item Id</param>
         /// <param name="editedItem"></param>
+        [Authorize(Roles = "User")]
         [ResponseType(typeof(ItemBase))]
         public IHttpActionResult Put(int id, [FromBody]ItemEdit editedItem)
         {
@@ -133,6 +136,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">Item Id</param>
         /// <param name="photo">Image data</param>
+        [Authorize(Roles = "User")]
         [Route("api/Item/{id}/addimage")]
         [HttpPost]
         public IHttpActionResult AddImage(int id, [FromBody]byte[] photo)
@@ -155,6 +159,7 @@ namespace SenecaFleaServer.Controllers
         /// Delete an item 
         /// </summary>
         /// <param name="id">Item Id</param>
+        [Authorize(Roles = "User, SenecaFleaAdministrator")]
         public void Delete(int id)
         {
             m.ItemDelete(id);
@@ -165,6 +170,7 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by user
         /// </summary>
         /// <param name="userid">User Id</param>
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Item/filter/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByUser(int? userid)
@@ -183,6 +189,7 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by title
         /// </summary>
         /// <param name="title">Title</param>
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Item/filter")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByTitle(string title)
@@ -201,6 +208,7 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by status
         /// </summary>
         /// <param name="status">Status</param>
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Item/filter/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByStatus(string status)
@@ -219,6 +227,7 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by course name
         /// </summary>
         /// <param name="coursename">Course Name</param>
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Item/filter")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByCourseName(string coursename)
@@ -237,6 +246,7 @@ namespace SenecaFleaServer.Controllers
         /// Filter items by course code
         /// </summary>
         /// <param name="coursecode">Course Code</param>
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Item/filter/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByCourseCode(string coursecode)
@@ -256,6 +266,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="min">Minimum price</param>
         /// <param name="max">Maximum price</param>
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Item/filter/price/")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
         public IHttpActionResult FilterByPriceRange(int? min, int? max)
