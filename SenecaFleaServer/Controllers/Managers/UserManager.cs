@@ -31,6 +31,17 @@ namespace SenecaFleaServer.Controllers
 
             return Mapper.Map<IEnumerable<UserBase>>(c);
         }
+        
+        // Get current User info
+        public UserBase GetCurrentUser()
+        {
+            var u = HttpContext.Current.User as ClaimsPrincipal;
+            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                throw new HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
+            // Fetch the object
+            var currentUser = ds.Users.SingleOrDefault(i => i.Email == u.Identity.Name);
+            return Mapper.Map<UserBase>(currentUser);
+        }
 
         // Get user by identifier
         public UserBase UserGetById(int id)

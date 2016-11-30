@@ -25,6 +25,18 @@ namespace SenecaFleaServer.Controllers
             m = new UserManager(repo);
         }
 
+        /// <summary>
+        /// Get the current user info; only logged-in-user available
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "User")]
+        [Route("api/User/CurrentUser")]
+        [ResponseType(typeof(UserBase))]
+        public IHttpActionResult GetCurrentUser()
+        {
+            return Ok(m.GetCurrentUser());
+        }
+
         // GET: api/User
         /// <summary>
         /// Retrieve all users
