@@ -250,5 +250,28 @@ namespace SenecaFleaServer.Controllers
                 return true;
             }
         }
+
+        // Remove form user's purchase history
+        public bool UserDeleteHistory(int userId, int historyId)
+        {
+            var user = ds.Users.SingleOrDefault(i => i.UserId == userId);
+            var history = ds.PurchaseHistories.Include("Item")
+                .SingleOrDefault(i => i.Id == historyId);
+
+            if (user == null || history == null)
+            {
+                return false;
+            }
+            else
+            {
+                // Remove from history
+                history.Item.Status = "Available";
+                user.PurchaseHistories.Remove(history);
+                ds.PurchaseHistories.Remove(history);
+                ds.SaveChanges();
+
+                return true;
+            }
+        }
     }
 }

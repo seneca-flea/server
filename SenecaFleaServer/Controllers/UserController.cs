@@ -243,13 +243,13 @@ namespace SenecaFleaServer.Controllers
             return Ok(items);
         }
 
-        // PUT: api/User/5/AddFavorite
+        // PUT: api/User/5/Favorite
         /// <summary>
         /// Add a favourite
         /// </summary>
         /// <param name="userId">User Id</param>
         /// <param name="itemId">Item Id</param>
-        [HttpPut, Route("api/User/{userId}/AddFavorite/{itemId}")]
+        [HttpPost, Route("api/User/{userId}/Favorite/{itemId}")]
         [Authorize(Roles = "User")]
         public IHttpActionResult AddFavorite(int? userId, int? itemId)
         {
@@ -272,13 +272,13 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
-        // PUT: api/User/5/RemoveFavorite
+        // DELETE: api/User/5/Favorite
         /// <summary>
-        /// Remove a favourite
+        /// Delete a favourite
         /// </summary>
         /// <param name="userId">User Id</param>
         /// <param name="itemId">Item Id</param>
-        [HttpPut, Route("api/User/{userId}/RemoveFavorite/{itemId}")]
+        [HttpDelete, Route("api/User/{userId}/Favorite/{itemId}")]
         [Authorize(Roles = "User")]
         public IHttpActionResult RemoveFavorite(int? userId, int? itemId)
         {
@@ -336,6 +336,28 @@ namespace SenecaFleaServer.Controllers
             if (!added)
             {
                 return BadRequest("Cannot add to history");
+            }
+            else
+            {
+                return Ok();
+            }
+        }
+
+        // PUT: api/User/5/RemoveHistory
+        /// <summary>
+        /// Delete from user's purchase history
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <param name="historyId">History Id</param>
+        [HttpDelete, Route("api/User/{userId}/History/{historyId}")]
+        [Authorize(Roles = "User")]
+        public IHttpActionResult DeleteHistory(int? userId, int? historyId)
+        {
+            var removed = m.UserDeleteHistory(userId.Value, historyId.Value);
+
+            if (!removed)
+            {
+                return BadRequest("Cannot remove from history");
             }
             else
             {

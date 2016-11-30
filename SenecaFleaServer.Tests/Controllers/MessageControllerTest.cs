@@ -50,7 +50,7 @@ namespace SenecaFleaServer.Tests.Controllers
             //Assert.AreEqual(new User { }, negResult.Content.receiver);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void MessageAdd()
         {
             var message = Mapper.Map<MessageAdd>(GetMessageData());

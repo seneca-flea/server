@@ -698,6 +698,13 @@
             <param name="id">User Id</param>
             <param name="obj"></param>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.UserController.DeleteHistory(System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Delete a history item
+            </summary>
+            <param name="userId">User Id</param>
+            <param name="historyId">History Id</param>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Delete(System.Int32)">
             <summary>
             Delete a user
