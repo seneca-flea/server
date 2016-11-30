@@ -78,6 +78,9 @@ namespace SenecaFleaServer.Controllers
             }
 
             var cc = ds.Conversations.Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
+
+            cc.OrderByDescending(c => c.Time);
+
             return Mapper.Map<IEnumerable<ConversationBase>>(cc);
         }
 
@@ -309,11 +312,13 @@ namespace SenecaFleaServer.Controllers
         }
 
         // Get messages by identifiers, filted by a receiver
-        public IEnumerable<MessageBase> MessageFilterByUserIdWithReceiver(MessageFilterByUserIdWithReceiver filterObj)
+        public IEnumerable<MessageBase> MessageFilterByUserIdWithReceiver(int receiverId)
         {
-            var userMsgs = MessageFilterByUserId(filterObj.UserId);
+            var userMsgs = MessageFilterByUserId(GetCurrentUser().UserId);
                         
-            var msgs = userMsgs.Where(u => u.ReceiverId == filterObj.ReceiverId);
+            var msgs = userMsgs.Where(u => u.ReceiverId == receiverId);
+
+            msgs.OrderByDescending(u => u.Time);
 
             return Mapper.Map<IEnumerable<MessageBase>>(msgs);
         }

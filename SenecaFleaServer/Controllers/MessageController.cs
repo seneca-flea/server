@@ -125,21 +125,18 @@ namespace SenecaFleaServer.Controllers
 
             return Ok(msgs);            
         }
-
-        // Get messages by an identifier, filted by a receiver
+        
         /// <summary>
-        /// Get messages by an identifier, filted by a receiver
+        /// Get messages of current user, filtered by receiverId
         /// </summary>
-        /// <param name="filterObj">MessageFilterByUserIdWithReceiver</param>
-        /// <returns>A collection of MessageBase</returns>
+        /// <param name="receiverId">ReceiverId</param>
+        /// <returns></returns>
         //[Authorize(Roles = "User")]
-        [HttpGet, Route("api/Message/filter/UserWithReceiver")]
+        [HttpGet, Route("api/Message/filter/UserWithReceiver/")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
-        public IHttpActionResult FilterByUserIdWithReceiver([FromBody]MessageFilterByUserIdWithReceiver filterObj)
+        public IHttpActionResult FilterByUserIdWithReceiver(int receiverId)
         {
-            if (filterObj == null ) { return BadRequest("Must send an entity body"); }
-
-            var msgs = m.MessageFilterByUserIdWithReceiver(filterObj);
+            var msgs = m.MessageFilterByUserIdWithReceiver(receiverId);
 
             if (msgs == null) { return NotFound(); }
 
