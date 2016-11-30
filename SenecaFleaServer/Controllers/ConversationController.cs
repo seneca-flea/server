@@ -64,9 +64,9 @@ namespace SenecaFleaServer.Controllers
 
         // DELETE: api/Conversation/5
         /// <summary>
-        /// Delete a conversation including its messages by receiverId
+        /// Delete a conversation including its messages by receiverId or senderId
         /// </summary>
-        /// <param name="id">receiverId</param>
+        /// <param name="id">ReceiverId or SenderId</param>
         public void Delete(int id)
         {
             m.ConversationDeleteByReceiver(id);

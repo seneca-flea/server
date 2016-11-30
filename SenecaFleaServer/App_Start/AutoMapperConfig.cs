@@ -23,7 +23,7 @@ namespace SenecaFleaServer
             Mapper.CreateMap<Message, MessageBase>();
             Mapper.CreateMap<Message, MessageWithItem>();
 
-            Mapper.CreateMap<ConversationAdd, Conversation>();
+            //Mapper.CreateMap<ConversationAdd, Conversation>();
             Mapper.CreateMap<Conversation, ConversationBase>();
             Mapper.CreateMap<Conversation, ConversationWithMessage>();
 

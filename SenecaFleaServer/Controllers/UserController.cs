@@ -57,6 +57,11 @@ namespace SenecaFleaServer.Controllers
             }            
         }
 
+        /// <summary>
+        /// Get a user with Preferable location information
+        /// </summary>
+        /// <param name="id">UserId</param>
+        /// <returns></returns>
         [Authorize(Roles = "User, SenecaFleaAdministrator")]
         [Route("api/User/{id}/Location")]
         [ResponseType(typeof(UserWithAllInfo))]
@@ -74,6 +79,11 @@ namespace SenecaFleaServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Get a user info including FavoriteItems, Messages, PurchaseHistories
+        /// </summary>
+        /// <param name="id">UserId</param>
+        /// <returns></returns>
         [Authorize(Roles = "User, SenecaFleaAdministrator")]
         [Route("api/User/{id}/AllInfo")]
         [ResponseType(typeof(UserWithAllInfo))]

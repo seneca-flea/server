@@ -481,6 +481,25 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.ConversationController.Get">
+            <summary>
+            Retrieve all conversation by a current user
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.ConversationController.Get(System.Nullable{System.Int32})">
+            <summary>
+            Retrieve a conversation by a receiverId
+            </summary>
+            <param name="id">Receiver Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.ConversationController.Delete(System.Int32)">
+            <summary>
+            Delete a conversation including its messages by receiverId or senderId
+            </summary>
+            <param name="id">ReceiverId or SenderId</param>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.Get(System.Nullable{System.Int32})">
             <summary>
             Retrieve an item
@@ -552,7 +571,7 @@
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Get">
             <summary>
-            Retrieve all messages
+            Retrieve all messages for administration
             </summary>
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Get(System.Nullable{System.Int32})">
@@ -567,11 +586,12 @@
             </summary>
             <param name="newItem">MessageAdd</param>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.MessageController.DeleteByUser(System.Int32)">
+        <member name="M:SenecaFleaServer.Controllers.MessageController.DeleteByUser(System.Int32,System.Int32)">
             <summary>
             Delete messages that a user sends and receives by its identifier
             </summary>
-            <param name="userId">User identifier</param>
+            <param name="SenderId"></param>
+            <param name="ReceiverId"></param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Delete(System.Int32)">
             <summary>
@@ -617,6 +637,20 @@
             Retrieve a user
             </summary>
             <param name="id">User Id</param>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.UserController.GetUserWithLocation(System.Nullable{System.Int32})">
+            <summary>
+            Get a user with Preferable location information
+            </summary>
+            <param name="id">UserId</param>
+            <returns></returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.UserController.GetUserWithAllInfo(System.Nullable{System.Int32})">
+            <summary>
+            Get a user info including FavoriteItems, Messages, PurchaseHistories
+            </summary>
+            <param name="id">UserId</param>
+            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Post(SenecaFleaServer.Models.UserAdd)">
             <summary>

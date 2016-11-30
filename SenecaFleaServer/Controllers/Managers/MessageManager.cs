@@ -102,7 +102,7 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<IEnumerable<ConversationBase>>(conversations);
         }       
 
-        // Delete a conversation including its messages by Receiver
+        // Delete a conversation including its messages by ReceiverId or SenderId
         public void ConversationDeleteByReceiver(int receiverId)
         {
             // Check if the user exists
