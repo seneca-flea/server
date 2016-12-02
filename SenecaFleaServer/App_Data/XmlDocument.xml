@@ -489,9 +489,16 @@
         </member>
         <member name="M:SenecaFleaServer.Controllers.ConversationController.Get(System.Nullable{System.Int32})">
             <summary>
-            Retrieve a conversation by a receiverId
+            Retrieve a conversation by a receiverId; mignt not needed
             </summary>
             <param name="id">Receiver Id</param>
+            <returns></returns>        
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.ConversationController.FilterByReceiverWithMessages(System.Int32)">
+            <summary>
+            Get a conversation with its messages, filtered by receiverID
+            </summary>
+            <param name="receiverID"></param>
             <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.ConversationController.Delete(System.Int32)">
@@ -606,13 +613,6 @@
             <param name="userId">A user identifier</param>
             <returns>A collection of MessageBase</returns>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.MessageController.FilterByUserIdWithReceiver(SenecaFleaServer.Models.MessageFilterByUserIdWithReceiver)">
-            <summary>
-            Get messages by an identifier, filted by a receiver
-            </summary>
-            <param name="filterObj">MessageFilterByUserIdWithReceiver</param>
-            <returns>A collection of MessageBase</returns>
-        </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.FilterByUserIdWithDate(SenecaFleaServer.Models.MessageFilterByUserIdWithTime)">
             <summary>
             Get messages by an identifier, filtered by datetime
@@ -626,6 +626,12 @@
             </summary>
             <param name="filterObj">MessageFilterByUserIdWithItem</param>
             <returns>A collection of MessageBase</returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.UserController.GetCurrentUser">
+            <summary>
+            Get the current user info; only logged-in-user available
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Get">
             <summary>
@@ -680,7 +686,7 @@
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.RemoveFavorite(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
-            Remove a favourite
+            Delete a favourite
             </summary>
             <param name="userId">User Id</param>
             <param name="itemId">Item Id</param>
@@ -700,16 +706,26 @@
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.DeleteHistory(System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
-            Delete a history item
+            Delete from user's purchase history
             </summary>
             <param name="userId">User Id</param>
             <param name="historyId">History Id</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.UserController.Delete(System.Int32)">
             <summary>
-            Delete a user
+            Delete a user; Only user itself can be deleted
             </summary>
             <param name="id">User Id</param>
+        </member>
+        <member name="P:SenecaFleaServer.Models.ConversationBase.UserFirstName">
+            <summary>
+            First name of a receiver
+            </summary>
+        </member>
+        <member name="P:SenecaFleaServer.Models.ConversationBase.UserLastName">
+            <summary>
+            Last name of a receiver
+            </summary>
         </member>
         <member name="P:SenecaFleaServer.Models.ItemBase.ImagesCount">
             <summary>
