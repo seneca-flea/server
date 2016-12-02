@@ -9,8 +9,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize]
     public class UserController : ApiController
     {
         private UserManager m;
@@ -24,6 +23,8 @@ namespace SenecaFleaServer.Controllers
         {
             m = new UserManager(repo);
         }
+
+        #region For User Mgmt
 
         /// <summary>
         /// Get the current user info; only logged-in-user available
@@ -190,8 +191,9 @@ namespace SenecaFleaServer.Controllers
         //    }
         //}
 
+        #endregion For User Mgmt
 
-        #region For Users
+        #region For User Info Mgmt
 
         // PUT: api/User/5
         /// <summary>
@@ -245,9 +247,9 @@ namespace SenecaFleaServer.Controllers
         /// Get favourites
         /// </summary>
         /// <param name="id">User Id</param>
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/User/{id}/Favorites")]
         [ResponseType(typeof(IEnumerable<ItemBase>))]
-        [Authorize(Roles = "User")]
         public IHttpActionResult GetFavorite(int? id)
         {
             var items = m.UserGetFavorite(id.GetValueOrDefault());
@@ -261,8 +263,8 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="userId">User Id</param>
         /// <param name="itemId">Item Id</param>
-        [HttpPost, Route("api/User/{userId}/Favorite/{itemId}")]
         [Authorize(Roles = "User")]
+        [HttpPost, Route("api/User/{userId}/Favorite/{itemId}")]        
         public IHttpActionResult AddFavorite(int? userId, int? itemId)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -290,8 +292,8 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="userId">User Id</param>
         /// <param name="itemId">Item Id</param>
-        [HttpDelete, Route("api/User/{userId}/Favorite/{itemId}")]
         [Authorize(Roles = "User")]
+        [HttpDelete, Route("api/User/{userId}/Favorite/{itemId}")]        
         public IHttpActionResult RemoveFavorite(int? userId, int? itemId)
         {
             // Ensure that an "editedItem" is in the entity body
@@ -318,9 +320,9 @@ namespace SenecaFleaServer.Controllers
         /// Get user's purchase history
         /// </summary>
         /// <param name="id">User Id</param>
-        [HttpGet, Route("api/User/{id}/History")]
-        [ResponseType(typeof(IEnumerable<PurchaseHistoryBase>))]
         [Authorize(Roles = "User")]
+        [HttpGet, Route("api/User/{id}/History")]
+        [ResponseType(typeof(IEnumerable<PurchaseHistoryBase>))]        
         public IHttpActionResult GetHistory(int? id)
         {
             var items = m.UserGetHistory(id.GetValueOrDefault());
@@ -334,8 +336,8 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">User Id</param>
         /// <param name="obj"></param>
-        [HttpPost, Route("api/User/{id}/History")]
         [Authorize(Roles = "User")]
+        [HttpPost, Route("api/User/{id}/History")]        
         public IHttpActionResult AddHistory(int? id, [FromBody]PurchaseHistoryAdd obj)
         {
             if (obj == null)
@@ -361,8 +363,8 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="userId">User Id</param>
         /// <param name="historyId">History Id</param>
-        [HttpDelete, Route("api/User/{userId}/History/{historyId}")]
         [Authorize(Roles = "User")]
+        [HttpDelete, Route("api/User/{userId}/History/{historyId}")]        
         public IHttpActionResult DeleteHistory(int? userId, int? historyId)
         {
             var removed = m.UserDeleteHistory(userId.Value, historyId.Value);
@@ -379,7 +381,7 @@ namespace SenecaFleaServer.Controllers
 
         // DELETE: api/User/5
         /// <summary>
-        /// Delete a user
+        /// Delete a user; Only user itself can be deleted
         /// </summary>
         /// <param name="id">User Id</param>
         [Authorize(Roles = "User")]
@@ -388,6 +390,6 @@ namespace SenecaFleaServer.Controllers
             m.UserDelete(id);
         }
 
-        #endregion For Users
+        #endregion For User Info Mgmt
     }
 }

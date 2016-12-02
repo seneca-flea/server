@@ -26,11 +26,21 @@ namespace SenecaFleaServer.Models
     {
         [Key]
         public int ConversationId { get; set; }
+
+        /// <summary>
+        /// First name of a receiver
+        /// </summary>
+        public string UserFirstName { get; set; }
+
+        /// <summary>
+        /// Last name of a receiver
+        /// </summary>
+        public string UserLastName { get; set; }        
     }
 
     public class ConversationWithMessage : ConversationBase
     {
-        public virtual ICollection<Message> Messages { get; set; }
+        public ICollection<MessageBase> Messages { get; set; }
     }
     
 

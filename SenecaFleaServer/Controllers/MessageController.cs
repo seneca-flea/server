@@ -126,22 +126,22 @@ namespace SenecaFleaServer.Controllers
             return Ok(msgs);            
         }
         
-        /// <summary>
-        /// Get messages of current user, filtered by receiverId
-        /// </summary>
-        /// <param name="receiverId">ReceiverId</param>
-        /// <returns></returns>
-        //[Authorize(Roles = "User")]
-        [HttpGet, Route("api/Message/filter/UserWithReceiver/")]
-        [ResponseType(typeof(IEnumerable<MessageBase>))]
-        public IHttpActionResult FilterByUserIdWithReceiver(int receiverId)
-        {
-            var msgs = m.MessageFilterByUserIdWithReceiver(receiverId);
+        ///// <summary>
+        ///// Get messages of current user, filtered by receiverId
+        ///// </summary>
+        ///// <param name="receiverId">ReceiverId</param>
+        ///// <returns></returns>
+        ////[Authorize(Roles = "User")]
+        //[HttpGet, Route("api/Message/filter/UserWithReceiver/")]
+        //[ResponseType(typeof(IEnumerable<MessageBase>))]
+        //public IHttpActionResult FilterByUserIdWithReceiver(int receiverId)
+        //{
+        //    var msgs = m.MessageFilterByUserIdWithReceiver(receiverId);
 
-            if (msgs == null) { return NotFound(); }
+        //    if (msgs == null) { return NotFound(); }
 
-            return Ok(msgs);
-        }
+        //    return Ok(msgs);
+        //}
 
         // Get messages by an identifier, filtered by datetime
         /// <summary>

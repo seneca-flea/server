@@ -138,9 +138,12 @@ namespace SenecaFleaServer.Controllers
             return Mapper.Map<UserBase>(storedItem);
         }
 
-        // Delete user
+        // Delete a user
         public void UserDelete(int id)
         {
+            UserBase cUser = GetCurrentUser();
+            if(cUser.UserId != id) { return;  }
+
             var storedItem = ds.Users.Find(id);
 
             if (storedItem != null)

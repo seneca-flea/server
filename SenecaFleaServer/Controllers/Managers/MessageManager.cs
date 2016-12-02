@@ -35,6 +35,12 @@ namespace SenecaFleaServer.Controllers
             return currentUser;
         }
 
+        private User GetUserByUserID(int userID)
+        {
+            var user = ds.Users.SingleOrDefault(u => u.UserId == userID);
+            return user;
+        }
+
         #region Conversation for administration
 
         // Get all conversations
@@ -57,41 +63,144 @@ namespace SenecaFleaServer.Controllers
             var o = ds.Conversations.SingleOrDefault(c => c.ConversationId == id);
             return (o == null) ? null : Mapper.Map<ConversationBase>(o);
         }
-        
+
         #endregion  Conversation for administration
 
-        // Get a conversation by a receiver
-        public ConversationBase ConversationGetByReceiver(int receiverId)
-        {
-            var o = ds.Conversations.SingleOrDefault(c => c.user2 == receiverId);
-            return (o == null) ? null : Mapper.Map<ConversationBase>(o);
-        }
 
         // Get all conversations by userId
         public IEnumerable<ConversationBase> ConversationGetAllByCurrentUser()
         {
+            // Get current user's msgs
             User currentUser = GetCurrentUser();
-            if (currentUser == null)
-            {
-                //throw new Exception();
-                return null;
-            }
+            if (currentUser == null) { return null; }
 
             var cc = ds.Conversations.Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
 
+            // Ordered by Time
             cc.OrderByDescending(c => c.Time);
 
-            return Mapper.Map<IEnumerable<ConversationBase>>(cc);
+            
+            IEnumerable<ConversationBase> cList = Mapper.Map<IEnumerable<ConversationBase>>(cc);
+            // Add Receiver First Name and Last Name
+            foreach (ConversationBase c in cList)
+            {
+                User receiver;
+                if (c.User1 == currentUser.UserId)
+                {
+                    //Get User2
+                    receiver = GetUserByUserID(c.User2);
+                    c.UserFirstName = receiver.FirstName;
+                    c.UserLastName = receiver.LastName;
+                }
+                else if(c.User2 == currentUser.UserId)
+                {
+                    //Get User1
+                    receiver = GetUserByUserID(c.User1);
+                    c.UserFirstName = receiver.FirstName;
+                    c.UserLastName = receiver.LastName;
+                }
+            }
+
+            return cList;
+        }
+
+        // Get a conversation by a receiver
+        public ConversationBase ConversationGetByReceiver(int receiverId)
+        {
+            // Get current user's msgs
+            User currentUser = GetCurrentUser();
+            if (currentUser == null) { return null; }
+
+            var cc = ds.Conversations.Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
+
+            // Ordered by Time
+            cc.OrderByDescending(c => c.Time);
+
+            // within current user's conversations, only take the conversation matched with receiverId
+            ConversationBase con = new ConversationBase();
+
+            IEnumerable<ConversationBase> cList = Mapper.Map<IEnumerable<ConversationBase>>(cc);            
+            foreach (ConversationBase c in cList)
+            {
+                User receiver;
+                if (c.User1 == currentUser.UserId && c.User2 == receiverId)
+                {
+                    //Get User2
+                    receiver = GetUserByUserID(c.User2);
+                    c.UserFirstName = receiver.FirstName;
+                    c.UserLastName = receiver.LastName;
+                    con = c;
+                }
+                else if (c.User2 == currentUser.UserId && c.User1 == receiverId)
+                {
+                    //Get User1
+                    receiver = GetUserByUserID(c.User1);
+                    c.UserFirstName = receiver.FirstName;
+                    c.UserLastName = receiver.LastName;
+                    con = c;
+                }
+            }
+            return (con == null) ? null : con;                        
         }
 
 
         // Get a conversation with its messages by a receiver
-        public ConversationWithMessage ConversationFilterByReceiverWithMessages(int receiverId)
-        {
-            var co = ds.Conversations.Include("Messages").SingleOrDefault(c => c.user2 == receiverId);            
+        internal object ConversationGetWithMessagesByReceiver(int receiverId)
+        {            
+            // CurrentUser exists?
+            User cUser = GetCurrentUser();
+            if (cUser == null) { return null; }
 
-            return (co == null) ? null : Mapper.Map<ConversationWithMessage>(co);
-        }       
+            if(cUser.UserId == receiverId) { return null; }
+
+            // Receiver exists?
+            User receiver = ds.Users.Find(receiverId);
+            if (receiver == null) { return null; }
+
+            // Shouldn't be CurrentUser = Receiver
+            if (cUser == receiver) return null;
+
+            // Get current user's msgs
+            var cc = ds.Conversations.Include("Messages")
+                .Where(c => c.user1 == cUser.UserId || c.user2 == cUser.UserId)
+                .Where(c => c.user1 == receiverId || c.user2 == receiverId);
+
+            // Ordered by Time
+            cc.OrderByDescending(u => u.Time);
+
+            ConversationWithMessage re = new ConversationWithMessage();
+            IEnumerable<ConversationWithMessage> cList = Mapper.Map<IEnumerable<ConversationWithMessage>>(cc);
+            foreach (ConversationWithMessage cm in cList) {
+
+                // Add Receiver First Name and Last Name
+                if (cm.User1 == cUser.UserId)
+                {
+                    //Get User2
+                    receiver = GetUserByUserID(cm.User2);
+                    cm.UserFirstName = receiver.FirstName;
+                    cm.UserLastName = receiver.LastName;
+                    re = cm;
+                }
+                else if (cm.User2 == cUser.UserId)
+                {
+                    //Get User1
+                    receiver = GetUserByUserID(cm.User1);
+                    cm.UserFirstName = receiver.FirstName;
+                    cm.UserLastName = receiver.LastName;
+                    re = cm;
+                }
+            }
+
+            return (re == null) ? null : re;
+        }
+
+        //// Get a conversation with its messages by a receiver
+        //public ConversationWithMessage ConversationFilterByReceiverWithMessages(int receiverId)
+        //{
+        //    var co = ds.Conversations.Include("Messages").SingleOrDefault(c => c.user2 == receiverId);            
+
+        //    return (co == null) ? null : Mapper.Map<ConversationWithMessage>(co);
+        //}       
 
         // Get messages by identifiers, filtered by datetime
         public IEnumerable<ConversationBase> ConversationFilterByDate
@@ -108,52 +217,41 @@ namespace SenecaFleaServer.Controllers
         // Delete a conversation including its messages by ReceiverId or SenderId
         public void ConversationDeleteByReceiver(int receiverId)
         {
+            User cUser = GetCurrentUser();
+            if (cUser == null) { return; }
+
+            if(cUser.UserId == receiverId) { return; }
+
             // Check if the user exists
             var receiver = ds.Users.Find(receiverId);
             // Continue?
-            if (receiver == null)
-            {
-                //throw new Exception();
-                return;
-            }
+            if (receiver == null) { return; }
 
-            var u = HttpContext.Current.User as ClaimsPrincipal;
-            if (!HttpContext.Current.User.Identity.IsAuthenticated)
-                throw new HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
-            // Fetch the object
-            var currentUser = ds.Users.SingleOrDefault(i => i.Email == u.Identity.Name);
-            if (currentUser == null)
-            {
-                //throw new Exception();
-                return;
-            }
-
-            var conversation = ds.Conversations
-                .Where(m => m.user1 == currentUser.UserId && m.user2 == receiverId);
-            var msgs = ds.Messages
-                .Where(m => m.SenderId == currentUser.UserId && m.ReceiverId == receiverId);
-
-            var d1= Mapper.Map<Conversation>(conversation);
-            var d2 = Mapper.Map<ICollection<Message>>(msgs);
-
-            if (conversation == null || msgs == null)
-            {
-                //throw new Exception();
-                //log and handle it
-                return;
-            }
-            
             try
             {
-                ds.Conversations.Remove(Mapper.Map<Conversation>(conversation));
-                ds.Messages.RemoveRange(Mapper.Map<ICollection<Message>>(msgs));
+                // Get current user's msgs
+                var cc = ds.Conversations.Include("Messages")
+                .Where(c => c.user1 == cUser.UserId || c.user2 == cUser.UserId)
+                .Where(c => c.user1 == receiverId || c.user2 == receiverId);
+
+                var msgs = ds.Messages
+                    .Where(c => c.SenderId == cUser.UserId || c.ReceiverId == cUser.UserId)
+                    .Where(c => c.SenderId == receiverId || c.ReceiverId == receiverId);
+
+                if (cc.Count() == 0 || msgs.Count() == 0) return;
+
+                var cList = Mapper.Map<IEnumerable<Conversation>>(cc);
+                var mList = Mapper.Map<IEnumerable<Message>>(msgs);
+
+                ds.Conversations.Remove(cList.First());
+                ds.Messages.RemoveRange(mList);
                 ds.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //throw new Exception();
                 return;
-            
+
             }
         }
        
@@ -178,13 +276,17 @@ namespace SenecaFleaServer.Controllers
         }
 
 
-
         #region Message
 
         // Get all messages
         public IEnumerable<MessageBase> MessageGetAll()
         {
-            var c = ds.Messages.OrderBy(m => m.MessageId);//.Take(100);
+            User cUser = GetCurrentUser();
+
+            var c = ds.Messages
+                .Where(u => u.SenderId == cUser.UserId | u.ReceiverId == cUser.UserId)
+                .OrderBy(m => m.MessageId);
+
             return Mapper.Map<IEnumerable<MessageBase>>(c);
         }
 
@@ -194,56 +296,59 @@ namespace SenecaFleaServer.Controllers
             var o = ds.Messages.SingleOrDefault(m => m.MessageId == id);
             return (o == null) ? null : Mapper.Map<MessageBase>(o);
         }
-       
+
         // Add a message
         public MessageBase MessageAdd(MessageAdd newItem)
         {
+            User cUser = GetCurrentUser();
+            if (cUser.UserId != newItem.SenderId) { return null; }
+
             // Check for matching users
-            var senderId = ds.Users.SingleOrDefault(u => u.UserId == newItem.SenderId);
-            var receiverId = ds.Users.SingleOrDefault(u => u.UserId == newItem.ReceiverId);
+            var sender = ds.Users.SingleOrDefault(u => u.UserId == newItem.SenderId);
+            var receiver = ds.Users.SingleOrDefault(u => u.UserId == newItem.ReceiverId);
 
             // Continue?
-            if (senderId == null || receiverId == null)
-            {
-                return null;
-            }
+            if (sender == null || receiver == null) { return null; }
 
             // Check for matching item if the item field is not empty
             if (newItem.ItemId != null)
             {
                 var itemId = ds.Items.SingleOrDefault(i => i.ItemId == newItem.ItemId);
-                if (itemId == null)
-                {
-                    return null;
-                }
+                if (itemId == null) { return null; }
             }
-            
+
             // Set id
             int? newId = ds.Messages.Select(m => (int?)m.MessageId).Max() + 1;
             if (newId == null) { newId = 1; }
 
             var addedItem = Mapper.Map<Message>(newItem);
+
             addedItem.MessageId = (int)newId;
 
-            User currentUser = GetCurrentUser();
-            var conversation = ds.Conversations.SingleOrDefault(c => c.user1 == currentUser.UserId || c.user2 == currentUser.UserId);            
-            if(conversation == null)    //new conversation
+            var cc = ds.Conversations
+                .Where(c => c.user1 == newItem.SenderId || c.user2 == newItem.SenderId)
+                .Where(c => c.user1 == newItem.ReceiverId || c.user2 == newItem.ReceiverId);           
+
+            IEnumerable<Conversation> cList = Mapper.Map<IEnumerable<Conversation>>(cc);
+
+            if (cList.Count() == 0)    //new conversation
             {
                 Conversation con = new Conversation();
                 con.user1 = newItem.SenderId;
                 con.user2 = newItem.ReceiverId;
                 con.Time = DateTime.Now;
                 con.Messages.Add(addedItem);
-                
+
                 ds.Conversations.Add(con);
             }
             else //existing conversation
             {
-                addedItem.Conversation = conversation;
+                addedItem.Conversation = cList.First();
                 ds.Messages.Add(addedItem);
             }
 
             ds.SaveChanges();
+            
 
             return (addedItem == null) ? null : Mapper.Map<MessageBase>(addedItem);
         }        
@@ -254,12 +359,9 @@ namespace SenecaFleaServer.Controllers
             // Check if the users exist
             var sender = ds.Users.Find(SenderId);
             var receiver = ds.Users.Find(ReceiverId);
+            
             // Continue?
-            if (sender == null | receiver == null)
-            {
-                //throw new Exception();
-                return;
-            }
+            if (sender == null || receiver == null) { return; }
 
             // Attention: when deleting messages, only messages that a user sends are deleted?
             var msgs = ds.Messages.Where(m => m.SenderId == SenderId
@@ -281,7 +383,13 @@ namespace SenecaFleaServer.Controllers
         // Delete a message
         public void MessageDeleteById(int id)
         {
+            User cUser = GetCurrentUser();
+            if (cUser == null) return;
+
             var storedItem = ds.Messages.Find(id);
+
+            if ((storedItem.SenderId != cUser.UserId) && (storedItem.ReceiverId != cUser.UserId))
+                return;
 
             if (storedItem != null)
             {

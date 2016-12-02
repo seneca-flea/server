@@ -32,10 +32,10 @@ namespace SenecaFleaServer.Controllers
 
         // GET: api/Conversation/5
         /// <summary>
-        /// Retrieve a conversation by a receiverId
+        /// Retrieve a conversation by a receiverId; mignt not needed
         /// </summary>
         /// <param name="id">Receiver Id</param>
-        /// <returns></returns>
+        /// <returns></returns>        
         public IHttpActionResult Get(int? id)
         {
             if (!id.HasValue) { return NotFound(); }
@@ -50,7 +50,29 @@ namespace SenecaFleaServer.Controllers
             {
                 return Ok(obj);
             }
+        }        
+        
+        /// <summary>
+        /// Get a conversation with its messages, filtered by receiverID
+        /// </summary>
+        /// <param name="receiverID"></param>
+        /// <returns></returns>
+        [HttpGet, Route("api/Conversation/filter/Receiver/{receiverID}/withMessages")]
+        [ResponseType(typeof(IEnumerable<ConversationBase>))]
+        public IHttpActionResult FilterByReceiverWithMessages(int receiverID)
+        {
+            var obj = m.ConversationGetWithMessagesByReceiver(receiverID);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(obj);
+            }
         }
+
 
         //// POST: api/Conversation
         //public void Post([FromBody]string value)
