@@ -254,8 +254,11 @@ namespace SenecaFleaServer.Controllers
                 item.Status = "Unavailable";
 
                 // Add to history
-                var history = Mapper.Map<PurchaseHistory>(obj);
-                history.Item = item;
+                var history = new PurchaseHistory()
+                {
+                    Item = item,
+                    Seller = seller
+                };
 
                 ds.PurchaseHistories.Add(history);
                 user.PurchaseHistories.Add(history);
@@ -279,9 +282,9 @@ namespace SenecaFleaServer.Controllers
             else
             {
                 // Remove from history
-                history.Item.Status = "Available";
                 user.PurchaseHistories.Remove(history);
                 ds.PurchaseHistories.Remove(history);
+                ds.Items.Remove(history.Item);
                 ds.SaveChanges();
 
                 return true;
