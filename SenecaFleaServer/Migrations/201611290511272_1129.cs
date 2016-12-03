@@ -3,7 +3,7 @@ namespace SenecaFleaServer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class v1 : DbMigration
+    public partial class _1129 : DbMigration
     {
         public override void Up()
         {
@@ -18,6 +18,36 @@ namespace SenecaFleaServer.Migrations
                         PublishedYear = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.BookId);
+            
+            CreateTable(
+                "dbo.Conversations",
+                c => new
+                    {
+                        ConversationId = c.Int(nullable: false, identity: true),
+                        SenderId = c.Int(nullable: false),
+                        ReceiverId = c.Int(nullable: false),
+                        Time = c.DateTime(nullable: false),
+                        User_UserId = c.Int(),
+                    })
+                .PrimaryKey(t => t.ConversationId)
+                .ForeignKey("dbo.Users", t => t.User_UserId)
+                .Index(t => t.User_UserId);
+            
+            CreateTable(
+                "dbo.Messages",
+                c => new
+                    {
+                        MessageId = c.Int(nullable: false, identity: true),
+                        Text = c.String(nullable: false, maxLength: 1000),
+                        SenderId = c.Int(nullable: false),
+                        ReceiverId = c.Int(nullable: false),
+                        Time = c.DateTime(nullable: false),
+                        ItemId = c.Int(nullable: false),
+                        Conversation_ConversationId = c.Int(),
+                    })
+                .PrimaryKey(t => t.MessageId)
+                .ForeignKey("dbo.Conversations", t => t.Conversation_ConversationId)
+                .Index(t => t.Conversation_ConversationId);
             
             CreateTable(
                 "dbo.Courses",
@@ -103,22 +133,6 @@ namespace SenecaFleaServer.Migrations
                         Email = c.String(maxLength: 100),
                     })
                 .PrimaryKey(t => t.UserId);
-
-            CreateTable(
-                "dbo.Messages",
-                c => new
-                    {
-                        MessageId = c.Int(nullable: false, identity: true),
-                        Text = c.String(nullable: false, maxLength: 1000),
-                        SenderId = c.Int(nullable: false),
-                        ReceiverId = c.Int(nullable: false),
-                        Time = c.DateTime(nullable: false),
-                        ItemId = c.Int(nullable: false),
-                        User_UserId = c.Int(),
-                    })
-                .PrimaryKey(t => t.MessageId)
-                .ForeignKey("dbo.Users", t => t.User_UserId)
-                .Index(t => t.User_UserId);
             
             CreateTable(
                 "dbo.PurchaseHistories",
@@ -144,27 +158,30 @@ namespace SenecaFleaServer.Migrations
             DropForeignKey("dbo.PurchaseHistories", "Seller_UserId", "dbo.Users");
             DropForeignKey("dbo.PurchaseHistories", "Item_ItemId", "dbo.Items");
             DropForeignKey("dbo.Locations", "User_UserId", "dbo.Users");
-            DropForeignKey("dbo.Messages", "User_UserId", "dbo.Users");
             DropForeignKey("dbo.Items", "User_UserId", "dbo.Users");
+            DropForeignKey("dbo.Conversations", "User_UserId", "dbo.Users");
             DropForeignKey("dbo.Images", "Item_ItemId", "dbo.Items");
             DropForeignKey("dbo.Courses", "Item_ItemId", "dbo.Items");
+            DropForeignKey("dbo.Messages", "Conversation_ConversationId", "dbo.Conversations");
             DropIndex("dbo.PurchaseHistories", new[] { "Seller_UserId" });
             DropIndex("dbo.PurchaseHistories", new[] { "Item_ItemId" });
-            DropIndex("dbo.Messages", new[] { "User_UserId" });
             DropIndex("dbo.Locations", new[] { "User_UserId" });
             DropIndex("dbo.PickUpDetails", new[] { "PickupLocation_LocationId" });
             DropIndex("dbo.Items", new[] { "PickUp_PickUpDetailId" });
             DropIndex("dbo.Items", new[] { "User_UserId" });
             DropIndex("dbo.Images", new[] { "Item_ItemId" });
             DropIndex("dbo.Courses", new[] { "Item_ItemId" });
+            DropIndex("dbo.Messages", new[] { "Conversation_ConversationId" });
+            DropIndex("dbo.Conversations", new[] { "User_UserId" });
             DropTable("dbo.PurchaseHistories");
-            DropTable("dbo.Messages");
             DropTable("dbo.Users");
             DropTable("dbo.Locations");
             DropTable("dbo.PickUpDetails");
             DropTable("dbo.Items");
             DropTable("dbo.Images");
             DropTable("dbo.Courses");
+            DropTable("dbo.Messages");
+            DropTable("dbo.Conversations");
             DropTable("dbo.Books");
         }
     }

@@ -1,0 +1,75 @@
+﻿@model SenecaFleaServer.Models.ItemWithMedia
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    @*<h4>ItemWithMedia</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SellerId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SellerId)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.ImagesCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ImagesCount)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Images)
+        </dt>        
+            @foreach (var item in Model.Images)
+            {
+                <dd>
+                    @{ var alt = $"{Model.Title}"; }
+                    @{
+                        var base64 = Convert.ToBase64String(item.Photo);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    }
+                    <img src="@imgSrc" />
+                </dd>
+            @Html.Raw("<br />")
+            }
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ItemId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
