@@ -103,7 +103,7 @@ namespace SenecaFleaServer.Tests.Controllers
         //    };
         //}
 
-        [TestMethod]
+        //[TestMethod]
         public void UserDelete()
         {
             // Arrange
