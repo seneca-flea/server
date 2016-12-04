@@ -481,6 +481,34 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Index">
+            <summary>
+            View Item List for administration
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Details(System.Nullable{System.Int32})">
+            <summary>
+            View an item for administration
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Delete(System.Nullable{System.Int32})">
+            <summary>
+            Request to delete an item for administration
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Delete(System.Nullable{System.Int32},System.Web.Mvc.FormCollection)">
+            <summary>
+            Delete an item for administration
+            </summary>
+            <param name="id"></param>
+            <param name="collection"></param>
+            <returns></returns>
+        </member>
         <member name="M:SenecaFleaServer.Controllers.ConversationController.Get">
             <summary>
             Retrieve all conversation by a current user

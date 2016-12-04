@@ -9,7 +9,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class MessageController : ApiController
     {
         private MessageManager m;

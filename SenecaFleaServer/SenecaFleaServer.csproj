@@ -212,11 +212,14 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AdminImageController.cs" />
+    <Compile Include="Controllers\AdminItemController.cs" />
     <Compile Include="Controllers\AuthInfoController.cs" />
     <Compile Include="Controllers\ConversationController.cs" />
     <Compile Include="Controllers\CustomAuthorizeAttributeApi.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\Managers\AdminManager.cs" />
     <Compile Include="Controllers\Managers\ItemManager.cs" />
     <Compile Include="Controllers\Managers\MessageManager.cs" />
     <Compile Include="Controllers\Managers\UserManager.cs" />
@@ -318,11 +321,17 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\AdminItem\Index.cshtml" />
+    <Content Include="Views\AdminItem\Delete.cshtml" />
+    <Content Include="Views\AdminItem\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\AdminImage\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
