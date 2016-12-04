@@ -40,7 +40,7 @@ namespace SenecaFleaServer.Controllers
             if (!id.HasValue) { return NotFound(); }
 
             // Attempt to get item
-            var obj = m.ItemGetByIdWithMedia(id.Value);
+            var obj = m.ItemGetById(id.Value);
 
             if (obj == null) { return NotFound(); }
 
