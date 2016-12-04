@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Item List Administration</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/site.css" rel="stylesheet" />
+
+    <script src="/Scripts/modernizr-2.6.2.js"></script>
+
+</head>
+<body onLoad="fetchData(fetchData('AdminItem'))">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Seneca Flea Market Admin</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="AdminHome.html">Home</a></li>
+                    <li><a href="AdminItem.html">Admin Item</a></li>
+                    <li><a href="AdminLogin.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <h2>Item List</h2>
+                
+        <span id="status"></span>
+        <div id="content"></div>       
+
+        <hr />
+        <footer>
+            <p>&copy; 2016 - Seneca Flea Admin</p>
+        </footer>
+    </div>    
+    <script src="../Scripts/Admin/manager.js"></script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+</body>
+</html>-->

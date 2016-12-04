@@ -1,137 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 using SenecaFleaServer.Models;
 
 namespace SenecaFleaServer.Controllers
 {
-    //[Authorize(Roles = "SenecaFleaAdministrator")]
-    public class AdminItemController : Controller
+    [Authorize(Roles = "SenecaFleaAdministrator")]
+    public class AdminItemController : ApiController
     {
-        private AdminManager m = new AdminManager();
+        private AdminManager m;
 
-
-        // GET: AdminItem
-        /// <summary>
-        /// View Item List for administration
-        /// </summary>
-        /// <returns></returns>
-        //[Authorize(Roles = "SenecaFleaAdministrator")]
-        public ActionResult Index()
+        public AdminItemController()
         {
-            // Fetch the collection
-            IEnumerable<ItemBase> cc = m.ItemGet();
-            // Pass the collection to the view
-            return View(cc);
+            m = new AdminManager();
         }
 
-        // GET: AdminItem/Details/5
-        /// <summary>
-        /// View an item for administration
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult Details(int? id)
+        // GET: api/AdminItem
+        [Authorize(Roles = "SenecaFleaAdministrator")]
+        public IHttpActionResult Get()
         {
-            // Attempt to get the matching object
+            IEnumerable<ItemBase> cc = m.ItemGet();
+            return Ok(cc);
+        }
+
+        // GET: api/AdminItem/5
+        [Authorize(Roles = "SenecaFleaAdministrator")]
+        public IHttpActionResult Get(int? id)
+        {
             var o = m.ItemGetByIdWithMedia(id.GetValueOrDefault());
 
             if (o == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
             else
             {
-                // Pass the object to the view
-                return View(o);
-            }            
-        }
-
-
-        // GET: AdminItem/Delete/5
-        /// <summary>
-        /// Request to delete an item for administration
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public ActionResult Delete(int? id)
-        {
-            var itemToDelete = m.ItemGetByIdWithMedia(id.GetValueOrDefault());
-
-            if (itemToDelete == null)
-            {                
-                // Simply redirect
-                return RedirectToAction("index");
-            }
-            else
-            {
-                return View(itemToDelete);
+                return Ok(o);
             }
         }
 
-        // POST: AdminItem/Delete/5
-        /// <summary>
-        /// Delete an item for administration
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="collection"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult Delete(int? id, FormCollection collection)
+        // DELETE: api/AdminItem/5
+        [Authorize(Roles = "SenecaFleaAdministrator")]
+        public IHttpActionResult Delete(int id)
         {
-            m.ItemDelete(id.GetValueOrDefault());
+            m.ItemDelete(id);
 
-            return RedirectToAction("index");
+            return Ok("Deleted");
         }
 
-        #region Unsupport functions
-
-        //// GET: AdminItem/Create
-        //public ActionResult Create()
+        //// POST: api/AdminItem
+        //public void Post([FromBody]string value)
         //{
-        //    return View();
         //}
 
-        //// POST: AdminItem/Create
-        //[HttpPost]
-        //public ActionResult Create(FormCollection collection)
+        //// PUT: api/AdminItem/5
+        //public void Put(int id, [FromBody]string value)
         //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
         //}
 
-        //// GET: AdminItem/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: AdminItem/Edit/5
-        //[HttpPost]
-        //public ActionResult Edit(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        #endregion Unsupport functions
     }
 }

@@ -481,27 +481,27 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Index">
+        <member name="M:SenecaFleaServer.Controllers.AdminItemAppController.Index">
             <summary>
             View Item List for administration
             </summary>
             <returns></returns>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Details(System.Nullable{System.Int32})">
+        <member name="M:SenecaFleaServer.Controllers.AdminItemAppController.Details(System.Nullable{System.Int32})">
             <summary>
             View an item for administration
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Delete(System.Nullable{System.Int32})">
+        <member name="M:SenecaFleaServer.Controllers.AdminItemAppController.Delete(System.Nullable{System.Int32})">
             <summary>
             Request to delete an item for administration
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:SenecaFleaServer.Controllers.AdminItemController.Delete(System.Nullable{System.Int32},System.Web.Mvc.FormCollection)">
+        <member name="M:SenecaFleaServer.Controllers.AdminItemAppController.Delete(System.Nullable{System.Int32},System.Web.Mvc.FormCollection)">
             <summary>
             Delete an item for administration
             </summary>
@@ -603,6 +603,13 @@
             </summary>
             <param name="min">Minimum price</param>
             <param name="max">Maximum price</param>
+        </member>
+        <member name="M:SenecaFleaServer.Controllers.AdminManager.CreateRequestToken(System.String)">
+            <summary>
+             To easily create and use an HTTP client object.
+            </summary>
+            <param name="acceptValue"></param>
+            <returns></returns>
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Get">
             <summary>
