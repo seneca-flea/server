@@ -24,15 +24,7 @@ namespace SenecaFleaServer.Controllers
         }
 
         // Get item by identifier
-        public ItemBase ItemGetById(int id)
-        {
-            var result = ds.Items.Include("Courses")
-                .SingleOrDefault(i => i.ItemId == id);
-
-            return Mapper.Map<ItemBase>(result);
-        }
-
-        public ItemWithMedia ItemGetByIdWithMedia(int id) 
+        public ItemWithMedia ItemGetById(int id) 
         {
             var result = ds.Items.Include("Courses").Include("Images")
                 .SingleOrDefault(i => i.ItemId == id);      
@@ -123,7 +115,8 @@ namespace SenecaFleaServer.Controllers
         // Get items by user id
         public IEnumerable<ItemBase> FilterByUser(int id)
         {
-            var items = ds.Items.Where(c => c.SellerId == id)
+            var items = ds.Items
+                .Where(c => c.SellerId == id)
                 .OrderByDescending(x => x.ItemId);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
@@ -132,7 +125,8 @@ namespace SenecaFleaServer.Controllers
         // Get items by title
         public IEnumerable<ItemBase> FilterByTitle(string title)
         {
-            var items = ds.Items.Where(c => c.Title.Contains(title));
+            var items = ds.Items.Include("Images")
+                .Where(c => c.Title.Contains(title));
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
@@ -140,7 +134,8 @@ namespace SenecaFleaServer.Controllers
         // Get items by category
         public IEnumerable<ItemBase> FilterByStatus(string status)
         {
-            var items = ds.Items.Where(c => c.Status == status);
+            var items = ds.Items.Include("Images")
+                .Where(c => c.Status == status);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
@@ -152,8 +147,8 @@ namespace SenecaFleaServer.Controllers
             var course = ds.Courses.SingleOrDefault(c => c.Name == courseName);
             if (course == null) { return null; }
 
-            var items = ds.Items.Where(
-                i => i.Courses.FirstOrDefault(c => c.Name == courseName) == course);
+            var items = ds.Items.Include("Images")
+                .Where(i => i.Courses.FirstOrDefault(c => c.Name == courseName) == course);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
@@ -165,8 +160,8 @@ namespace SenecaFleaServer.Controllers
             var course = ds.Courses.SingleOrDefault(c => c.Code == courseCode);
             if (course == null) { return null; }
 
-            var items = ds.Items.Where(
-                i => i.Courses.FirstOrDefault(c => c.Code == courseCode) == course);
+            var items = ds.Items.Include("Images")
+                .Where(i => i.Courses.FirstOrDefault(c => c.Code == courseCode) == course);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
@@ -174,7 +169,8 @@ namespace SenecaFleaServer.Controllers
         // Get items within price range
         public IEnumerable<ItemBase> FilterByPriceRange(decimal min, decimal max)
         {
-            var items = ds.Items.Where(d => d.Price >= min && d.Price <= max).Take(100);
+            var items = ds.Items.Include("Images")
+                .Where(d => d.Price >= min && d.Price <= max).Take(100);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
