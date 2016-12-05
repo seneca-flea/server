@@ -12,6 +12,7 @@ namespace SenecaFleaServer.Models
         {
             Courses = new HashSet<Course>();
             Images = new HashSet<Image>();
+            Timestamp = DateTime.Now;
         }
 
         [Required]
@@ -29,11 +30,17 @@ namespace SenecaFleaServer.Models
         [StringLength(35)]
         public string Status { get; set; }
 
+        public string Type { get; set; }
+
         public ICollection<Course> Courses { get; set; }
 
         public ICollection<Image> Images { get; set; }
 
         public virtual PickUpDetail PickUp { get; set; }
+
+        public virtual Book Book { get; set; }
+
+        public DateTime Timestamp { get; set; }
 
         public int SellerId { get; set; }
     }

@@ -9,7 +9,7 @@ namespace SenecaFleaServer.Models
     // TODO: Complete ItemAdd and ItemEdit
     public class ItemAdd
     {
-        [Required]
+        [Required, StringLength(50, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Required]
@@ -19,7 +19,18 @@ namespace SenecaFleaServer.Models
         public int SellerId { get; set; }
 
         public string Description { get; set; }
+
         public decimal Price { get; set; }
+
+        public string Type { get; set; }
+
+        public string BookTitle { get; set; }
+
+        public int BookYear { get; set; }
+
+        public string BookPublisher { get; set; }
+
+        public string BookAuthor { get; set; }
     }
 
     public class ItemEdit

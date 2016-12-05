@@ -50,6 +50,19 @@ namespace SenecaFleaServer.Controllers
             Item addedItem = Mapper.Map<Item>(newItem);
             addedItem.ItemId = (int)newId;
 
+            if (newItem.Type == "Book")
+            {
+                var book = new Book()
+                {
+                    Title = newItem.BookTitle,
+                    Author = newItem.BookAuthor,
+                    Publisher = newItem.BookPublisher,
+                    Year = newItem.BookYear
+                };
+
+                addedItem.Book = book;
+            }
+
             ds.Items.Add(addedItem);
             ds.SaveChanges();
 

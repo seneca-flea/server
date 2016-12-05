@@ -20,6 +20,6 @@ namespace SenecaFleaServer.Models
         [StringLength(40)]
         public string Publisher { get; set; }
         
-        public int PublishedYear { get; set; }
+        public int Year { get; set; }
     }
 }

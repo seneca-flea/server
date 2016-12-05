@@ -51,6 +51,8 @@ namespace SenecaFleaServer.Tests.Controllers
         {
             // Arrange
             var item = Mapper.Map<ItemAdd>(GetItemData());
+            item.BookTitle = "Book Title";
+            item.BookYear = 2016;
             SetupController(controller, HttpMethod.Post);
 
             // Act
@@ -259,6 +261,7 @@ namespace SenecaFleaServer.Tests.Controllers
                 Price = (decimal)39.99,
                 Description = "Programming in C++",
                 Status = "Available",
+                Type = "Book",
                 SellerId = user.UserId
             };
 
