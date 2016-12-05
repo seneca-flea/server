@@ -24,6 +24,10 @@ namespace SenecaFleaServer.Models
 
         public string Type { get; set; }
 
+        public string CourseName { get; set; }
+
+        public string CourseProgram { get; set; }
+
         public string BookTitle { get; set; }
 
         public int BookYear { get; set; }

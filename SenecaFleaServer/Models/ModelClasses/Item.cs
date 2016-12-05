@@ -10,7 +10,6 @@ namespace SenecaFleaServer.Models
     {
         public Item()
         {
-            Courses = new HashSet<Course>();
             Images = new HashSet<Image>();
             Timestamp = DateTime.Now;
         }
@@ -32,7 +31,7 @@ namespace SenecaFleaServer.Models
 
         public string Type { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+        public Course Course { get; set; }
 
         public ICollection<Image> Images { get; set; }
 

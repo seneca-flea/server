@@ -53,6 +53,8 @@ namespace SenecaFleaServer.Tests.Controllers
             var item = Mapper.Map<ItemAdd>(GetItemData());
             item.BookTitle = "Book Title";
             item.BookYear = 2016;
+            item.CourseName = "Programming with C++";
+            item.CourseProgram = "CPA";
             SetupController(controller, HttpMethod.Post);
 
             // Act
@@ -243,6 +245,7 @@ namespace SenecaFleaServer.Tests.Controllers
             var course = new Course
             {
                 CourseId = 2,
+                Program = "CPA",
                 Name = "Programming with C++",
                 Code = "OOP"
             };
@@ -267,7 +270,7 @@ namespace SenecaFleaServer.Tests.Controllers
 
             context.Users.Add(user);
             context.Courses.Add(course);
-            item.Courses.Add(course);
+            item.Course = course;
             item.Images.Add(image);
 
             return item;

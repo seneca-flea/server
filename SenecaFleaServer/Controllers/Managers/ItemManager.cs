@@ -26,7 +26,8 @@ namespace SenecaFleaServer.Controllers
         // Get item by identifier
         public ItemWithMedia ItemGetById(int id) 
         {
-            var result = ds.Items.Include("Courses").Include("Images")
+            var result = ds.Items
+                .Include("Book").Include("Course").Include("Images")
                 .SingleOrDefault(i => i.ItemId == id);      
 
             return Mapper.Map<ItemWithMedia>(result);      
@@ -50,6 +51,15 @@ namespace SenecaFleaServer.Controllers
             Item addedItem = Mapper.Map<Item>(newItem);
             addedItem.ItemId = (int)newId;
 
+            // Course details
+            var course = new Course()
+            {
+                Name = newItem.CourseName,
+                Program = newItem.CourseProgram
+            };
+            addedItem.Course = course;
+
+            // Book details
             if (newItem.Type == "Book")
             {
                 var book = new Book()
@@ -138,7 +148,7 @@ namespace SenecaFleaServer.Controllers
         // Get items by title
         public IEnumerable<ItemBase> FilterByTitle(string title)
         {
-            var items = ds.Items.Include("Images")
+            var items = ds.Items.Include("Images").Include("Course")
                 .Where(c => c.Title.Contains(title));
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
@@ -147,7 +157,7 @@ namespace SenecaFleaServer.Controllers
         // Get items by category
         public IEnumerable<ItemBase> FilterByStatus(string status)
         {
-            var items = ds.Items.Include("Images")
+            var items = ds.Items.Include("Images").Include("Course")
                 .Where(c => c.Status == status);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
@@ -160,8 +170,8 @@ namespace SenecaFleaServer.Controllers
             var course = ds.Courses.SingleOrDefault(c => c.Name == courseName);
             if (course == null) { return null; }
 
-            var items = ds.Items.Include("Images")
-                .Where(i => i.Courses.FirstOrDefault(c => c.Name == courseName) == course);
+            var items = ds.Items.Include("Images").Include("Course")
+                .Where(i => i.Course == course);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
@@ -173,8 +183,8 @@ namespace SenecaFleaServer.Controllers
             var course = ds.Courses.SingleOrDefault(c => c.Code == courseCode);
             if (course == null) { return null; }
 
-            var items = ds.Items.Include("Images")
-                .Where(i => i.Courses.FirstOrDefault(c => c.Code == courseCode) == course);
+            var items = ds.Items.Include("Images").Include("Course")
+                .Where(i => i.Course == course);
 
             return Mapper.Map<IEnumerable<ItemBase>>(items);
         }
