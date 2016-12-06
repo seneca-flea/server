@@ -632,8 +632,8 @@
             <summary>
             Delete messages that a user sends and receives by its identifier
             </summary>
-            <param name="SenderId"></param>
-            <param name="ReceiverId"></param>
+            <param name="SenderId">SenderId</param>
+            <param name="ReceiverId">ReceiverId</param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.MessageController.Delete(System.Int32)">
             <summary>

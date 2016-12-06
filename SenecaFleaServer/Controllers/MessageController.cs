@@ -9,7 +9,7 @@ using System.Web.Http.Description;
 
 namespace SenecaFleaServer.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class MessageController : ApiController
     {
         private MessageManager m;
@@ -28,7 +28,7 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Retrieve all messages for administration
         /// </summary>
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult Get()
         {
@@ -40,7 +40,7 @@ namespace SenecaFleaServer.Controllers
         /// Retrieve a message
         /// </summary>
         /// <param name="id">Message Id</param>
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [ResponseType(typeof(MessageBase))]
         public IHttpActionResult Get(int? id)
         {
@@ -63,7 +63,7 @@ namespace SenecaFleaServer.Controllers
         /// Add a message
         /// </summary>
         /// <param name="newItem">MessageAdd</param>
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [ResponseType(typeof(MessageBase))]
         public IHttpActionResult Post([FromBody]MessageAdd newItem)
         {
@@ -84,9 +84,9 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Delete messages that a user sends and receives by its identifier
         /// </summary>
-        /// <param name="SenderId"></param>
-        /// <param name="ReceiverId"></param>
-        //[Authorize(Roles = "User")]
+        /// <param name="SenderId">SenderId</param>
+        /// <param name="ReceiverId">ReceiverId</param>
+        [Authorize(Roles = "User")]
         [HttpDelete, Route("api/Message/Delete/Sender/{SenderId}/Receiver/{ReceiverId}")]
         public void DeleteByUser(int SenderId, int ReceiverId)
         {
@@ -110,7 +110,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="userId">A user identifier</param>
         /// <returns>A collection of MessageBase</returns>
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Message/filter/User/{userId}")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult FilterByUserId(int userId)
@@ -125,7 +125,7 @@ namespace SenecaFleaServer.Controllers
 
             return Ok(msgs);            
         }
-        
+
         ///// <summary>
         ///// Get messages of current user, filtered by receiverId
         ///// </summary>
@@ -149,7 +149,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="filterObj">MessageFilterByUserIdWithTime</param>
         /// <returns>A collection of MessageBase</returns>
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Message/filter/UserWithDate")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult FilterByUserIdWithDate([FromBody]MessageFilterByUserIdWithTime filterObj)
@@ -169,7 +169,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="filterObj">MessageFilterByUserIdWithItem</param>
         /// <returns>A collection of MessageBase</returns>
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [HttpGet, Route("api/Message/filter/UserWithItem")]
         [ResponseType(typeof(IEnumerable<MessageBase>))]
         public IHttpActionResult FilterByUserIdWithItem([FromBody] MessageFilterByUserIdWithItem filterObj)

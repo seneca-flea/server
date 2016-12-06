@@ -25,6 +25,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(IEnumerable<ConversationBase>))]
+        [Authorize(Roles = "User")]
         public IHttpActionResult Get()
         {
             return Ok(m.ConversationGetAllByCurrentUser());
@@ -36,6 +37,7 @@ namespace SenecaFleaServer.Controllers
         /// </summary>
         /// <param name="id">Receiver Id</param>
         /// <returns></returns>        
+        [Authorize(Roles = "User")]
         public IHttpActionResult Get(int? id)
         {
             if (!id.HasValue) { return NotFound(); }
@@ -59,6 +61,7 @@ namespace SenecaFleaServer.Controllers
         /// <returns></returns>
         [HttpGet, Route("api/Conversation/filter/Receiver/{receiverID}/withMessages")]
         [ResponseType(typeof(IEnumerable<ConversationBase>))]
+        [Authorize(Roles = "User")]
         public IHttpActionResult FilterByReceiverWithMessages(int receiverID)
         {
             var obj = m.ConversationGetWithMessagesByReceiver(receiverID);
@@ -89,6 +92,7 @@ namespace SenecaFleaServer.Controllers
         /// Delete a conversation including its messages by receiverId or senderId
         /// </summary>
         /// <param name="receiverId"></param>
+        [Authorize(Roles = "User")]
         public void Delete(int receiverId)
         {
             m.ConversationDeleteByReceiver(receiverId);
