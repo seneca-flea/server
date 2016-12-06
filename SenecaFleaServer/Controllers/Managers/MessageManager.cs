@@ -69,78 +69,142 @@ namespace SenecaFleaServer.Controllers
 
         // Get all conversations by userId
         public IEnumerable<ConversationBase> ConversationGetAllByCurrentUser()
-        {
-            // Get current user's msgs
-            User currentUser = GetCurrentUser();
-            if (currentUser == null) { return null; }
+        {            
+            User cUser = GetCurrentUser();
+            if (cUser == null) { return null; }
 
-            var cc = ds.Conversations.Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
+            // Set HasNewMessage of cUser to false
+            cUser.HasNewMessage = false;
 
-            // Ordered by Time
-            cc.OrderByDescending(c => c.Time);
+            // Get current user's conversations, ordered by Time
+            var cc = ds.Conversations
+                .Where(c => c.user1 == cUser.UserId | c.user2 == cUser.UserId)
+                .OrderByDescending(c => c.Time);
 
-            
             IEnumerable<ConversationBase> cList = Mapper.Map<IEnumerable<ConversationBase>>(cc);
+
             // Add Receiver First Name and Last Name
             foreach (ConversationBase c in cList)
             {
-                User receiver;
-                if (c.User1 == currentUser.UserId)
+                User receiver = null;
+                if (c.User1 == cUser.UserId)
                 {
                     //Get User2
                     receiver = GetUserByUserID(c.User2);
                     c.UserFirstName = receiver.FirstName;
                     c.UserLastName = receiver.LastName;
                 }
-                else if(c.User2 == currentUser.UserId)
+                else if (c.User2 == cUser.UserId)
                 {
                     //Get User1
                     receiver = GetUserByUserID(c.User1);
                     c.UserFirstName = receiver.FirstName;
                     c.UserLastName = receiver.LastName;
                 }
+
+                // Get the latest message that talk to the current user
+                var msg = ds.Messages
+                    .Where(m => m.SenderId == receiver.UserId | m.ReceiverId == receiver.UserId)
+                    .OrderByDescending(t => t.Time).Take(1);
+
+                IEnumerable<MessageBase> recentMsg = Mapper.Map<IEnumerable<MessageBase>>(msg);
+                foreach (MessageBase message in recentMsg)
+                {
+                    c.recentMessage = message;
+                }
             }
 
+            // save updated current user's HasNewMessage value
+            ds.SaveChanges();
+
             return cList;
+
+
+            //// Get current user's msgs
+            //User currentUser = GetCurrentUser();
+            //if (currentUser == null) { return null; }
+
+            ////var cc = ds.Conversations.Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
+
+            //var cc = ds.Conversations.Include("Message").Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
+
+            //// Ordered by Time
+            //cc.OrderByDescending(c => c.Time);
+            //IEnumerable<ConversationWithMessage> cList = Mapper.Map<IEnumerable<ConversationWithMessage>>(cc);            
+
+            //// Add Receiver First Name and Last Name
+            //foreach (ConversationWithMessage c in cList)
+            //{
+            //    c.Messages.OrderByDescending(t => t.Time);
+
+            //    User receiver;
+            //    if (c.User1 == currentUser.UserId)
+            //    {
+            //        //Get User2
+            //        receiver = GetUserByUserID(c.User2);
+            //        c.UserFirstName = receiver.FirstName;
+            //        c.UserLastName = receiver.LastName;
+            //    }
+            //    else if (c.User2 == currentUser.UserId)
+            //    {
+            //        //Get User1
+            //        receiver = GetUserByUserID(c.User1);
+            //        c.UserFirstName = receiver.FirstName;
+            //        c.UserLastName = receiver.LastName;
+            //    }
+            //}
+
+            //return cList;
+
         }
 
         // Get a conversation by a receiver
         public ConversationBase ConversationGetByReceiver(int receiverId)
         {
             // Get current user's msgs
-            User currentUser = GetCurrentUser();
-            if (currentUser == null) { return null; }
+            User cUser = GetCurrentUser();
+            if (cUser == null) { return null; }
 
-            var cc = ds.Conversations.Where(c => c.user1 == currentUser.UserId | c.user2 == currentUser.UserId);
-
-            // Ordered by Time
-            cc.OrderByDescending(c => c.Time);
-
+            // get conversation, ordered by Time
+            var cc = ds.Conversations
+                .Where(c => c.user1 == cUser.UserId | c.user2 == cUser.UserId)
+                .OrderByDescending(c => c.Time);
+                        
             // within current user's conversations, only take the conversation matched with receiverId
-            ConversationBase con = new ConversationBase();
-
+            ConversationBase re = new ConversationBase();
             IEnumerable<ConversationBase> cList = Mapper.Map<IEnumerable<ConversationBase>>(cc);            
-            foreach (ConversationBase c in cList)
-            {
+            foreach (ConversationBase c in cList) {                
                 User receiver;
-                if (c.User1 == currentUser.UserId && c.User2 == receiverId)
+                if (c.User1 == cUser.UserId && c.User2 == receiverId)
                 {
                     //Get User2
                     receiver = GetUserByUserID(c.User2);
                     c.UserFirstName = receiver.FirstName;
                     c.UserLastName = receiver.LastName;
-                    con = c;
+                    re = c;
                 }
-                else if (c.User2 == currentUser.UserId && c.User1 == receiverId)
+                else if (c.User2 == cUser.UserId && c.User1 == receiverId)
                 {
                     //Get User1
                     receiver = GetUserByUserID(c.User1);
                     c.UserFirstName = receiver.FirstName;
                     c.UserLastName = receiver.LastName;
-                    con = c;
+                    re = c;
                 }
+
+                //// Get the latest message that talk to receiverId
+                //var msg = ds.Messages
+                //    .Where(m => m.SenderId == cUser.UserId || m.ReceiverId == cUser.UserId)
+                //    .Where(m => m.SenderId == receiverId || m.ReceiverId == receiverId)
+                //    .OrderByDescending(t => t.Time).Take(1);
+
+                //IEnumerable<MessageBase> recentMsg = Mapper.Map<IEnumerable<MessageBase>>(msg);
+                //foreach (MessageBase message in recentMsg)
+                //{
+                //    re.recentMessage = message;
+                //}
             }
-            return (con == null) ? null : con;                        
+            return (re == null) ? null : re;                        
         }
 
 
@@ -160,18 +224,19 @@ namespace SenecaFleaServer.Controllers
             // Shouldn't be CurrentUser = Receiver
             if (cUser == receiver) return null;
 
-            // Get current user's msgs
+            // Set HasNewMessage of cUser to false
+            cUser.HasNewMessage = false;
+
+            // Get current user's conversations, ordered by Time
             var cc = ds.Conversations.Include("Messages")
                 .Where(c => c.user1 == cUser.UserId || c.user2 == cUser.UserId)
-                .Where(c => c.user1 == receiverId || c.user2 == receiverId);
+                .Where(c => c.user1 == receiverId || c.user2 == receiverId)
+                .OrderByDescending(u => u.Time);
 
-            // Ordered by Time
-            cc.OrderByDescending(u => u.Time);
-
-            ConversationWithMessage re = new ConversationWithMessage();
+            // Prepared the result
+            ConversationWithMessage re = new ConversationWithMessage(); ;
             IEnumerable<ConversationWithMessage> cList = Mapper.Map<IEnumerable<ConversationWithMessage>>(cc);
-            foreach (ConversationWithMessage cm in cList) {
-
+            foreach (ConversationWithMessage cm in cList) {                
                 // Add Receiver First Name and Last Name
                 if (cm.User1 == cUser.UserId)
                 {
@@ -189,8 +254,20 @@ namespace SenecaFleaServer.Controllers
                     cm.UserLastName = receiver.LastName;
                     re = cm;
                 }
-            }
 
+                //// Get current user's msgs that talk to receiverId
+                //var msg = ds.Messages
+                //    .Where(c => c.SenderId == cUser.UserId || c.ReceiverId == cUser.UserId)
+                //    .Where(c => c.SenderId == receiverId || c.ReceiverId == receiverId)
+                //    .OrderByDescending(t => t.Time).Take(1);
+
+                //IEnumerable<MessageBase> recentMsg = Mapper.Map<IEnumerable<MessageBase>>(msg);
+                //foreach (MessageBase message in recentMsg)
+                //{
+                //    re.recentMessage = message;
+                //}
+
+            }
             return (re == null) ? null : re;
         }
 
@@ -322,7 +399,6 @@ namespace SenecaFleaServer.Controllers
             if (newId == null) { newId = 1; }
 
             var addedItem = Mapper.Map<Message>(newItem);
-
             addedItem.MessageId = (int)newId;
 
             var cc = ds.Conversations
@@ -346,9 +422,10 @@ namespace SenecaFleaServer.Controllers
                 addedItem.Conversation = cList.First();
                 ds.Messages.Add(addedItem);
             }
+            //set HasNewMessage to receiver
+            receiver.HasNewMessage = true;
 
-            ds.SaveChanges();
-            
+            ds.SaveChanges();            
 
             return (addedItem == null) ? null : Mapper.Map<MessageBase>(addedItem);
         }        
@@ -415,6 +492,7 @@ namespace SenecaFleaServer.Controllers
 
             // Get messages that a user sends or receives by its identifier
             var msgs = ds.Messages.Where(u => u.SenderId == userId | u.ReceiverId == userId);
+            msgs.OrderByDescending(t=>t.Time);
 
             return Mapper.Map<IEnumerable<MessageBase>>(msgs);
         }

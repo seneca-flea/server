@@ -533,7 +533,7 @@
             <summary>
             Delete a conversation including its messages by receiverId or senderId
             </summary>
-            <param name="id">ReceiverId or SenderId</param>
+            <param name="receiverId"></param>
         </member>
         <member name="M:SenecaFleaServer.Controllers.ItemController.Get(System.Nullable{System.Int32})">
             <summary>
@@ -760,6 +760,11 @@
         <member name="P:SenecaFleaServer.Models.ConversationBase.UserLastName">
             <summary>
             Last name of a receiver
+            </summary>
+        </member>
+        <member name="P:SenecaFleaServer.Models.ConversationBase.recentMessage">
+            <summary>
+            The latest message
             </summary>
         </member>
         <member name="P:SenecaFleaServer.Models.ItemBase.ImagesCount">

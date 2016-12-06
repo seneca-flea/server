@@ -40,6 +40,7 @@ namespace SenecaFleaServer.Controllers
                 throw new HttpResponseException(System.Net.HttpStatusCode.Unauthorized);
             // Fetch the object
             var currentUser = ds.Users.SingleOrDefault(i => i.Email == u.Identity.Name);
+
             return Mapper.Map<UserBase>(currentUser);
         }
 
@@ -137,6 +138,7 @@ namespace SenecaFleaServer.Controllers
 
             return Mapper.Map<UserBase>(storedItem);
         }
+
 
         // Delete a user
         public void UserDelete(int id)

@@ -88,10 +88,10 @@ namespace SenecaFleaServer.Controllers
         /// <summary>
         /// Delete a conversation including its messages by receiverId or senderId
         /// </summary>
-        /// <param name="id">ReceiverId or SenderId</param>
-        public void Delete(int id)
+        /// <param name="receiverId"></param>
+        public void Delete(int receiverId)
         {
-            m.ConversationDeleteByReceiver(id);
+            m.ConversationDeleteByReceiver(receiverId);
         }
     }
 }

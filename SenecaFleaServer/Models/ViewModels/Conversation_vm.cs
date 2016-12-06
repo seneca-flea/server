@@ -35,7 +35,12 @@ namespace SenecaFleaServer.Models
         /// <summary>
         /// Last name of a receiver
         /// </summary>
-        public string UserLastName { get; set; }        
+        public string UserLastName { get; set; }      
+        
+        /// <summary>
+        /// The latest message
+        /// </summary>
+        public MessageBase recentMessage { get; set; }
     }
 
     public class ConversationWithMessage : ConversationBase

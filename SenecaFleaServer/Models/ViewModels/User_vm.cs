@@ -25,7 +25,9 @@ namespace SenecaFleaServer.Models
     public class UserBase : UserAdd
     {
         [Key]
-        public int UserId { get; set; }        
+        public int UserId { get; set; }
+
+        public bool HasNewMessage { get; set; }
     }
 
     public class UserWithLocation : UserBase

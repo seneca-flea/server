@@ -1,4 +1,6 @@
-﻿
+﻿var host = 'http://senecafleamarket.azurewebsites.net/api/AdminItem/';
+//var host = http://localhost:35810/api/AdminItem/;
+
 function fetchData(url) {
 
     var reqUrl = url;
@@ -64,21 +66,21 @@ function fetchData(url) {
     if (url == "AdminItem/Details")
     {
         var ItemId = location.search.split('ItemId=')[1];
-        xhr.open('get', 'http://localhost:35810/api/AdminItem/' + ItemId, true);        
+        xhr.open('get', host + ItemId, true);
     }
     else if (url == "AdminItem/Delete")
     {
         var ItemId = location.search.split('ItemId=')[1];
-        xhr.open('get', 'http://localhost:35810/api/AdminItem/' + ItemId, true);
+        xhr.open('get', host + ItemId, true);
     }
     else if (url == "AdminItem/Delete/Confirm")
     {
         var ItemId = location.search.split('ItemId=')[1];
-        xhr.open('delete', 'http://localhost:35810/api/AdminItem/' + ItemId, true);
+        xhr.open('delete', host + ItemId, true);
     }
     else
     {
-        xhr.open('get', 'http://localhost:35810/api/AdminItem/', true);
+        xhr.open('get', host, true);
     }
     
     // set the request headers 
