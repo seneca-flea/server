@@ -114,10 +114,6 @@ namespace SenecaFleaServer.Controllers
             // Edit object
             ds.Entry(storedItem).CurrentValues.SetValues(editedItem);
 
-            // For unit test (broken)
-            //storedItem = Mapper.Map<Item>(editedItem);
-            //ds.MarkAsModified(storedItem);
-
             ds.SaveChanges();
 
             return Mapper.Map<ItemBase>(storedItem);
@@ -126,7 +122,7 @@ namespace SenecaFleaServer.Controllers
         // Delete item
         public void ItemDelete(int id)
         {
-            var storedItem = ds.Items.Find(id);
+            var storedItem = ds.Items.SingleOrDefault(c => c.ItemId == id);
 
             if (storedItem != null)
             {
@@ -139,6 +135,7 @@ namespace SenecaFleaServer.Controllers
         public IEnumerable<ItemBase> FilterByUser(int id)
         {
             var items = ds.Items
+                .Include("Book").Include("Course")
                 .Where(c => c.SellerId == id)
                 .OrderByDescending(x => x.ItemId);
 
