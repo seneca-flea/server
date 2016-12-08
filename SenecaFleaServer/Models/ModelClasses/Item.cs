@@ -23,7 +23,7 @@ namespace SenecaFleaServer.Models
         [Required]
         public decimal Price { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(1500)]
         public string Description { get; set; }
 
         [StringLength(35)]

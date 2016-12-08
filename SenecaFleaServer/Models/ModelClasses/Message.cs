@@ -25,16 +25,9 @@ namespace SenecaFleaServer.Models
         [Required]
         public int ReceiverId { get; set; }
 
-        //[Required]
-        //public virtual User Sender { get; set; }
-
-        //[Required]
-        //public virtual User Receiver { get; set; }
-
         public DateTime Time { get; set; }
 
         public int ItemId { get; set; }
-
 
         public virtual Conversation Conversation { get; set; }
     }

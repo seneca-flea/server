@@ -27,7 +27,6 @@ namespace SenecaFleaServer.Models
         [StringLength(10)]
         public string PostalCode { get; set; }
 
-
         [Column(TypeName = "numeric")]
         public decimal latitude { get; set; }
 

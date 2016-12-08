@@ -285,7 +285,6 @@ namespace SenecaFleaServer.Controllers
             {
                 // Remove from history
                 user.PurchaseHistories.Remove(history);
-                ds.PurchaseHistories.Remove(history);
                 ds.Items.Remove(history.Item);
                 ds.SaveChanges();
 

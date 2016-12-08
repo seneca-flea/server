@@ -10,10 +10,10 @@ namespace SenecaFleaServer.Models
     {
         public int CourseId { get; set; }
 
-        [Required, StringLength(25)]
+        [Required, StringLength(200)]
         public string Name { get; set; }
 
-        [Required, StringLength(25)]
+        [Required, StringLength(200)]
         public string Program { get; set; }
 
         [StringLength(7)]
